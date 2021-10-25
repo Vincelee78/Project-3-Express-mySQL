@@ -1,0 +1,28 @@
+{
+  "name": "parallel-lab-framework",
+  "version": "1.0.0",
+  "description": "![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vincelee78/parallel-lab-framework.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vincelee78/parallel-lab-framework/issues"
+  },
+  "homepage": "https://github.com/Vincelee78/parallel-lab-framework#readme",
+  "dependencies": {
+    "db-migrate": "^1.0.0-beta.16",
+    "db-migrate-mysql": "^2.2.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "hbs": "^4.1.2",
+    "nodemon": "^2.0.14",
+    "wax-on": "^1.2.2"
+  }
+}
