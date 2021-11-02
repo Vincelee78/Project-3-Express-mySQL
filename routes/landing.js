@@ -20,7 +20,7 @@ router.get('/movie/posters', (req,res)=>{
     res.render('landing/movie')
 })
 
-router.get('/a', async (req,res)=>{
+router.get('/allproducts', async (req,res)=>{
     // #2 - fetch all the products (ie, SELECT * from products)
     let products = await Product.collection().fetch();
     res.render('products/index', {
