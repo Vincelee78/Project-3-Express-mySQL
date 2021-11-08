@@ -8,11 +8,16 @@
             <th>Title</th>
             <th>Cost</th>
             <th>Description</th>
+            <th>Date</th>
+            <th>Stock</th>
+            <th>Height</th>
+            {{!-- <th>Width</th> --}}
+            <th>Media Property</th>
         </tr>
 
     </thead>
     <tbody>
-        {{#each products}}
+        {{#each products4}}
             <tr>
                 <td>
                     {{this.id}}
@@ -26,8 +31,32 @@
                 <td>
                     {{this.description}}
                 </td>
+                <td>
+                    {{this.date}}
+                </td>
+                <td>
+                    {{this.stock}}
+                </td>
+                <td>
+                    {{this.height}}
+                </td>
+                {{!-- <td>
+                    {{this.width}}
+                </td> --}}
+                
+                <td>
+                    {{this.MediaProperty.name}}
+                </td>
+
+                <td>
+                    <a href="/update/{{this.id}}" class="btn btn-primary btn-sm">Update</a>
+                    <br/><br/>
+                    <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
+
         {{/each}}
+
     </tbody>
 </table>
 {{/block}}

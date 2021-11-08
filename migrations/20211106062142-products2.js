@@ -14,22 +14,8 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-// exports.up = function(db) {
-//   return db.createTable('posters',{
-//       id: { type: 'int', primaryKey:true, autoIncrement:true, unsigned: true},
-//       title: { type: 'string', length:100, notNull:false},
-//       cost: 'int',
-//       description:{ type: 'string', length:300, notNull:false},
-//       date: {type: 'date'},
-//       stock:'int',
-//       height: {type: 'int', comment:'in cm'},
-//       width:{type: 'int', comment:' in cm'},
-      
-//   })
-// };
-
 exports.up = function(db) {
-  return db.createTable('posters',{
+  return db.createTable('posters2',{
       id: { type: 'int', primaryKey:true, autoIncrement:true, unsigned: true},
       title: { type: 'string', length:100, notNull:false},
       cost: 'int',
@@ -43,7 +29,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return db.dropTable('posters');
+  return db.dropTable('posters2');
 };
 
 exports._meta = {
