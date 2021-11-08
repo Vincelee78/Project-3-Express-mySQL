@@ -32,7 +32,7 @@ var bootstrapField = function (name, object) {
 //     return date;
 // }
 
-const createProductForm = (media_properties) => {
+const createProductForm = (media_properties, tags) => {
     return forms.create({
         'title': fields.string({
             required: true,
@@ -42,6 +42,7 @@ const createProductForm = (media_properties) => {
             }
         }),
         'cost': fields.string({
+            label:'Cost in cents',
             required: true,
             errorAfterField: true,
             cssClasses: {
@@ -62,6 +63,7 @@ const createProductForm = (media_properties) => {
             cssClasses: {
                 label: ['form-label']
             },
+            widget: widgets.date(),
             'validators':[validators.date()]
         }),
         'stock': fields.string({
@@ -73,6 +75,7 @@ const createProductForm = (media_properties) => {
             'validators':[validators.integer()]
         }),
         'height': fields.string({
+            label:'Height in cm',
             required: true,
             errorAfterField: true,
             cssClasses: {
@@ -82,6 +85,7 @@ const createProductForm = (media_properties) => {
         }),
 
         'width': fields.string({
+            label:'Width in cm',
             required: true,
             errorAfterField: true,
             cssClasses: {
@@ -99,6 +103,16 @@ const createProductForm = (media_properties) => {
             },
             widget: widgets.select(),
             choices: media_properties
+        }),
+
+        'tags': fields.string({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            widget: widgets.multipleSelect(),
+            choices:tags
         })
     })
 };

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ProductTable, MediaProperty } = require('../models')
+const { ProductTable, MediaProperty, Tag } = require('../models')
 const { bootstrapField, createProductForm } = require('../forms');
 
 
@@ -22,26 +22,28 @@ router.get('/', (req, res) => {
 // })
 
 router.get('/allproducts', async (req, res) => {
-    // const allMedia = await MediaProperty.fetchAll().map((media_properties)=>{
-    //     return [media_properties.get('id'), media_properties.get('name')];
-    // })
-    // #2 - fetch all the products (ie, SELECT * from products)
+        
+    
+
     let productsvar = await ProductTable.collection().fetch({
-        withRelated:['mediaProperty']
+        withRelated: ['mediaProperty','tags']
     });
     console.log(productsvar.toJSON())
     res.render('products/index', {
         products4: productsvar.toJSON(), // #3 - convert collection to JSON
-        // media: allMedia,
+        
     })
 })
 
 router.get('/create', async (req, res) => {
-    
-    const allMedia = await MediaProperty.fetchAll().map((media_properties)=>{
+
+    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
         return [media_properties.get('id'), media_properties.get('name')];
     })
-    const productForm = createProductForm(allMedia);
+
+    const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
+
+    const productForm = createProductForm(allMedia, allTags);
     res.render('products/create', {
         form: productForm.toHTML(bootstrapField)
     })
@@ -56,13 +58,17 @@ router.get('/create', async (req, res) => {
 
 router.post('/create', async (req, res) => {
 
-    const allMedia = await MediaProperty.fetchAll().map((media_properties)=>{
+    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
         return [media_properties.get('id'), media_properties.get('name')];
     })
-    const productForm = createProductForm(allMedia);
+
+    const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
+
+    const productForm = createProductForm(allMedia, allTags);
     productForm.handle(req, {
         success: async (form) => {
-            const product = new ProductTable();
+            let { tags, ...productData } = form.data;
+            const product = new ProductTable(productData);
             product.set('title', form.data.title);
             product.set('cost', form.data.cost);
             product.set('description', form.data.description);
@@ -72,6 +78,10 @@ router.post('/create', async (req, res) => {
             product.set('width', form.data.width);
             product.set('mediaProperty_id', form.data.mediaProperty_id)
             await product.save();
+            
+            if (tags) {
+                await product.tags().attach(tags.split(","));
+            }
             res.redirect('/allproducts');
 
         },
@@ -85,51 +95,71 @@ router.post('/create', async (req, res) => {
 
 router.get('/update/:product_id', async (req, res) => {
     let productId = req.params.product_id;
-    const product = await ProductTable.where({
+    const poster = await ProductTable.where({
         id: productId
     }).fetch({
-        require: true
+        require: true,
+        withRelated:['tags']
     });
 
 
-     // fetch all the categories
-     const allMedia = await MediaProperty.fetchAll().map((media_properties)=>{
+    // fetch all the categories
+    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
         return [media_properties.get('id'), media_properties.get('name')];
     })
 
-    const productForm = createProductForm(allMedia);
+    const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
 
-    productForm.fields.title.value = product.get('title');
-    productForm.fields.cost.value = product.get('cost');
-    productForm.fields.description.value = product.get('description');
-    productForm.fields.date.value = product.get('date');
-    productForm.fields.stock.value = product.get('stock');
-    productForm.fields.height.value = product.get('height');
-    productForm.fields.width.value = product.get('width');
-    productForm.fields.mediaProperty_id.value = product.get('mediaProperty_id');
+    const productForm = createProductForm(allMedia,allTags);
 
+    productForm.fields.title.value = poster.get('title');
+    productForm.fields.cost.value = poster.get('cost');
+    productForm.fields.description.value = poster.get('description');
+    productForm.fields.date.value = poster.get('date');
+    productForm.fields.stock.value = poster.get('stock');
+    productForm.fields.height.value = poster.get('height');
+    productForm.fields.width.value = poster.get('width');
+    productForm.fields.mediaProperty_id.value = poster.get('mediaProperty_id');
+
+    let selectedTags=await poster.related('tags').pluck('id');
+    productForm.fields.tags.value=selectedTags
+    
     res.render('products/update', {
         form: productForm.toHTML(bootstrapField),
-        product: product.toJSON()
+        product: poster.toJSON()
     })
 })
 
 router.post('/update/:id', async (req, res) => {
-    const allMedia = await MediaProperty.fetchAll().map((media_properties)=>{
+    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
         return [media_properties.get('id'), media_properties.get('name')];
     })
     let productId = req.params.id;
-    const product = await ProductTable.where({
+    const poster = await ProductTable.where({
         id: productId
     }).fetch({
-        require: true
+        require: true,
+        withRelated:['tags'],
     });
 
     const productForm = createProductForm(allMedia);
     productForm.handle(req, {
         'success': async (form) => {
-            product.set(form.data);
-            product.save();
+            let {tags, ...Posterdata}=(form.data);
+            poster.set(Posterdata);
+            poster.save();
+             // update the tags
+            
+             let tagIds = tags.split(',');
+             let existingTagIds = await poster.related('tags').pluck('id');
+ 
+             // remove all the tags that aren't selected anymore
+             let toRemove = existingTagIds.filter( id => tagIds.includes(id) === false);
+             await poster.tags().detach(toRemove);
+ 
+             // add in all the tags selected in the form
+             await poster.tags().attach(tagIds);
+ 
             res.redirect('/allproducts');
         },
 
@@ -143,30 +173,30 @@ router.post('/update/:id', async (req, res) => {
 
 })
 
-router.get('/delete/:id', async (req, res)=>{
-    let product= await ProductTable.where({
-        id:req.params.id
+router.get('/delete/:id', async (req, res) => {
+    let product = await ProductTable.where({
+        id: req.params.id
 
     }).fetch({
-        require:true
+        require: true
     });
-    res.render('products/delete',{
+    res.render('products/delete', {
         product: product.toJSON()
     })
 })
 
-router.post('/delete/:id', async (req, res)=>{
+router.post('/delete/:id', async (req, res) => {
 
-    let product= await ProductTable.where({
-        id:req.params.id
+    let product = await ProductTable.where({
+        id: req.params.id
 
     }).fetch({
-        require:true
+        require: true
     });
-    const allMedia = await MediaProperty.fetchAll().map((media_properties)=>{
+    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
         return [media_properties.get('id'), media_properties.get('name')];
     })
-    
+
     await product.destroy(allMedia);
     res.redirect('/allproducts');
 })

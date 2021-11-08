@@ -3,8 +3,12 @@ const bookshelf=require('../bookshelf')
 const ProductTable=bookshelf.model('PosterModel',{
     tableName:'posters',
     mediaProperty() {
-        return this.belongsTo('MediaProperty')
-    }
+        return this.belongsTo( 'MediaProperty', 'mediaProperty_id')
+    },
+        tags() {
+            return this.belongsToMany('Tag');
+        }
+    
 });
 
 const MediaProperty = bookshelf.model('MediaProperty',{
@@ -14,6 +18,12 @@ const MediaProperty = bookshelf.model('MediaProperty',{
     }
 })
 
+const Tag = bookshelf.model('Tag',{
+    tableName: 'tags',
+    products() {
+        return this.belongsToMany('PosterModel')
+    }
+})
 
 
-module.exports={ ProductTable, MediaProperty};
+module.exports={ ProductTable, MediaProperty, Tag};
