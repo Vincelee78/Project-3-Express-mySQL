@@ -28,6 +28,15 @@ app.use(
     saveUninitialized: true
   }))
 
+  app.use(flash());
+
+// Register Flash middleware
+app.use(function (req, res, next) {
+    res.locals.success_messages = req.flash("success_messages");
+    res.locals.error_messages = req.flash("error_messages");
+    next();
+});
+
   const landingRoutes=require('./routes/landing')
 
   async function main() {

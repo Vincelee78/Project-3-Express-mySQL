@@ -68,20 +68,23 @@ router.post('/create', async (req, res) => {
     productForm.handle(req, {
         success: async (form) => {
             let { tags, ...productData } = form.data;
-            const product = new ProductTable(productData);
-            product.set('title', form.data.title);
-            product.set('cost', form.data.cost);
-            product.set('description', form.data.description);
-            product.set('date', form.data.date);
-            product.set('stock', form.data.stock);
-            product.set('height', form.data.height);
-            product.set('width', form.data.width);
-            product.set('mediaProperty_id', form.data.mediaProperty_id)
-            await product.save();
+
+            const poster = new ProductTable(productData);
+
+            poster.set('title', form.data.title);
+            poster.set('cost', form.data.cost);
+            poster.set('description', form.data.description);
+            poster.set('date', form.data.date);
+            poster.set('stock', form.data.stock);
+            poster.set('height', form.data.height);
+            poster.set('width', form.data.width);
+            poster.set('mediaProperty_id', form.data.mediaProperty_id)
+            await poster.save();
             
             if (tags) {
-                await product.tags().attach(tags.split(","));
+                await poster.tags().attach(tags.split(","));
             }
+            req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
             res.redirect('/allproducts');
 
         },
@@ -159,7 +162,7 @@ router.post('/update/:id', async (req, res) => {
  
              // add in all the tags selected in the form
              await poster.tags().attach(tagIds);
- 
+             req.flash('success_messages', `Poster ${product.get("title")} has been deleted`)
             res.redirect('/allproducts');
         },
 
@@ -198,6 +201,7 @@ router.post('/delete/:id', async (req, res) => {
     })
 
     await product.destroy(allMedia);
+    req.flash('success_messages', `Poster ${product.get("title")} has been deleted`)
     res.redirect('/allproducts');
 })
 

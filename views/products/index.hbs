@@ -2,31 +2,31 @@
 
 {{#block 'content'}}
 <table class="table">
-    <thead>
+    <thead >
         <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Cost in cents</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Stock</th>
-            <th>Height in cm</th>
-            <th>Width in cm</th>
-            <th>Media Property</th>
-            <th>Tags</th>
+            <th style="text-align:center" >ID</th>
+            <th style="text-align:center">Title</th>
+            <th style="width: 120px; text-align:center">Cost in cents</th>
+            <th style="text-align:center">Description</th>
+            <th style="text-align:center">Date</th>
+            <th style="width: 100px; text-align:center">Stock</th>
+            <th style="width: 120px ; text-align:center">Height in cm</th>
+            <th style="width: 120px ; text-align:center">Width in cm</th>
+            <th style="width: 150px">Media Property</th>
+            <th style="text-align:center">Tags</th>
         </tr>
 
     </thead>
     <tbody>
         {{#each products4}}
-        <tr>
-            <td>
+        <tr >
+            <td style="width: 50px; text-align:center">
                 {{this.id}}
             </td>
             <td>
                 {{this.title}}
             </td>
-            <td>
+            <td style="text-align:center">
                 {{this.cost}}
             </td>
             <td>
@@ -35,13 +35,13 @@
             <td>
                 {{this.date}}
             </td>
-            <td>
+            <td style="text-align:center">
                 {{this.stock}}
             </td>
-            <td>
+            <td style="text-align:center">
                 {{this.height}}
             </td>
-            <td>
+            <td style="text-align:center">
                 {{this.width}}
             </td>
             
