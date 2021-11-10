@@ -113,6 +113,10 @@ const createProductForm = (media_properties, tags) => {
             },
             widget: widgets.multipleSelect(),
             choices:tags
+        }),
+        
+        'image_url':fields.string({
+            widget: widgets.hidden()
         })
     })
 };
@@ -126,11 +130,12 @@ const createRegistrationForm = () => {
                 label: ['form-label']
             }
         }),
-        'email': fields.string({
+        'email': fields.email({
             required: true,
             errorAfterField: true,
             cssClasses: {
-                label: ['form-label']
+                label: ['form-label'],
+                'validators':[validators.email()]
             }
         }),
         'password': fields.password({
@@ -151,4 +156,23 @@ const createRegistrationForm = () => {
     })
 }
 
-module.exports = { createProductForm, bootstrapField, createRegistrationForm };
+const createLoginForm=()=>{
+    return forms.create({
+        'email': fields.string({
+            required:true,
+            errorAfterField:true,
+            cssClasses:{
+                label:['form-label']
+            }
+        }),
+        'password': fields.password({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
+        }),
+    })
+}
+
+module.exports = { createProductForm, bootstrapField, createRegistrationForm, createLoginForm };

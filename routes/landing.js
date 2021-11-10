@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { ProductTable, MediaProperty, Tag } = require('../models')
+const { ProductTable, MediaProperty, Tag } = require('../models');
 const { bootstrapField, createProductForm } = require('../forms');
+// import in the CheckIfAuthenticated middleware
+const { checkIfAuthenticated } = require('../middleware');
 
 
 
@@ -22,20 +24,20 @@ router.get('/', (req, res) => {
 // })
 
 router.get('/allproducts', async (req, res) => {
-        
-    
+
+
 
     let productsvar = await ProductTable.collection().fetch({
-        withRelated: ['mediaProperty','tags']
+        withRelated: ['mediaProperty', 'tags']
     });
     console.log(productsvar.toJSON())
     res.render('products/index', {
         products4: productsvar.toJSON(), // #3 - convert collection to JSON
-        
+
     })
 })
 
-router.get('/create', async (req, res) => {
+router.get('/create', checkIfAuthenticated, async (req, res) => {
 
     const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
         return [media_properties.get('id'), media_properties.get('name')];
@@ -45,7 +47,10 @@ router.get('/create', async (req, res) => {
 
     const productForm = createProductForm(allMedia, allTags);
     res.render('products/create', {
-        form: productForm.toHTML(bootstrapField)
+        form: productForm.toHTML(bootstrapField),
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
@@ -56,7 +61,7 @@ router.get('/create', async (req, res) => {
 //     return date;
 // }
 
-router.post('/create', async (req, res) => {
+router.post('/create', checkIfAuthenticated, async (req, res) => {
 
     const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
         return [media_properties.get('id'), media_properties.get('name')];
@@ -71,6 +76,7 @@ router.post('/create', async (req, res) => {
 
             const poster = new ProductTable(productData);
 
+
             poster.set('title', form.data.title);
             poster.set('cost', form.data.cost);
             poster.set('description', form.data.description);
@@ -80,7 +86,7 @@ router.post('/create', async (req, res) => {
             poster.set('width', form.data.width);
             poster.set('mediaProperty_id', form.data.mediaProperty_id)
             await poster.save();
-            
+
             if (tags) {
                 await poster.tags().attach(tags.split(","));
             }
@@ -90,7 +96,10 @@ router.post('/create', async (req, res) => {
         },
         'error': async (form) => {
             res.render('products/create', {
-                form: form.toHTML(bootstrapField)
+                form: form.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
             })
         }
     })
@@ -102,7 +111,7 @@ router.get('/update/:product_id', async (req, res) => {
         id: productId
     }).fetch({
         require: true,
-        withRelated:['tags']
+        withRelated: ['tags']
     });
 
 
@@ -113,7 +122,7 @@ router.get('/update/:product_id', async (req, res) => {
 
     const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
 
-    const productForm = createProductForm(allMedia,allTags);
+    const productForm = createProductForm(allMedia, allTags);
 
     productForm.fields.title.value = poster.get('title');
     productForm.fields.cost.value = poster.get('cost');
@@ -123,13 +132,19 @@ router.get('/update/:product_id', async (req, res) => {
     productForm.fields.height.value = poster.get('height');
     productForm.fields.width.value = poster.get('width');
     productForm.fields.mediaProperty_id.value = poster.get('mediaProperty_id');
+    // 1 - set the image url in the product form
+    productForm.fields.image_url.value = poster.get('image_url');
 
-    let selectedTags=await poster.related('tags').pluck('id');
-    productForm.fields.tags.value=selectedTags
-    
+    let selectedTags = await poster.related('tags').pluck('id');
+    productForm.fields.tags.value = selectedTags
+
     res.render('products/update', {
         form: productForm.toHTML(bootstrapField),
-        product: poster.toJSON()
+        product: poster.toJSON(),
+        // 2 - send to the HBS file the cloudinary information
+        cloudinaryName: process.env.CLOUDINARY_NAME,
+        cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+        cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
 
@@ -142,27 +157,27 @@ router.post('/update/:id', async (req, res) => {
         id: productId
     }).fetch({
         require: true,
-        withRelated:['tags'],
+        withRelated: ['tags'],
     });
 
     const productForm = createProductForm(allMedia);
     productForm.handle(req, {
         'success': async (form) => {
-            let {tags, ...Posterdata}=(form.data);
+            let { tags, ...Posterdata } = (form.data);
             poster.set(Posterdata);
             poster.save();
-             // update the tags
-            
-             let tagIds = tags.split(',');
-             let existingTagIds = await poster.related('tags').pluck('id');
- 
-             // remove all the tags that aren't selected anymore
-             let toRemove = existingTagIds.filter( id => tagIds.includes(id) === false);
-             await poster.tags().detach(toRemove);
- 
-             // add in all the tags selected in the form
-             await poster.tags().attach(tagIds);
-             req.flash('success_messages', `Poster ${product.get("title")} has been deleted`)
+            // update the tags
+
+            let tagIds = tags.split(',');
+            let existingTagIds = await poster.related('tags').pluck('id');
+
+            // remove all the tags that aren't selected anymore
+            let toRemove = existingTagIds.filter(id => tagIds.includes(id) === false);
+            await poster.tags().detach(toRemove);
+
+            // add in all the tags selected in the form
+            await poster.tags().attach(tagIds);
+            req.flash('success_messages', `Poster ${poster.get("title")} has been updated`)
             res.redirect('/allproducts');
         },
 

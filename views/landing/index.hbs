@@ -1,7 +1,7 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+{{!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">The best Posters in town!</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,15 +27,26 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="https://3000-chocolate-cat-sjg25nxm.ws-us18.gitpod.io/game/posters">Game Posters</a>
-        </li>
-      </ul>
+        </li> --}}
+      {{!-- </ul>
       <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <div>
+              <div>
+                {{#if user}}
+                  Hi, {{user.username}}
+                  <a href="/cart" class="btn btn-success btn-sm">Cart</a>
+                  <a href="/users/logout" class="btn btn-secondary btn-sm">Logout</a>
+                {{else}}
+                  Welcome, guest. 
+                  <a href="/users/login" class="btn btn-primary btn-sm">Login</a>
+                {{/if}}
+
+              </div>
+          </div>
       </form>
     </div>
   </div>
-</nav>
+</nav> --}}
 {{/block}}
 
 {{/extends}}
