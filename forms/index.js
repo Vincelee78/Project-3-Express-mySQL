@@ -42,13 +42,13 @@ const createProductForm = (media_properties, tags) => {
             }
         }),
         'cost': fields.string({
-            label:'Cost in cents',
+            label: 'Cost in cents',
             required: true,
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
             },
-            'validators':[validators.integer(), validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
         'description': fields.string({
             required: true,
@@ -64,7 +64,7 @@ const createProductForm = (media_properties, tags) => {
                 label: ['form-label']
             },
             widget: widgets.date(),
-            'validators':[validators.date()]
+            'validators': [validators.date()]
         }),
         'stock': fields.string({
             required: true,
@@ -72,30 +72,30 @@ const createProductForm = (media_properties, tags) => {
             cssClasses: {
                 label: ['form-label']
             },
-            'validators':[validators.integer(), validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
         'height': fields.string({
-            label:'Height in cm',
+            label: 'Height in cm',
             required: true,
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
             },
-            'validators':[validators.integer(),validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
 
         'width': fields.string({
-            label:'Width in cm',
+            label: 'Width in cm',
             required: true,
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
             },
-            'validators':[validators.integer(), validators.min(0)]
+            'validators': [validators.integer(), validators.min(0)]
         }),
 
         'mediaProperty_id': fields.string({
-            label:'Media Property',
+            label: 'Media Property',
             required: true,
             errorAfterField: true,
             cssClasses: {
@@ -112,10 +112,10 @@ const createProductForm = (media_properties, tags) => {
                 label: ['form-label']
             },
             widget: widgets.multipleSelect(),
-            choices:tags
+            choices: tags
         }),
-        
-        'image_url':fields.string({
+
+        'image_url': fields.string({
             widget: widgets.hidden()
         })
     })
@@ -135,7 +135,7 @@ const createRegistrationForm = () => {
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label'],
-                'validators':[validators.email()]
+                'validators': [validators.email()]
             }
         }),
         'password': fields.password({
@@ -156,13 +156,13 @@ const createRegistrationForm = () => {
     })
 }
 
-const createLoginForm=()=>{
+const createLoginForm = () => {
     return forms.create({
         'email': fields.string({
-            required:true,
-            errorAfterField:true,
-            cssClasses:{
-                label:['form-label']
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
             }
         }),
         'password': fields.password({
@@ -175,4 +175,97 @@ const createLoginForm=()=>{
     })
 }
 
-module.exports = { createProductForm, bootstrapField, createRegistrationForm, createLoginForm };
+const createSearchForm = (media_properties, tags) => {
+    return forms.create({
+        'title': fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            }
+        }),
+        'costa ': fields.string({
+            label: 'Cost between $50 and $100',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            'validators': [validators.integer()]
+            
+
+        }),
+
+        'costb': fields.string({
+            label: 'Enter cost less than $200',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            'validators': [validators.integer()]
+            
+
+        }),
+
+        'min_width': fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            'validators': [validators.integer()]
+        }),
+
+        'max_width': fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            'validators': [validators.integer()]
+        }),
+
+        'min_height': fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            'validators': [validators.integer()]
+        }),
+
+        'max_height': fields.string({
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            'validators': [validators.integer()]
+        }),
+
+        'mediaProperty_id': fields.string({
+            label: 'Media Property',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            widget: widgets.select(),
+            choices: media_properties
+        }),
+
+        'tags': fields.string({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            widget: widgets.multipleSelect(),
+            choices: tags
+        }),
+
+
+    })
+}
+module.exports = { createProductForm, bootstrapField, createRegistrationForm, createLoginForm, createSearchForm };

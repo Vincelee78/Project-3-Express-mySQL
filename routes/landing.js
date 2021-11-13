@@ -1,36 +1,118 @@
 const express = require("express");
 const router = express.Router();
 const { ProductTable, MediaProperty, Tag } = require('../models');
-const { bootstrapField, createProductForm } = require('../forms');
+const { bootstrapField, createProductForm, createSearchForm } = require('../forms');
 // import in the CheckIfAuthenticated middleware
 const { checkIfAuthenticated } = require('../middleware');
+const dataLayer=require('../dal/products')
 
 
 
-router.get('/', (req, res) => {
-    res.render('landing/index')
+router.get('/', async (req, res) => {
+
+      // 1. get all the media
+      const allMedia = await dataLayer.getAllMedia();
+    allMedia.unshift([0, 'All Media']);
+
+
+    // 2. Get all the tags
+    const allTags = await dataLayer.getAllTags();
+
+ 
+   // 3. Create search form 
+    let searchForm = createSearchForm(allMedia, allTags);
+
+    searchForm.handle(req, {
+            'empty': async (form) => {
+                // the model represents the entire table
+                // let products = await ProductTable.collection().fetch({
+                //     'withRelated': ['mediaProperty', 'tags']
+                // });
+    
+                res.render('products/search', {
+                    // 'products': products.toJSON(), // convert the results to JSON
+                    'searchForm': form.toHTML(bootstrapField),
+                    'allMedia': allMedia,
+                    'allTags': allTags
+                })
+            },
+        'error': async (form) => {
+                    },
+        'success': async (form) => {
+            let title = form.data.title;
+            let costBetween = form.data.costa;
+            let costLess = form.data.costb;
+            let min_width=form.data.min_width;
+            let max_width=form.data.max_width;
+            let min_height=form.data.min_height;
+            let max_height=form.data.max_height;
+            let mediaProperty = parseInt(form.data.mediaProperty_id);
+            let tags = form.data.tags;
+       
+            // create a query that is the eqv. of "SELECT * FROM products WHERE 1"
+            // this query is deferred because we never call fetch on it.
+            // we have to execute it by calling fetch onthe query
+            let q = ProductTable.collection();
+            
+            // if name is not undefined, not null and not empty string
+            if (title) {
+                // add a where clause to its back
+                q.where('title', 'like', `%${title}%`);
+            }
+
+            if (min_width) {
+                q.where('width', '>=', min_width);
+            }
+
+            if (max_width) {
+                q.where('width', '<=', max_width);
+            }
+
+            if (min_height) {
+                q.where('height', '>=', min_height);
+            }
+
+            if (max_height) {
+                q.where('height', '<=', max_height);
+            }
+
+            // check if cateogry is not 0, not undefined, not null, not empty string
+            if (mediaProperty) {
+                q.where('mediaProperty_id', '=', mediaProperty);
+            }
+
+            // if tags is not empty
+            if (tags) {
+                let selectedTags = tags.split(',');
+                q.query('join', 'posters_tags', 'posters.id', 'poster_id')
+                 .where('tag_id', 'in', form.data.tags.split(','));
+                
+            }
+
+            // execute the query
+            let products = await q.fetch({
+                'withRelated':['mediaProperty', 'tags']
+            });
+            res.render('products/search', {
+                'products': products.toJSON(), // convert the results to JSON
+                'searchForm': form.toHTML(bootstrapField),
+                'allMedia': allMedia,
+                'allTags': allTags
+            })
+           
+        }
+    })
 })
 
-// router.get('/album/posters', (req, res) => {
-//     res.render('landing/album')
-// })
 
-// router.get('/game/posters', (req, res) => {
-//     res.render('landing/game')
-// })
-
-// router.get('/movie/posters', (req, res) => {
-//     res.render('landing/movie')
-// })
 
 router.get('/allproducts', async (req, res) => {
 
 
 
-    let productsvar = await ProductTable.collection().fetch({
-        withRelated: ['mediaProperty', 'tags']
-    });
-    console.log(productsvar.toJSON())
+    let productsvar = await dataLayer.getAllProducts();
+   
+
     res.render('products/index', {
         products4: productsvar.toJSON(), // #3 - convert collection to JSON
 
@@ -63,56 +145,53 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
 
 router.post('/create', checkIfAuthenticated, async (req, res) => {
 
-    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
-        return [media_properties.get('id'), media_properties.get('name')];
-    })
+    await dataLayer.addPoster();
+    // const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
+    //     return [media_properties.get('id'), media_properties.get('name')];
+    // })
 
-    const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
+    // const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
 
-    const productForm = createProductForm(allMedia, allTags);
-    productForm.handle(req, {
-        success: async (form) => {
-            let { tags, ...productData } = form.data;
+    // const productForm = createProductForm(allMedia, allTags);
 
-            const poster = new ProductTable(productData);
+    // productForm.handle(req, {
+    //     success: async (form) => {
+    //         let { tags, ...productData } = form.data;
+
+    //         const poster = new ProductTable(productData);
 
 
-            poster.set('title', form.data.title);
-            poster.set('cost', form.data.cost);
-            poster.set('description', form.data.description);
-            poster.set('date', form.data.date);
-            poster.set('stock', form.data.stock);
-            poster.set('height', form.data.height);
-            poster.set('width', form.data.width);
-            poster.set('mediaProperty_id', form.data.mediaProperty_id)
-            await poster.save();
+    //         poster.set('title', form.data.title);
+    //         poster.set('cost', form.data.cost);
+    //         poster.set('description', form.data.description);
+    //         poster.set('date', form.data.date);
+    //         poster.set('stock', form.data.stock);
+    //         poster.set('height', form.data.height);
+    //         poster.set('width', form.data.width);
+    //         poster.set('mediaProperty_id', form.data.mediaProperty_id)
+    //         await poster.save();
 
-            if (tags) {
-                await poster.tags().attach(tags.split(","));
-            }
-            req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
-            res.redirect('/allproducts');
+    //         if (tags) {
+    //             await poster.tags().attach(tags.split(","));
+    //         }
+    //         req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
+    //         res.redirect('/allproducts');
 
-        },
-        'error': async (form) => {
-            res.render('products/create', {
-                form: form.toHTML(bootstrapField),
-                cloudinaryName: process.env.CLOUDINARY_NAME,
-                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
-            })
-        }
-    })
+        // },
+    //     'error': async (form) => {
+    //         res.render('products/create', {
+    //             form: form.toHTML(bootstrapField),
+    //             cloudinaryName: process.env.CLOUDINARY_NAME,
+    //             cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+    //             cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+    //         })
+    //     }
+    // })
 })
 
 router.get('/update/:product_id', async (req, res) => {
     let productId = req.params.product_id;
-    const poster = await ProductTable.where({
-        id: productId
-    }).fetch({
-        require: true,
-        withRelated: ['tags']
-    });
+    const poster = await dataLayer.getProductById(productId);
 
 
     // fetch all the categories
@@ -219,29 +298,6 @@ router.post('/delete/:id', async (req, res) => {
     req.flash('success_messages', `Poster ${product.get("title")} has been deleted`)
     res.redirect('/allproducts');
 })
-
-// router.post('/create', async (req, res) => {
-//     const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
-//        return [media_properties.get('id'), media_properties.get('name')];
-//    })
-
-//    const productForm = createProductForm(allMedia);
-//    productForm.handle(req, {
-//     'success': async (form) => {
-//        // 2. Save data from form into the new product instance
-//         const product = new ProductTable(form.data);
-//         await product.save();
-//         res.redirect('/allproducts');
-//     },
-//     'error': async (form) => {
-//         res.render('products/create', {
-//             form: form.toHTML(bootstrapField)
-//         })
-//     }
-// })
-// })
-
-// … snipped …
 
 
 

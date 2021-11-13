@@ -1,0 +1,82 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+
+<form method="GET">
+   {{{searchForm}}}
+    <input type="submit" class="mb-3 mt-3 btn btn-primary" value="Search"/>
+</form>
+
+<table class="table">
+    <thead >
+        <tr>
+            <th style="text-align:center" >ID</th>
+            <th style="text-align:center">Title</th>
+            <th style="width: 120px; text-align:center">Cost in cents</th>
+            <th style="text-align:center">Description</th>
+            <th style="text-align:center">Date</th>
+            <th style="width: 100px; text-align:center">Stock</th>
+            <th style="width: 120px ; text-align:center">Height in cm</th>
+            <th style="width: 120px ; text-align:center">Width in cm</th>
+            <th style="width: 150px">Media Property</th>
+            <th style="text-align:center">Tags</th>
+            <th style="text-align:center">Image</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr >
+            <td style="width: 50px; text-align:center">
+                {{this.id}}
+            </td>
+            <td>
+                {{this.title}}
+            </td>
+            <td style="text-align:center">
+                {{this.cost}}
+            </td>
+            <td>
+                {{this.description}}
+            </td>
+            <td>
+                {{this.date}}
+            </td>
+            <td style="text-align:center">
+                {{this.stock}}
+            </td>
+            <td style="text-align:center">
+                {{this.height}}
+            </td>
+            <td style="text-align:center">
+                {{this.width}}
+            </td>
+            
+            <td>
+                {{this.mediaProperty.name}}
+            </td>
+            <td> 
+                {{#each this.tags}} 
+                    <span class="badge bg-success">{{this.name}}</span> 
+                {{/each}}
+            </td>
+            <td>
+                <img class="img-fluid" src="{{this.image_url}}"/>
+            </td>
+
+            <td>
+                <a href="/update/{{this.id}}" class="btn btn-primary btn-sm">Update</a>
+                <br /><br />
+                <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+
+        {{/each}}
+
+    </tbody>
+</table>
+<a href="/" class="btn btn-success btn-sm mb-4">Back to Home</a>
+
+{{/block}}
+
+{{/extends}}
