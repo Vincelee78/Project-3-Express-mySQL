@@ -6,34 +6,40 @@ const getCart = async (userId) => {
             'user_id': userId
         }).fetch({
             require: false,
-            withRelated: ['posterCart', 'posterCart.mediaProperty']
+            withRelated: ['posters', 'posters.mediaProperty']
         });
 }
 
-const getCartItemByUserAndPoster = async (userId, posterId) => {
+
+async function createCartItem(userId, productId, quantity) {
+    // Model: represents the entire table
+    // instance of a model: represents one row in the table
+    let cartItem = new CartItem({
+        'user_id': userId,
+        'product_id': productId,
+        'quantity': quantity
+    });
+
+    
+    await cartItem.save();
+    return cartItem;
+    
+}
+
+
+
+const getCartItemByUserAndPoster = async (userId, productId) => {
     return await CartItem.where({
         'user_id': userId,
-        'poster_id': posterId
+        'product_id': productId
     }).fetch({
         require: false
     });
 }
 
-async function createCartItem(userId, posterId, quantity) {
 
-    let cartItem = new CartItem({
-        'user_id': userId,
-        'poster_id': posterId,
-        'quantity': quantity
-    })
-    await cartItem.save();
-    return cartItem;
-}
-
-module.exports = {getCart, getCartItemByUserAndProduct, createCartItem}
-
-async function removeFromCart(userId, posterId) {
-    let cartItem = await getCartItemByUserAndPoster(userId, posterId);
+async function removeFromCart(userId, productId) {
+    let cartItem = await getCartItemByUserAndPoster(userId, productId);
     if (cartItem) {
         await cartItem.destroy();
         return true;
@@ -41,8 +47,8 @@ async function removeFromCart(userId, posterId) {
     return false;
 }
 
-async function updateQuantity(userId, posterId, newQuantity) {
-    let cartItem = await getCartItemByUserAndPoster(userId, posterId);
+async function updateQuantity(userId, productId, newQuantity) {
+    let cartItem = await getCartItemByUserAndPoster(userId, productId);
     if (cartItem) {
         cartItem.set('quantity', newQuantity);
         cartItem.save();
@@ -52,4 +58,4 @@ async function updateQuantity(userId, posterId, newQuantity) {
 }
 
 
-module.exports = { getCart, getCartItemByUserAndPoster, createCartItem, removeFromCart,updateQuantity }
+module.exports = { getCart,getCartItemByUserAndPoster,removeFromCart,updateQuantity, createCartItem }

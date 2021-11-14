@@ -145,48 +145,48 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
 
 router.post('/create', checkIfAuthenticated, async (req, res) => {
 
-    await dataLayer.addPoster();
-    // const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
-    //     return [media_properties.get('id'), media_properties.get('name')];
-    // })
+    // await dataLayer.addPoster();
+    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
+        return [media_properties.get('id'), media_properties.get('name')];
+    })
 
-    // const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
+    const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
 
-    // const productForm = createProductForm(allMedia, allTags);
+    const productForm = createProductForm(allMedia, allTags);
 
-    // productForm.handle(req, {
-    //     success: async (form) => {
-    //         let { tags, ...productData } = form.data;
+    productForm.handle(req, {
+        success: async (form) => {
+            let { tags, ...productData } = form.data;
 
-    //         const poster = new ProductTable(productData);
+            const poster = new ProductTable(productData);
 
 
-    //         poster.set('title', form.data.title);
-    //         poster.set('cost', form.data.cost);
-    //         poster.set('description', form.data.description);
-    //         poster.set('date', form.data.date);
-    //         poster.set('stock', form.data.stock);
-    //         poster.set('height', form.data.height);
-    //         poster.set('width', form.data.width);
-    //         poster.set('mediaProperty_id', form.data.mediaProperty_id)
-    //         await poster.save();
+            poster.set('title', form.data.title);
+            poster.set('cost', form.data.cost);
+            poster.set('description', form.data.description);
+            poster.set('date', form.data.date);
+            poster.set('stock', form.data.stock);
+            poster.set('height', form.data.height);
+            poster.set('width', form.data.width);
+            poster.set('mediaProperty_id', form.data.mediaProperty_id)
+            await poster.save();
 
-    //         if (tags) {
-    //             await poster.tags().attach(tags.split(","));
-    //         }
-    //         req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
-    //         res.redirect('/allproducts');
+            if (tags) {
+                await poster.tags().attach(tags.split(","));
+            }
+            req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
+            res.redirect('/allproducts');
 
-        // },
-    //     'error': async (form) => {
-    //         res.render('products/create', {
-    //             form: form.toHTML(bootstrapField),
-    //             cloudinaryName: process.env.CLOUDINARY_NAME,
-    //             cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-    //             cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
-    //         })
-    //     }
-    // })
+        },
+        'error': async (form) => {
+            res.render('products/create', {
+                form: form.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+            })
+        }
+    })
 })
 
 router.get('/update/:product_id', async (req, res) => {

@@ -1,6 +1,6 @@
 const bookshelf=require('../bookshelf')
 
-const ProductTable=bookshelf.model('PosterModel',{
+const ProductTable=bookshelf.model('Poster',{
     tableName:'posters',
     mediaProperty() {
         return this.belongsTo( 'MediaProperty', 'mediaProperty_id')
@@ -14,14 +14,14 @@ const ProductTable=bookshelf.model('PosterModel',{
 const MediaProperty = bookshelf.model('MediaProperty',{
     tableName: 'media_properties',
     poster() {
-        return this.hasMany('PosterModel');
+        return this.hasMany('Poster');
     }
 })
 
 const Tag = bookshelf.model('Tag',{
     tableName: 'tags',
     products() {
-        return this.belongsToMany('PosterModel')
+        return this.belongsToMany('Poster')
     }
 })
 
@@ -31,8 +31,8 @@ const User = bookshelf.model('User',{
 
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
-    posterCart() {
-        return this.belongsTo('PosterModel')
+    posters() {
+        return this.belongsTo('Poster', 'product_id' )
     }
 
 })
