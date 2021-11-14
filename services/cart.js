@@ -6,22 +6,25 @@ async function getShoppingCart(userId)  {
 
 async function addItemToCart(userId,productId) {
     try {
-        // console.log(cartDataLayer.createCartItem())
+        
+        
         // check if the user has already added the product to the cart
-        let cartItem = await cartDataLayer.getCartItemByUserAndProduct(userId, productId);
-
+        let cartItem = await cartDataLayer.getCartItemByUserAndPoster(userId, productId);
+        // console.log(cartItem)
         if (cartItem) {
+
             // increase quantity by 1
             await cartDataLayer.updateQuantity(userId, productId, cartItem.get('quantity')+1);
             return true;
         } else {
+            
             await cartDataLayer.createCartItem(userId, productId, 1);       
             return true;   
         } 
     } catch (e) {
-        return {
-            'status': false
-        }
+        console.log(e)
+        return false
+        
     }
     
 }

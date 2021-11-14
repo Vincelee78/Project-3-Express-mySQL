@@ -12,10 +12,11 @@ router.get('/', async(req,res)=>{
 })
 
 router.get('/:product_id/add', async (req,res)=>{
-    // let userId = req.session.user.id;
+    let userId = req.session.user.id;
     let productId = req.params.product_id;
+   
     let status  = await cartServices.addItemToCart(userId, productId);
-    // console.log(productId)
+    
     if (status) {
         req.flash("success_messages", "Item successfully added to cart");
         res.redirect('/allproducts');
