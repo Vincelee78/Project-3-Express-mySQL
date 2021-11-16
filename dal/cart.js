@@ -1,6 +1,6 @@
 const { CartItem } = require('../models');
 
-const getCart = async (userId) => {
+const getShoppingCartForUser = async (userId) => {
     return await CartItem.collection()
         .where({
             'user_id': userId
@@ -20,7 +20,7 @@ async function createCartItem(userId, productId, quantity) {
         'quantity': quantity
     });
 
-    console.log(cartItem.toJSON(), 'hello')
+    // console.log(cartItem.toJSON(), 'hello')
     await cartItem.save();
     return cartItem;
     
@@ -58,4 +58,4 @@ async function updateQuantity(userId, productId, newQuantity) {
 }
 
 
-module.exports = { getCart,getCartItemByUserAndPoster,removeFromCart,updateQuantity, createCartItem }
+module.exports = { getShoppingCartForUser,getCartItemByUserAndPoster,removeFromCart,updateQuantity, createCartItem }

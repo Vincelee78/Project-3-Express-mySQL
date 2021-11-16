@@ -22,6 +22,18 @@ async function getProductById(posterId) {
     return poster;
 }
 
+async function changeCentsToDollars(posterId) {
+    let poster = await ProductTable.where({
+        'id': posterId,
+        'cost': ParseInt(cost/100)
+    }).fetch({
+        'require': true,
+        withRelated:['tags']
+    });
+    return poster;
+
+}
+
 // async function addPoster(){
 //     const allMedia=getAllMedia();
 //     const allTags=getAllTags();

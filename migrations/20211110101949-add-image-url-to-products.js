@@ -14,12 +14,12 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-// exports.up = function(db) {
-//   return db.addColumn('posters', 'image_url', {
-//     type:'string',
-//     length:255
-// });;
-// };
+exports.up = function(db) {
+  return db.addColumn('posters', 'image_url', {
+    type:'string',
+    length:255
+});;
+};
 
 exports.down = function(db) {
   return null;
