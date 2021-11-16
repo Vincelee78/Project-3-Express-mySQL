@@ -6,6 +6,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const csrf = require('csurf');
+const cors = require('cors');
 
 
 
@@ -29,6 +30,8 @@ app.use(function(req,res,next){
 app.set("view engine", "hbs");
 
 app.use(express.static("public"));
+
+app.use(cors());
 
 wax.on(hbs.handlebars);
 wax.setLayoutPath("./views/layouts");

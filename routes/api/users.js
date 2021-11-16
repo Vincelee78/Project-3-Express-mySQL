@@ -2,17 +2,17 @@ const express = require('express')
 const router = express.Router();
 const crypto = require('crypto');
 const {checkIfAuthenticatedJWT} = require('../../middleware');
-
+const { User } = require('../../models');
 const jwt = require('jsonwebtoken');
 
-const generateAccessToken = (user, secretKey, expiry) => {
+const generateAccessToken = (user) => {
     return jwt.sign({
-        'username': user.username,
-        'id': user.id,
-        'email': user.email
-    }, secretKey, {
-        'expiresIn': expiry // 1000ms = 1000 milliseconds, 1h = 1 hour, 3d = 3 days, 4m = 4 minutes, 1y = 1 year
-    })
+        'username': user.get('username'),
+        'id': user.get('id'),
+        'email': user.get('email')
+    }, process.env.TOKEN_SECRET, {
+        expiresIn: "1h"
+    });
 }
 
 const getHashedPassword = (password) => {
@@ -21,26 +21,44 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-const { User } = require('../../models');
 
-router.post('/login', async (req, res) => {
+
+router.post("/login", async (req, res) => {
+    
     let user = await User.where({
-        'email': req.body.email
+      email: req.body.email,
     }).fetch({
-        require: false
-    });
+      require: false,
 
-if (user && user.get('password') == getHashedPassword(req.body.password)) {
-    let accessToken = generateAccessToken(user.toJSON(), process.env.TOKEN_SECRET, '1h');
-    res.send({
-        accessToken
-    })
-} else {
-    res.send({
-        'error':'Wrong email or password'
-    })
-}
+    });
+    
+    if (user && user.get('password') == getHashedPassword(req.body.password)) {
+        let accessToken = generateAccessToken(user);
+        res.send({
+            accessToken
+        })
+    } else {
+        res.send({
+            'error':'Wrong email or password'
+        })
+    }
 })
+    //   const refreshToken = generateAccessToken(
+    //     user,
+    //     process.env.REFRESH_TOKEN_SECRET,
+    //     "7d"
+    //   );
+//       res.json({
+//         accessToken,
+//         // refreshToken,
+//         user: userObject,
+//       });
+//     } else {
+//       res.send({
+//         error: "Wrong email or password",
+//       });
+//     }
+//   });
 
 router.get('/profile', checkIfAuthenticatedJWT, async(req,res)=>{
     res.json({
