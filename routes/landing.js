@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { ProductTable, MediaProperty, Tag } = require('../models');
+const { ProductTable, BedSize, BedOrientation, MattressType, FrameColour, WoodColour, } = require('../models');
 const { bootstrapField, createProductForm, createSearchForm } = require('../forms');
 // import in the CheckIfAuthenticated middleware
 const { checkIfAuthenticated } = require('../middleware');

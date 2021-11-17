@@ -1,25 +1,28 @@
 const {
     ProductTable,
-    MediaProperty,
-    Tag,
+    BedSize,
+    BedOrientation,
+    MattressType,
+    FrameColour,
+    WoodColour,
 } = require('../models')
 
 const {createProductForm}=require('../forms');
 
 async function getAllProducts() {
     return await ProductTable.fetchAll({
-        withRelated: ['mediaProperty', 'tags']
+        withRelated: ['bedSize', 'bedOrientation','mattressType','frameColour','woodColours']
     });
 }
 
-async function getProductById(posterId) {
-    let poster = await ProductTable.where({
-        'id': posterId
+async function getProductById(bedId) {
+    let beds = await ProductTable.where({
+        'id': bedId
     }).fetch({
         'require': true,
-        withRelated:['tags']
+        withRelated:['woodColours']
     });
-    return poster;
+    return beds;
 }
 
 async function changeCentsToDollars(posterId) {
