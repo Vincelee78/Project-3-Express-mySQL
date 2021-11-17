@@ -15,16 +15,24 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('users',{
-    id:{type:'int', primaryKey:true, autoIncrement:true, unsigned:true},
-    username: { type: 'string', length:100},
-    email: {type: 'string', length:320},
-    password: {type: 'string', length:80}
+  return db.addColumn('wall_beds', 'mattress_type_id', {
+    type: 'int',
+    unsigned:true,
+    notNull : true,
+    foreignKey: {
+        name: 'bed_mattress_fk',
+        table: 'mattress_types',
+        rules: {
+            onDelete:'cascade',
+            onUpdate:'restrict'
+        },
+        mapping: 'id'
+    }
 })
-};
+}
 
 exports.down = function(db) {
-  return db.dropTable('users');
+  return null;
 };
 
 exports._meta = {

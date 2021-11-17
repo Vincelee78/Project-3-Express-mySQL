@@ -29,21 +29,21 @@ exports.setup = function(options, seedLink) {
 // };
 
 exports.up = function(db) {
-  return db.createTable('posters',{
+  return db.createTable('wall_beds',{
       id: { type: 'int', primaryKey:true, autoIncrement:true, unsigned: true},
-      title: { type: 'string', length:100, notNull:false},
-      cost: 'int',
+      name: { type: 'string', length:100, notNull:false},
+      weight: 'int',
       description:{ type: 'string', length:300, notNull:false},
-      date: {type: 'date'},
       stock:'int',
-      height: {type: 'int', comment:'in cm'},
-      width:{type: 'int', comment:' in cm'},
+      date: {type: 'date'},
+      cost: 'int',
+      
       
   })
 };
 
 exports.down = function(db) {
-  return db.dropTable('posters');
+  return db.dropTable('wall_beds');
 };
 
 exports._meta = {

@@ -10,19 +10,18 @@ var seed;
   */
 exports.setup = function(options, seedLink) {
   dbm = options.dbmigrate;
-  type = dbm.dataType; 
+  type = dbm.dataType;
   seed = seedLink;
 };
 
 exports.up = function(db) {
-  // should be media_property_id(must match the table name and be singular and add a _id behind) for the second argument to work
-  return db.addColumn('posters', 'mediaProperty_id', {
+  return db.addColumn('wall_beds', 'frame_colour_id', {
     type: 'int',
     unsigned:true,
     notNull : true,
     foreignKey: {
-        name: 'poster_mediaProperty_fk',
-        table: 'media_properties',
+        name: 'bed_frame_colour_fk',
+        table: 'frame_colours',
         rules: {
             onDelete:'cascade',
             onUpdate:'restrict'
@@ -30,8 +29,7 @@ exports.up = function(db) {
         mapping: 'id'
     }
 })
-
-};
+}
 
 exports.down = function(db) {
   return null;

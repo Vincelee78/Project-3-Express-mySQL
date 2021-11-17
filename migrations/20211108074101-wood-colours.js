@@ -15,17 +15,14 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return  db.createTable('media_properties',{
-    id: { type: 'int', unsigned: true, primaryKey:true, autoIncrement:true},
+  return db.createTable('wood_colours', {
+    id: { type: 'int', primaryKey:true, autoIncrement:true, unsigned:true},
     name: { type: 'string', length:100},
-    description: { type: 'string', length:100},
-    URL: { type: 'string', length:100},
-
 })
 };
 
 exports.down = function(db) {
-  return db.dropTable('media_properties')
+  return db.dropTable('wood_colours');
 };
 
 exports._meta = {

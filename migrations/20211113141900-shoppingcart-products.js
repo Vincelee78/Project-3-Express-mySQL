@@ -48,7 +48,7 @@ exports.setup = function(options, seedLink) {
         'unsigned': true,
         'foreignKey': {
           'name':'cart_items_products_fk',
-          'table':'posters',
+          'table':'wall_beds',
           'mapping':'id',
           'rules': {
             'onDelete':'CASCADE',

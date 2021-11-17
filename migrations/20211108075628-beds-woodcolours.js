@@ -15,15 +15,15 @@ exports.setup = function (options, seedLink) {
 };
 
 exports.up = function (db) {
-  return db.createTable('posters_tags', {
+  return db.createTable('beds_wood_colours', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    poster_id: {
+    wall_bed_id: {
       type: 'int',
       notNull: true,
       unsigned: true,
       foreignKey: {
-        name: 'posters_tags_poster_fk',
-        table: 'posters',
+        name: 'beds_woodcolours_fk',
+        table: 'wall_beds',
         rules: {
           onDelete: 'CASCADE',
           onUpdate: 'RESTRICT'
@@ -31,13 +31,13 @@ exports.up = function (db) {
         mapping: 'id'
       }
     },
-    tag_id: {
+    wood_colour_id: {
       type: 'int',
       notNull: true,
       unsigned:true,
       foreignKey: {
-          name: 'posters_tags_tag_fk',
-          table: 'tags',
+          name: 'woodcolours_beds_fk',
+          table: 'wood_colours',
           rules: {
               onDelete: 'CASCADE',
               onUpdate: 'RESTRICT'

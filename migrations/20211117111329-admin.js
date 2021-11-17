@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('users',{
+  return db.createTable('admin', {
     id:{type:'int', primaryKey:true, autoIncrement:true, unsigned:true},
     username: { type: 'string', length:100},
     email: {type: 'string', length:320},
@@ -24,7 +24,7 @@ exports.up = function(db) {
 };
 
 exports.down = function(db) {
-  return db.dropTable('users');
+  return  db.dropTable('admin');
 };
 
 exports._meta = {

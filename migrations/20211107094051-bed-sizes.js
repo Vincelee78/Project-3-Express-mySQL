@@ -15,14 +15,15 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('tags', {
-    id: { type: 'int', primaryKey:true, autoIncrement:true, unsigned:true},
+  return  db.createTable('bed_sizes',{
+    id: { type: 'int', unsigned: true, primaryKey:true, autoIncrement:true},
     name: { type: 'string', length:100},
+
 })
 };
 
 exports.down = function(db) {
-  return db.dropTable('tags');
+  return db.dropTable('bed_sizes')
 };
 
 exports._meta = {

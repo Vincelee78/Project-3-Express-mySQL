@@ -15,7 +15,7 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.addColumn('posters', 'image_url', {
+  return db.addColumn('wall_beds', 'image_url', {
     type:'string',
     length:255
 });;
