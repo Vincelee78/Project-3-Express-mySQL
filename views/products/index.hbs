@@ -12,11 +12,12 @@
             <th style="text-align:center">Date</th>
             <th style="width: 120px ; text-align:center">Bed Size</th>
             <th style="width: 120px ; text-align:center">Mattress Type</th>
-            <th style="width: 150px">Bed Orientation</th>
+            <th style="width: 150px; text-align:center">Bed Orientation</th>
             <th style="text-align:center">Frame Colour</th>
             <th style="text-align:center">Wood Panel Colours</th>
             <th style="width: 120px; text-align:center">Cost in cents</th>
             <th style="text-align:center">Image</th>
+            
         </tr>
 
     </thead>
@@ -51,13 +52,13 @@
                 {{this.bedOrientation.name}}
             </td>
             
-            <td>
+            <td style="text-align:center">
                 {{this.frameColour.name}}
             </td>
             
             <td> 
                 {{#each this.woodColour}} 
-                    <span class="badge bg-success">{{this.name}}</span> 
+                    <span class="badge bg-secondary">{{this.name}}</span> 
                 {{/each}}
             </td>
             <td style="text-align:center">
@@ -68,11 +69,11 @@
             </td>
 
             <td>
-                <a href="/cart/{{this.id}}/add" class="btn btn-success btn-sm">Add to cart</a>
+                <a href="/cart/{{this.id}}/add" class="btn btn-success btn-sm" style="width: 90px">Add to cart</a>
                 <br /><br />
-                <a href="/update/{{this.id}}" class="btn btn-primary btn-sm">Update</a>
+                <a href="/update/{{this.id}}" class="btn btn-primary btn-sm" >Update</a>
                 <br /><br />
-                <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm" >Delete</a>
             </td>
         </tr>
 

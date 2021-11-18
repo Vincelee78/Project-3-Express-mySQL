@@ -135,6 +135,15 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
             choices: wood_colours
         }),
 
+        'cost': fields.string({
+            required: false,
+            validators: [validators.integer(), validators.min(0)],
+            errorAfterField: true,
+            cssClasses: {
+                label:['form-label']
+            }
+        }), 
+
         'image_url': fields.string({
             widget: widgets.hidden()
         })
