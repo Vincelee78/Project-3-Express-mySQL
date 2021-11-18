@@ -1,15 +1,15 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Create New Poster</h1>
+<h1>Create New Wall Bed</h1>
 <form method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
     <div>
-      <a href="#" class="btn btn-primary" id="upload_widget">Upload</a>
+      <a href="#" class="btn btn-secondary btn-sm my-3" id="upload_widget">Upload Image</a>
       <img src="" style="display:none" id="uploaded_image"/>
     </div>
-    <input type="submit" value="Add Product" class="btn btn-primary"/>
+    <input type="submit" value="Add Product" class="btn btn-primary my-3"/>
     
 </form>
 {{/block}}

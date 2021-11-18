@@ -32,17 +32,17 @@ var bootstrapField = function (name, object) {
 //     return date;
 // }
 
-const createProductForm = (media_properties, tags) => {
+const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours) => {
     return forms.create({
-        'title': fields.string({
+        'name': fields.string({
             required: true,
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
             }
         }),
-        'cost': fields.string({
-            label: 'Cost in cents',
+        'weight': fields.string({
+            label: 'Weight in kg',
             required: true,
             errorAfterField: true,
             cssClasses: {
@@ -50,6 +50,7 @@ const createProductForm = (media_properties, tags) => {
             },
             'validators': [validators.integer(), validators.min(0)]
         }),
+
         'description': fields.string({
             required: true,
             errorAfterField: true,
@@ -57,15 +58,7 @@ const createProductForm = (media_properties, tags) => {
                 label: ['form-label']
             }
         }),
-        'date': fields.date({
-            required: true,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
-            },
-            widget: widgets.date(),
-            'validators': [validators.date()]
-        }),
+
         'stock': fields.string({
             required: true,
             errorAfterField: true,
@@ -74,45 +67,70 @@ const createProductForm = (media_properties, tags) => {
             },
             'validators': [validators.integer(), validators.min(0)]
         }),
-        'height': fields.string({
-            label: 'Height in cm',
+
+        'date of creation': fields.date({
             required: true,
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
             },
-            'validators': [validators.integer(), validators.min(0)]
+            widget: widgets.date(),
+            'validators': [validators.date()]
         }),
-
-        'width': fields.string({
-            label: 'Width in cm',
-            required: true,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
-            },
-            'validators': [validators.integer(), validators.min(0)]
-        }),
-
-        'mediaProperty_id': fields.string({
-            label: 'Media Property',
+        
+    
+        'bed_size_id': fields.string({
+            label: 'Bed Sizes',
             required: true,
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
             },
             widget: widgets.select(),
-            choices: media_properties
+            choices: bed_sizes
         }),
 
-        'tags': fields.string({
+        'mattress_type_id': fields.string({
+            label: 'Mattress Type',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            widget: widgets.select(),
+            choices: mattress_types
+        }),
+
+        'bed_orientation_id': fields.string({
+            label: 'Bed Orientation',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            widget: widgets.select(),
+            choices: bed_orientations
+        }),
+
+        'frame_colour_id': fields.string({
+            label: 'Bed Frame Colour',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ['form-label']
+            },
+            widget: widgets.select(),
+            choices: frame_colours
+        }),
+
+        'Wood panel colours': fields.string({
             required: true,
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
             },
             widget: widgets.multipleSelect(),
-            choices: tags
+            choices: wood_colours
         }),
 
         'image_url': fields.string({
@@ -175,9 +193,9 @@ const createLoginForm = () => {
     })
 }
 
-const createSearchForm = (media_properties, tags) => {
+const createSearchForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours) => {
     return forms.create({
-        'title': fields.string({
+        'name': fields.string({
             required: false,
             errorAfterField: true,
             cssClasses: {

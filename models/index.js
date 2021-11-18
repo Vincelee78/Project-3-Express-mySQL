@@ -1,6 +1,6 @@
 const bookshelf=require('../bookshelf')
 
-const ProductTable=bookshelf.model('Wall_bed',{
+const ProductTable=bookshelf.model('Wallbed',{
     tableName:'wall_beds',
     bedSize() {
         return this.belongsTo( 'BedSize', 'bed_size_id')
@@ -15,8 +15,8 @@ const ProductTable=bookshelf.model('Wall_bed',{
         return this.belongsTo( 'FrameColour', 'frame_colour_id')
     },
 
-     woodColours() {
-            return this.belongsToMany('WoodColour');
+     woodColour() {
+        return this.belongsToMany('WoodColour');
      },
         
     
@@ -25,34 +25,34 @@ const ProductTable=bookshelf.model('Wall_bed',{
 const BedSize = bookshelf.model('BedSize',{
     tableName: 'bed_sizes',
     wallBed() {
-        return this.hasMany('Wall_bed');
+        return this.hasMany('Wallbed');
     }
 })
 
 const BedOrientation = bookshelf.model('BedOrientation',{
     tableName: 'bed_orientations',
     wallBed() {
-        return this.hasMany('Wall_bed');
+        return this.hasMany('Wallbed');
     }
 })
 
 const MattressType = bookshelf.model('MattressType',{
     tableName: 'mattress_types',
     wallBed() {
-        return this.hasMany('Wall_bed');
+        return this.hasMany('Wallbed');
     }
 })
 const FrameColour = bookshelf.model('FrameColour',{
     tableName: 'frame_colours',
     wallBed() {
-        return this.hasMany('Wall_bed');
+        return this.hasMany('Wallbed');
     }
 })
 
 const WoodColour = bookshelf.model('WoodColour',{
     tableName: 'wood_colours',
     wallBed() {
-        return this.belongsToMany('Wall_bed')
+        return this.belongsToMany('Wallbed')
     }
 })
 

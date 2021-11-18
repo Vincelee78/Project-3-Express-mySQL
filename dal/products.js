@@ -10,9 +10,10 @@ const {
 const {createProductForm}=require('../forms');
 
 async function getAllProducts() {
-    return await ProductTable.fetchAll({
-        withRelated: ['bedSize', 'bedOrientation','mattressType','frameColour','woodColours']
+    let products= await ProductTable.fetchAll({
+        withRelated: ['bedSize', 'bedOrientation','mattressType','frameColour', 'woodColour']
     });
+    return products;
 }
 
 async function getProductById(bedId) {
@@ -76,20 +77,34 @@ async function changeCentsToDollars(posterId) {
 // })
 // }
 
-async function getAllMedia() {
-    const allMedia = await MediaProperty.fetchAll().map(m => [m.get('id'), m.get('name')]);
-    return allMedia;
+async function getAllBedSize() {
+    const allBedSize = await BedSize.fetchAll().map(b=> [b.get('id'), b.get('name')]);
+    return allBedSize;
 }
-
-async function getAllTags() {
-    const allTags = await Tag.fetchAll().map(t => [t.get('id'), t.get('name')]);
-    return allTags;
+async function getAllBedOrientation() {
+    const allBedOrientation = await BedOrientation.fetchAll().map(b=> [b.get('id'), b.get('name')]);
+    return allBedOrientation;
+}
+async function getAllMattressType() {
+    const allMattressType = await MattressType.fetchAll().map(b=> [b.get('id'), b.get('name')]);
+    return allMattressType;
+}
+async function getAllFrameColours() {
+    const allFrameColours = await FrameColour.fetchAll().map(b=> [b.get('id'), b.get('name')]);
+    return allFrameColours;
+}
+async function getAllWoodColours() {
+    const allWoodColours = await WoodColour.fetchAll().map(w => [w.get('id'), w.get('name')]);
+    return allWoodColours;
 }
 
 module.exports = {
     getProductById,
-    getAllMedia,
-    getAllTags,
+    getAllBedSize,
+    getAllBedOrientation,
+    getAllMattressType,
+    getAllFrameColours,
+    getAllWoodColours,
     getAllProducts,
     // addPoster
 }

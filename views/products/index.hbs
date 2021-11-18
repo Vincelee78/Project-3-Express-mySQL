@@ -5,15 +5,17 @@
     <thead >
         <tr>
             <th style="text-align:center" >ID</th>
-            <th style="text-align:center">Title</th>
-            <th style="width: 120px; text-align:center">Cost in cents</th>
+            <th style="text-align:center">Name</th>
+            <th style="width: 120px; text-align:center">Weight</th>
             <th style="text-align:center">Description</th>
-            <th style="text-align:center">Date</th>
             <th style="width: 100px; text-align:center">Stock</th>
-            <th style="width: 120px ; text-align:center">Height in cm</th>
-            <th style="width: 120px ; text-align:center">Width in cm</th>
-            <th style="width: 150px">Media Property</th>
-            <th style="text-align:center">Tags</th>
+            <th style="text-align:center">Date</th>
+            <th style="width: 120px ; text-align:center">Bed Size</th>
+            <th style="width: 120px ; text-align:center">Mattress Type</th>
+            <th style="width: 150px">Bed Orientation</th>
+            <th style="text-align:center">Frame Colour</th>
+            <th style="text-align:center">Wood Panel Colours</th>
+            <th style="width: 120px; text-align:center">Cost in cents</th>
             <th style="text-align:center">Image</th>
         </tr>
 
@@ -25,37 +27,44 @@
                 {{this.id}}
             </td>
             <td>
-                {{this.title}}
+                {{this.name}}
             </td>
             <td style="text-align:center">
-                {{this.cost}}
+                {{this.weight}}
             </td>
             <td>
                 {{this.description}}
+            </td>
+            <td style="text-align:center">
+                {{this.stock}}
             </td>
             <td>
                 {{this.date}}
             </td>
             <td style="text-align:center">
-                {{this.stock}}
+                {{this.bedSize.name}}
             </td>
             <td style="text-align:center">
-                {{this.height}}
+                {{this.mattressType.name}}
             </td>
             <td style="text-align:center">
-                {{this.width}}
+                {{this.bedOrientation.name}}
             </td>
             
             <td>
-                {{this.mediaProperty.name}}
+                {{this.frameColour.name}}
             </td>
+            
             <td> 
-                {{#each this.tags}} 
+                {{#each this.woodColour}} 
                     <span class="badge bg-success">{{this.name}}</span> 
                 {{/each}}
             </td>
+            <td style="text-align:center">
+                {{this.cost}}
+            </td>
             <td>
-                <img class="img-fluid" src="{{this.image_url}}"/>
+            <img class="img-fluid" src="{{this.image_url}}"/>
             </td>
 
             <td>

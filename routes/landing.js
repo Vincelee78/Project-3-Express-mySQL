@@ -11,16 +11,16 @@ const dataLayer=require('../dal/products')
 router.get('/', async (req, res) => {
 
       // 1. get all the media
-      const allMedia = await dataLayer.getAllMedia();
-    allMedia.unshift([0, 'All Media']);
+      const allBedSize = await dataLayer.getAllBedSize();
+    allBedSize.unshift([0, 'All Bed Size']);
 
 
     // 2. Get all the tags
-    const allTags = await dataLayer.getAllTags();
+    const allWoodColours = await dataLayer.getAllWoodColours();
 
  
    // 3. Create search form 
-    let searchForm = createSearchForm(allMedia, allTags);
+    let searchForm = createSearchForm(allBedSize, allWoodColours);
 
     searchForm.handle(req, {
             'empty': async (form) => {
@@ -32,8 +32,8 @@ router.get('/', async (req, res) => {
                 res.render('products/search', {
                     // 'products': products.toJSON(), // convert the results to JSON
                     'searchForm': form.toHTML(bootstrapField),
-                    'allMedia': allMedia,
-                    'allTags': allTags
+                    'allBedSize': allBedSize,
+                    'allWoodColours': allWoodColours
                 })
             },
         'error': async (form) => {
@@ -91,7 +91,7 @@ router.get('/', async (req, res) => {
 
             // execute the query
             let products = await q.fetch({
-                'withRelated':['mediaProperty', 'tags']
+                'withRelated':['bedSize', 'woodColours']
             });
             res.render('products/search', {
                 'products': products.toJSON(), // convert the results to JSON
@@ -121,13 +121,14 @@ router.get('/allproducts', async (req, res) => {
 
 router.get('/create', checkIfAuthenticated, async (req, res) => {
 
-    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
-        return [media_properties.get('id'), media_properties.get('name')];
-    })
+    const allBedSize = await dataLayer.getAllBedSize();
+    const allBedOrientation = await dataLayer.getAllBedOrientation();
+    const allMattressType = await dataLayer.getAllMattressType();
+    const allFrameColours = await dataLayer.getAllFrameColours();
+    const allWoodColours = await dataLayer.getAllWoodColours();
 
-    const allTags = await Tag.fetchAll().map(tag => [tag.get('id'), tag.get('name')]);
 
-    const productForm = createProductForm(allMedia, allTags);
+    const productForm = createProductForm(allBedSize,allBedOrientation, allMattressType, allFrameColours,allWoodColours);
     res.render('products/create', {
         form: productForm.toHTML(bootstrapField),
         cloudinaryName: process.env.CLOUDINARY_NAME,
