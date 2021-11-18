@@ -16,12 +16,12 @@ async function getAllProducts() {
     return products;
 }
 
-async function getProductById(bedId) {
+async function getProductById(productId) {
     let beds = await ProductTable.where({
-        'id': bedId
+        'id': productId
     }).fetch({
         'require': true,
-        withRelated:['woodColours']
+        withRelated:['bedSize', 'bedOrientation','mattressType','frameColour', 'woodColour' ]
     });
     return beds;
 }

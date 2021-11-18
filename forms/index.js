@@ -68,7 +68,8 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
             'validators': [validators.integer(), validators.min(0)]
         }),
 
-        'date of creation': fields.date({
+        'date': fields.date({
+            label: 'date of creation',
             required: true,
             errorAfterField: true,
             cssClasses: {
@@ -123,7 +124,8 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
             choices: frame_colours
         }),
 
-        'Wood panel colours': fields.string({
+        'woodColour': fields.string({
+            label: 'Wood Panel Colours',
             required: true,
             errorAfterField: true,
             cssClasses: {
@@ -193,94 +195,103 @@ const createLoginForm = () => {
     })
 }
 
-const createSearchForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours) => {
+const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_colours, wood_colours,width = "w-full") => {
     return forms.create({
         'name': fields.string({
             required: false,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
-                label: ['form-label']
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
             }
         }),
-        'costa ': fields.string({
-            label: 'Cost between $50 and $100',
+
+        cost_min: fields.number({
+            label: "Minimum cost",
             required: false,
+            widget: widgets.text({ classes: [width] }),
+            validators: [validators.integer("Minimum cost must be an integer!"),validators.min(0)],
             errorAfterField: true,
             cssClasses: {
-                label: ['form-label']
+              label: ["text-gray-600 ms-2 mt-3 text-lg"],
             },
-            'validators': [validators.integer()]
-            
+          }),
 
-        }),
-
-        'costb': fields.string({
-            label: 'Enter cost less than $200',
+        'bed_size_id ': fields.string({
+            label: 'Bed Sizes',
             required: false,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
-                label: ['form-label']
-            },
-            'validators': [validators.integer()]
-            
-
-        }),
-
-        'min_width': fields.string({
-            required: false,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
-            },
-            'validators': [validators.integer()]
-        }),
-
-        'max_width': fields.string({
-            required: false,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
-            },
-            'validators': [validators.integer()]
-        }),
-
-        'min_height': fields.string({
-            required: false,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
-            },
-            'validators': [validators.integer()]
-        }),
-
-        'max_height': fields.string({
-            required: false,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
-            },
-            'validators': [validators.integer()]
-        }),
-
-        'mediaProperty_id': fields.string({
-            label: 'Media Property',
-            required: true,
-            errorAfterField: true,
-            cssClasses: {
-                label: ['form-label']
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
             },
             widget: widgets.select(),
-            choices: media_properties
+            choices: bed_sizes
+            
+
         }),
 
-        'tags': fields.string({
+        'bed_orientation_id': fields.string({
+            label: 'Bed Orientation',
+            required: true,
+            widget: widgets.text({ classes: [width] }),
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: bed_orientations
+        }),
+
+        'mattress_type_id': fields.string({
+            label: 'Mattress Type',
             required: true,
             errorAfterField: true,
             cssClasses: {
-                label: ['form-label']
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: mattress_types
+        }),
+
+
+        'frame_colour_id': fields.string({
+            label: 'Bed Frame Colour',
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: frame_colours
+        }),
+
+        // 'min_height': fields.string({
+        //     required: false,
+        //     errorAfterField: true,
+        //     cssClasses: {
+        //         label: ['form-label']
+        //     },
+        //     'validators': [validators.integer()]
+        // }),
+
+        // 'max_height': fields.string({
+        //     required: false,
+        //     errorAfterField: true,
+        //     cssClasses: {
+        //         label: ['form-label']
+        //     },
+        //     'validators': [validators.integer()]
+        // }),
+
+        'Wood panel colours': fields.string({
+            required: true,
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
             },
             widget: widgets.multipleSelect(),
-            choices: tags
+            choices: wood_colours
         }),
 
 
