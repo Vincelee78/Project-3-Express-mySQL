@@ -249,42 +249,44 @@ router.get('/update/:product_id', async (req, res) => {
 })
 
 router.post('/update/:id', async (req, res) => {
-    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
-        return [media_properties.get('id'), media_properties.get('name')];
-    })
-    let productId = req.params.id;
-    const poster = await ProductTable.where({
-        id: productId
-    }).fetch({
-        require: true,
-        withRelated: ['tags'],
-    });
+    const allBedSize = await dataLayer.getAllBedSize();
 
-    const productForm = createProductForm(allMedia);
+    const allBedOrientation= await dataLayer.getAllBedOrientation();
+
+    const allMattressType= await dataLayer.getAllMattressType();
+
+    const allFrameColour=await dataLayer.getAllFrameColours();
+
+    const allWoodColours = await dataLayer.getAllWoodColours();
+
+    let productId = req.params.id;
+    const poster = await dataLayer.getProductById(productId);
+
+    const productForm = createProductForm(allBedSize, allMattressType, allBedOrientation, allFrameColour, allWoodColours);
     productForm.handle(req, {
         'success': async (form) => {
-            let { tags, ...Posterdata } = (form.data);
+            let { woodColour, ...Posterdata } = (form.data);
             poster.set(Posterdata);
             poster.save();
             // update the tags
 
-            let tagIds = tags.split(',');
-            let existingTagIds = await poster.related('tags').pluck('id');
+            let tagIds = woodColour.split(',');
+            let existingTagIds = await poster.related('woodColour').pluck('id');
 
             // remove all the tags that aren't selected anymore
             let toRemove = existingTagIds.filter(id => tagIds.includes(id) === false);
-            await poster.tags().detach(toRemove);
+            await poster.woodColour().detach(toRemove);
 
             // add in all the tags selected in the form
-            await poster.tags().attach(tagIds);
-            req.flash('success_messages', `Poster ${poster.get("title")} has been updated`)
+            await poster.woodColour().attach(tagIds);
+            req.flash('success_messages', `Poster ${poster.get("name")} has been updated`)
             res.redirect('/allproducts');
         },
 
         error: async (form) => {
             res.render('products/update', {
                 form: form.toHTML(bootstrapField),
-                product: product.toJSON()
+                poster: poster.toJSON()
             })
         }
     })
