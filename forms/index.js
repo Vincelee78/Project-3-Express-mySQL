@@ -237,7 +237,7 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
             },
           }),
 
-        'bed_size_id ': fields.string({
+        'bed_size_id': fields.string({
             label: 'Bed Sizes',
             required: false,
             widget: widgets.text({ classes: [width] }),
