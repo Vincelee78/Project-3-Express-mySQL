@@ -1,7 +1,8 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<h1>Create New Wall Bed</h1>
+<b><p class="text-white bg-green-400 active:bg-green-700 px-2 rounded-3">Add New Wall Bed</p></b>
+<br/>
 <form method="POST">
     <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}

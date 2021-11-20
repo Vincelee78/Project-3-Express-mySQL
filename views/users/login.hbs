@@ -1,15 +1,18 @@
-{{#extends 'base'}}
+{{#extends "base"}}
 
-{{#block 'content'}}
-<h1>Login</h1>
-<p>Please login with your account below!</p>
-
-<form method="POST">
-    <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
-{{{form}}}
-<input type="submit" class="btn btn-primary" value="Login"/>
-</form>
-
-{{/block}}
+  {{#block "content"}}
+   
+    <form action="/users/login" method="post">
+      <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+      {{{form}}}
+      <div class="grid grid-cols-6 gap-4">
+      
+        <button
+          type="submit"
+          class="col-start-4 p-3 m-3 text-sm bg-green-400 rounded-full text-white hover:text-black hover:bg-green-200"
+        >Login</button>
+      </div>
+    </form>
+  {{/block}}
 
 {{/extends}}

@@ -2,21 +2,21 @@
 
 {{#block 'content'}}
 <h1>My shopping cart</h1>
-<a href="/checkout" class="btn btn-primary btn-lg">Checkout</a>
+<a href="/checkout" class="btn btn-primary btn-sm my-3">Checkout</a>
 
 <ul class="list-group">
     
     {{#each cartItems}} 
     <div class="card my-3">
         <div class="card-body">
-            <h3 class="card-title">{{this.posters.title}}</h3> 
+            <h3 class="card-title">{{this.wallBeds.name}}</h3> 
             <div>
                 <div>                  
                     <form method="POST" action="/cart/{{this.product_id}}/quantity/update"> 
                         <input type="hidden" name="_csrf" value="{{../this.csrfToken}}"/>
                         <label>  Quantity: </label>
                         <input type="text" name="newQuantity" value="{{this.quantity}}" style="width:50px"/>
-                        <input type="submit" class="btn btn-primary btn-sm" value="Update"/>
+                        <input type="submit" class="btn btn-success btn-sm" value="Update"/>
                     </form>
                 </div>
                 <div>

@@ -7,8 +7,7 @@ const flash = require('connect-flash');
 const FileStore = require('session-file-store')(session);
 const csrf = require('csurf');
 const cors = require('cors');
-
-
+const path = require('path');
 
 let app = express();
 
@@ -29,7 +28,7 @@ app.use(function(req,res,next){
 
 app.set("view engine", "hbs");
 
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public"));
 
 app.use(cors());
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "build:css": "postcss ./public/css/tailwind.css -o ./public/css/styles.css && echo '\\033[1;92m>> tailwind css build completed!'",
+    "build:css": "postcss ./public/styles/tailwind.css -o ./public/styles/index.css && echo '\\033[1;92m>> tailwind css build completed!'",
     "start-dev": "nodemon index.js",
     "watch": "chokidar './views/**/**/**/**/**' './forms/**/**/**/**/**' -c \"npm run build:css\"",
     "dev": "concurrently \"npm run build:css\" \"npm run watch\" \"npm run start-dev\""
@@ -38,6 +38,7 @@
     "knex": "^0.95.12",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.14",
+    "path": "^0.12.7",
     "session-file-store": "^1.5.0",
     "stripe": "^8.188.0",
     "wax-on": "^1.2.2"

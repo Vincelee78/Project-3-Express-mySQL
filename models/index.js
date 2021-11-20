@@ -63,7 +63,7 @@ const User = bookshelf.model('User',{
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
     wallBed() {
-        return this.belongsTo('WallBed', 'product_id' )
+        return this.belongsTo('Wallbed', 'product_id' )
     }
 
 })
@@ -75,7 +75,7 @@ const Admin = bookshelf.model('Admin',{
 const AdminLogin = bookshelf.model('AdminLogin', {
     tableName: 'beds_admin',
     wallBed() {
-        return this.belongsTo('WallBed', 'wall_bed_id' )
+        return this.belongsTo('Wallbed', 'wall_bed_id' )
     }
 
 })

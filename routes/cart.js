@@ -6,10 +6,12 @@ const cartServices = require('../services/cart');
 router.get('/', async(req,res)=>{
     let userId = req.session.user.id;
     let cartItems = await cartServices.getShoppingCart(userId);
+    console.log(cartItems.toJSON())
     res.render('cart/index', {
         'cartItems': cartItems.toJSON()
     })
 })
+
 
 router.get('/:product_id/add', async (req,res)=>{
     let userId = req.session.user.id;

@@ -2,90 +2,122 @@
 
 {{#block 'content'}}
 
-<form method="GET">
-   {{{searchForm}}}
-    <input type="submit" class="btn btn-primary btn-sm my-3" value="Search"/>
-</form>
+<b>
+    <p style="font-size: 30px;">Search Wall Beds</p>
+</b>
+<div class="container">
+    <div class="row">
 
-<table class="table">
-    <thead >
-        <tr>
-            <th style="text-align:center" >ID</th>
-            <th style="text-align:center">Name</th>
-            <th style="width: 120px; text-align:center">Weight</th>
-            <th style="text-align:center">Description</th>
-            <th style="width: 100px; text-align:center">Stock</th>
-            <th style="text-align:center">Date</th>
-            <th style="width: 120px ; text-align:center">Bed Size</th>
-            <th style="width: 120px ; text-align:center">Mattress Type</th>
-            <th style="width: 150px">Bed Orientation</th>
-            <th style="text-align:center">Frame Colour</th>
-            <th style="text-align:center">Wood Panel Colours</th>
-            <th style="width: 120px; text-align:center">Cost in cents</th>
-            <th style="text-align:center">Image</th>
-        </tr>
+        <div class="col-sm">
 
-    </thead>
-    <tbody>
-        {{#each products}}
-         <tr >
-            <td style="width: 50px; text-align:center">
-                {{this.id}}
-            </td>
-            <td>
-                {{this.name}}
-            </td>
-            <td style="text-align:center">
-                {{this.weight}}
-            </td>
-            <td>
-                {{this.description}}
-            </td>
-            <td style="text-align:center">
-                {{this.stock}}
-            </td>
-            <td>
-                {{this.date}}
-            </td>
-            <td style="text-align:center">
-                {{this.bedSize.name}}
-            </td>
-            <td style="text-align:center">
-                {{this.mattressType.name}}
-            </td>
-            <td style="text-align:center">
-                {{this.bedOrientation.name}}
-            </td>
-            
-            <td>
-                {{this.frameColour.name}}
-            </td>
-            
-            <td> 
-                {{#each this.woodColour}} 
-                    <span class="badge bg-success">{{this.name}}</span> 
-                {{/each}}
-            </td>
-            <td style="text-align:center">
-                {{this.cost}}
-            </td>
-            <td>
-            <img class="img-fluid" src="{{this.image_url}}"/>
-            </td>
+            <form method="get">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                <h3 class="m-1 mt-3 pl-3 font-serif font-bold">Advanced Filter: </h3>
+                <div class="m-1 pl-3 pr-2 flex">
+                    <button type="submit" class="text-white bg-green-400 active:bg-green-700 px-2 rounded-3">Filter
+                        Wall Beds</button>
+                    <a href="/" class="btn btn-primary bg-yellow-400 active:bg-blue-700 px-2 ml-2 rounded-3">Reset</a>
+                </div>
+                <div class="m-1 pl-3 pr-2 font-light text-sm">Enter filter and click
+                    <b>Filter Wall Beds</b>
+                    to filter. Click
+                    <b>Reset</b>
+                    to reset filters.
+                </div>
 
-            <td>
-                <a href="/update/{{this.id}}" class="btn btn-primary btn-sm">Update</a>
-                <br /><br />
-                <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-        </tr>
+            </form>
 
-        {{/each}}
+            <form method="GET">
+                {{{searchForm}}}
+                <input type="submit" class="btn btn-primary btn-sm my-3" value="Search" />
+            </form>
 
-    </tbody>
-</table>
-<a href="/" class="btn btn-success btn-sm mb-4">Back to Home</a>
+        </div>
 
+        <div class="col-10">
+
+            <table class="table">
+
+                <thead>
+                    <tr class="p-5 mb-4 rounded-3 bg-secondary text-white ">
+                        <th style="text-align:center">ID</th>
+                        <th style="text-align:center">Name</th>
+                        <th style="width: 120px; text-align:center">Weight</th>
+                        <th style="text-align:center">Description</th>
+                        <th style="width: 100px; text-align:center">Stock</th>
+                        <th style="text-align:center">Date</th>
+                        <th style="width: 120px ; text-align:center">Bed Size</th>
+                        <th style="width: 120px ; text-align:center">Mattress Type</th>
+                        <th style="width: 150px">Bed Orientation</th>
+                        <th style="text-align:center">Frame Colour</th>
+                        <th style="text-align:center">Wood Panel Colours</th>
+                        <th style="width: 120px; text-align:center">Cost in cents</th>
+                        <th style="text-align:center">Image</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {{#each products}}
+                    <tr>
+                        <td style="width: 50px; text-align:center">
+                            {{this.id}}
+                        </td>
+                        <td>
+                            {{this.name}}
+                        </td>
+                        <td style="text-align:center">
+                            {{this.weight}}
+                        </td>
+                        <td>
+                            {{this.description}}
+                        </td>
+                        <td style="text-align:center">
+                            {{this.stock}}
+                        </td>
+                        <td>
+                            {{this.date}}
+                        </td>
+                        <td style="text-align:center">
+                            {{this.bedSize.name}}
+                        </td>
+                        <td style="text-align:center">
+                            {{this.mattressType.name}}
+                        </td>
+                        <td style="text-align:center">
+                            {{this.bedOrientation.name}}
+                        </td>
+
+                        <td>
+                            {{this.frameColour.name}}
+                        </td>
+
+                        <td>
+                            {{#each this.woodColour}}
+                            <span class="badge bg-success">{{this.name}}</span>
+                            {{/each}}
+                        </td>
+                        <td style="text-align:center">
+                            {{this.cost}}
+                        </td>
+                        <td>
+                            <img class="img-fluid" src="{{this.image_url}}" />
+                        </td>
+
+                        <td>
+                            <a href="/update/{{this.id}}" class="btn btn-primary btn-sm">Update</a>
+                            <br /><br />
+                            <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+
+                    {{/each}}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
 {{/block}}
 
 {{/extends}}

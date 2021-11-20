@@ -6,7 +6,7 @@ const getShoppingCartForUser = async (userId) => {
             'user_id': userId
         }).fetch({
             require: false,
-            withRelated: ['posters', 'posters.mediaProperty']
+            withRelated: ['wallBed', 'wallBed.woodColour']
         });
 }
 
