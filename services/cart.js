@@ -10,7 +10,7 @@ async function addItemToCart(userId,productId) {
         
         // check if the user has already added the product to the cart
         let cartItem = await cartDataLayer.getCartItemByUserAndPoster(userId, productId);
-        // console.log(cartItem)
+        
         if (cartItem) {
 
             // increase quantity by 1

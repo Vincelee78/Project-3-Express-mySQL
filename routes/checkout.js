@@ -90,7 +90,7 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), funct
             console.log(stripeSession);
             let metadata = JSON.parse(stripeSession.metadata.orders);
             console.log(metadata);
-            // console.log('It works here')
+            
 
             res.send({
                 'received': 'Payment has been received through stripe'

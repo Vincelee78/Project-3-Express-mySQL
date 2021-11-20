@@ -32,10 +32,11 @@ var bootstrapField = function (name, object) {
 //     return date;
 // }
 
-const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours) => {
+const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours,width = "w-8/12") => {
     return forms.create({
         'name': fields.string({
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -44,6 +45,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         'weight': fields.string({
             label: 'Weight in kg',
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -53,6 +55,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
 
         'description': fields.string({
             required: true,
+            widget: widgets.textarea({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -61,6 +64,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
 
         'stock': fields.string({
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -69,8 +73,9 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         }),
 
         'date': fields.date({
-            label: 'date of creation',
+            label: 'Date of creation',
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -83,6 +88,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         'bed_size_id': fields.string({
             label: 'Bed Sizes',
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -94,6 +100,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         'mattress_type_id': fields.string({
             label: 'Mattress Type',
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -105,6 +112,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         'bed_orientation_id': fields.string({
             label: 'Bed Orientation',
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -116,6 +124,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         'frame_colour_id': fields.string({
             label: 'Bed Frame Colour',
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -127,6 +136,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         'woodColour': fields.string({
             label: 'Wood Panel Colours',
             required: true,
+            widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
                 label: ['form-label']
@@ -136,7 +146,8 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         }),
 
         'cost': fields.string({
-            required: false,
+            required: true,
+            widget: widgets.text({ classes: [width] }),
             validators: [validators.integer(), validators.min(0)],
             errorAfterField: true,
             cssClasses: {

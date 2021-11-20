@@ -7,7 +7,7 @@
             <th style="text-align:center" >ID</th>
             <th style="text-align:center">Name</th>
             <th style="width: 120px; text-align:center">Weight</th>
-            <th style="text-align:center">Description</th>
+            <th style="width: 300px; text-align:center">Description</th>
             <th style="width: 100px; text-align:center">Stock</th>
             <th style="text-align:center">Date</th>
             <th style="width: 120px ; text-align:center">Bed Size</th>
@@ -33,7 +33,7 @@
             <td style="text-align:center">
                 {{this.weight}}
             </td>
-            <td>
+            <td style="text-align:center">
                 {{this.description}}
             </td>
             <td style="text-align:center">
@@ -58,7 +58,7 @@
             
             <td> 
                 {{#each this.woodColour}} 
-                    <span class="badge bg-secondary">{{this.name}}</span> 
+                    <span class="badge bg-primary">{{this.name}}</span> 
                 {{/each}}
             </td>
             <td style="text-align:center">

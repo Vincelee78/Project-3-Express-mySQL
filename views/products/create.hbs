@@ -3,7 +3,7 @@
 {{#block 'content'}}
 <b><p class="text-white bg-green-400 active:bg-green-700 px-2 rounded-3">Add New Wall Bed</p></b>
 <br/>
-<form method="POST">
+<form method="POST" style='width:800px' class='mx-3'>
     <input type="hidden" name="_csrf" value="{{csrfToken}}"/>
     {{{form}}}
     <div>
@@ -43,7 +43,7 @@ var myWidget = cloudinary.createUploadWidget({
     uploadSignature: generateSignature
   }, (error, result) => {
     if (!error && result && result.event === "success") {
-      console.log('Done! Here is the image info: ', result.info);
+      
       // hide the upload widget 
       document.querySelector('#upload_widget').style.display="none";
 

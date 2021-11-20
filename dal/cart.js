@@ -20,7 +20,7 @@ async function createCartItem(userId, productId, quantity) {
         'quantity': quantity
     });
 
-    // console.log(cartItem.toJSON(), 'hello')
+    
     await cartItem.save();
     return cartItem;
     

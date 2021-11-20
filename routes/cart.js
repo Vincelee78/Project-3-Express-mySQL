@@ -6,7 +6,7 @@ const cartServices = require('../services/cart');
 router.get('/', async(req,res)=>{
     let userId = req.session.user.id;
     let cartItems = await cartServices.getShoppingCart(userId);
-    console.log(cartItems.toJSON())
+    
     res.render('cart/index', {
         'cartItems': cartItems.toJSON()
     })
@@ -36,7 +36,7 @@ router.post('/:product_id/quantity/update', async function(req,res){
                                             req.params.product_id,
                                             req.body.newQuantity
                                             );
-                                            console.log(status)
+                                            
     if (status) {
         req.flash("success_messages", "Product quantity has been updated");
     } else {

@@ -105,7 +105,7 @@ router.get('/', async (req, res) => {
             let products = await q.fetch({
                 'withRelated': ['bedSize', 'bedOrientation', 'mattressType', 'frameColour', 'woodColour']
             });
-            console.log(allBedSize)
+            
             res.render('products/search', {
                 'products': products.toJSON(), // convert the results to JSON
                 'searchForm': form.toHTML(bootstrapField),
