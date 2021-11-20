@@ -287,7 +287,7 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
         }),
 
 
-        'WoodColour': fields.string({
+        'woodColour': fields.string({
             label: 'Wood panel colours',
             required: false,
             errorAfterField: true,

@@ -36,7 +36,7 @@ router.get('/', async (req, res) => {
             let products = await ProductTable.collection().fetch({
                 'withRelated': ['bedSize', 'bedOrientation', 'mattressType', 'frameColour', 'woodColour']
             });
-
+                
             res.render('products/search', {
                 'products': products.toJSON(), // convert the results to JSON
                 'searchForm': form.toHTML(bootstrapField),
@@ -53,10 +53,6 @@ router.get('/', async (req, res) => {
             let name = form.data.name;
             let cost_min = form.data.cost_min;
             let cost_max = form.data.cost_max;
-            // let min_width=form.data.min_width;
-            // let max_width=form.data.max_width;
-            // let min_height=form.data.min_height;
-            // let max_height=form.data.max_height;
             let bedSize = parseInt(form.data.bed_size_id);
             let bedOrientation = parseInt(form.data.bed_orientation_id);
             let mattressType = parseInt(form.data.mattress_type_id);
@@ -100,20 +96,21 @@ router.get('/', async (req, res) => {
             // if tags is not empty
             if (woodColour) {
                 let selectedTags = woodColour.split(',');
-                q.query('join', 'beds_wood_colours', 'wall_beds.id', 'wall_bed_id')
+                q.query('join', 'wall_beds_wood_colours', 'wall_beds.id', 'wall_bed_id')
                     .where('wood_colour_id', 'in', selectedTags);
 
             }
-
+                
             // execute the query
             let products = await q.fetch({
                 'withRelated': ['bedSize', 'bedOrientation', 'mattressType', 'frameColour', 'woodColour']
             });
+            console.log(allBedSize)
             res.render('products/search', {
                 'products': products.toJSON(), // convert the results to JSON
                 'searchForm': form.toHTML(bootstrapField),
                 'allWoodColours': allWoodColours,
-                'allBedsize': allBedSize,
+                'allBedSize': allBedSize,
                 'allBedOrientation': allBedOrientation,
                 'allMattressType': allMattressType,
                 'allFrameColour': allFrameColour,
