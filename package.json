@@ -4,7 +4,11 @@
   "description": "![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "build:css": "postcss ./public/css/tailwind.css -o ./public/css/styles.css && echo '\\033[1;92m>> tailwind css build completed!'",
+    "start-dev": "nodemon index.js",
+    "watch": "chokidar './views/**/**/**/**/**' './forms/**/**/**/**/**' -c \"npm run build:css\"",
+    "dev": "concurrently \"npm run build:css\" \"npm run watch\" \"npm run start-dev\""
   },
   "repository": {
     "type": "git",
@@ -37,5 +41,12 @@
     "session-file-store": "^1.5.0",
     "stripe": "^8.188.0",
     "wax-on": "^1.2.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "chokidar-cli": "^3.0.0",
+    "concurrently": "^6.4.0",
+    "postcss-cli": "^9.0.2",
+    "tailwindcss": "^2.2.19"
   }
 }

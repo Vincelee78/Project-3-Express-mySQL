@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bodyParser = require('body-parser');
+
 
 const cartServices = require('../services/cart')
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
