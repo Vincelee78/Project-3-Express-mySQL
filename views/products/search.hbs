@@ -10,7 +10,7 @@
 
         <div class="col-sm">
 
-            <form method="get">
+            <form method="GET">
                 <input type="hidden" name="_csrf" value="{{csrfToken}}" />
                 <h3 class="m-1 mt-3 pl-3 font-serif font-bold">Advanced Filter: </h3>
                 <div class="m-1 pl-3 pr-2 flex">
@@ -25,10 +25,8 @@
                     to reset filters.
                 </div>
 
-            </form>
-
-            <form method="GET">
                 {{{searchForm}}}
+
                 <input type="submit" class="btn btn-primary btn-sm my-3" value="Search" />
             </form>
 

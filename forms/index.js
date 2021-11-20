@@ -215,11 +215,22 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
             }
         }),
 
-        cost_min: fields.number({
+        'cost_min': fields.number({
             label: "Minimum cost",
             required: false,
             widget: widgets.text({ classes: [width] }),
             validators: [validators.integer("Minimum cost must be an integer!"),validators.min(0)],
+            errorAfterField: true,
+            cssClasses: {
+              label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+          }),
+
+          'cost_max': fields.number({
+            label: "Maximum cost",
+            required: false,
+            widget: widgets.text({ classes: [width] }),
+            validators: [validators.integer("Maximum cost must be an integer!"),validators.min(0)],
             errorAfterField: true,
             cssClasses: {
               label: ["text-gray-600 ms-2 mt-3 text-lg"],
@@ -242,7 +253,7 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
 
         'bed_orientation_id': fields.string({
             label: 'Bed Orientation',
-            required: true,
+            required: false,
             widget: widgets.text({ classes: [width] }),
             errorAfterField: true,
             cssClasses: {
@@ -254,7 +265,7 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
 
         'mattress_type_id': fields.string({
             label: 'Mattress Type',
-            required: true,
+            required: false,
             errorAfterField: true,
             cssClasses: {
                 label: ["text-gray-600 ms-2 mt-3 text-lg"],
@@ -266,7 +277,7 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
 
         'frame_colour_id': fields.string({
             label: 'Bed Frame Colour',
-            required: true,
+            required: false,
             errorAfterField: true,
             cssClasses: {
                 label: ["text-gray-600 ms-2 mt-3 text-lg"],
@@ -275,26 +286,10 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
             choices: frame_colours
         }),
 
-        // 'min_height': fields.string({
-        //     required: false,
-        //     errorAfterField: true,
-        //     cssClasses: {
-        //         label: ['form-label']
-        //     },
-        //     'validators': [validators.integer()]
-        // }),
 
-        // 'max_height': fields.string({
-        //     required: false,
-        //     errorAfterField: true,
-        //     cssClasses: {
-        //         label: ['form-label']
-        //     },
-        //     'validators': [validators.integer()]
-        // }),
-
-        'Wood panel colours': fields.string({
-            required: true,
+        'WoodColour': fields.string({
+            label: 'Wood panel colours',
+            required: false,
             errorAfterField: true,
             cssClasses: {
                 label: ["text-gray-600 ms-2 mt-3 text-lg"],
