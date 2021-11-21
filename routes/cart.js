@@ -8,10 +8,21 @@ router.get('/', async(req,res)=>{
     let cartItems = await cartServices.getShoppingCart(userId);
     
     res.render('cart/index', {
-        'cartItems': cartItems.toJSON()
+        'cartItems': cartItems.toJSON().map((item) => {
+            return {
+              ...item,
+              costInDollars: (item.wallBed.cost * item.quantity) / 100,
+            };
+          }),
+          'numberOfItems': cartItems.length,
+          'totalCost':
+            (cartItems.toJSON().reduce((acc, item) => {
+            //   consoleLog.info(item.quantity);
+              return acc + item.wallBed.cost * item.quantity;
+            }),
+            0),
+        });
     })
-})
-
 
 router.get('/:product_id/add', async (req,res)=>{
     let userId = req.session.user.id;

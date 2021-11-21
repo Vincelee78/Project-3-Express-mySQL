@@ -14,21 +14,21 @@ router.get('/', async (req, res) => {
     let metadata = [];
     for (let item of cartItems) {
         const lineItem = {
-            'name': item.related('posters').get('title'),
+            'name': item.related('wallBed').get('name'),
             // amount is in cents
-            'amount': item.related('posters').get('cost'),
+            'amount': item.related('wallBed').get('cost'),
             'quantity': item.get('quantity'),
             'currency': 'SGD'
         }
-        if (item.related('posters').get('image')) {
-            lineItem['images'] = [item.related('posters').get('image_url')]
+        if (item.related('wallBed').get('image')) {
+            lineItem['images'] = [item.related('wallBed').get('image_url')]
         }
         allLineItems.push(lineItem);
 
         // add to the metadata an object that remembers for a given product id
         // how many was ordered
         metadata.push({
-            'product_id': item.related('posters').get('id'),
+            'product_id': item.related('wallBed').get('id'),
             'quantity': item.get('quantity')
         })
 

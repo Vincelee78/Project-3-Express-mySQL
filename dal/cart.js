@@ -6,7 +6,7 @@ const getShoppingCartForUser = async (userId) => {
             'user_id': userId
         }).fetch({
             require: false,
-            withRelated: ['wallBed', 'wallBed.woodColour']
+            withRelated: ['wallBed', 'wallBed.woodColour','wallBed.bedSize','wallBed.bedOrientation','wallBed.frameColour','wallBed.mattressType']
         });
 }
 

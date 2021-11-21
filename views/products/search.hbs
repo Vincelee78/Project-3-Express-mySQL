@@ -2,13 +2,14 @@
 
 {{#block 'content'}}
 
-<b>
-    <p style="font-size: 30px;">Search Wall Beds</p>
-</b>
+
 <div class="container">
     <div class="row">
 
         <div class="col-sm">
+            <b>
+                <p style="font-size: 20px;">Search Wall Beds</p>
+            </b>
 
             <form method="GET">
                 <input type="hidden" name="_csrf" value="{{csrfToken}}" />
@@ -34,29 +35,30 @@
 
         <div class="col-10">
 
-            <table class="table">
+            <table class="w-full sm:bg-white rounded-lg overflow-hidden sm:shadow-lg">
 
-                <thead>
-                    <tr class="p-5 mb-4 rounded-3 bg-secondary text-white ">
+                <thead >
+                    <tr class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
                         <th style="text-align:center">ID</th>
-                        <th style="text-align:center">Name</th>
-                        <th style="width: 120px; text-align:center">Weight</th>
-                        <th style="text-align:center">Description</th>
+                        <th style="width: 150px; text-align:center">Name</th>
+                        <th style="text-align:center">Weight</th>
+                        <th style="width: 120px; text-align:center">Description</th>
                         <th style="width: 100px; text-align:center">Stock</th>
                         <th style="text-align:center">Date</th>
-                        <th style="width: 120px ; text-align:center">Bed Size</th>
+                        <th style="width: 100px ; text-align:center">Bed Size</th>
                         <th style="width: 120px ; text-align:center">Mattress Type</th>
                         <th style="width: 150px">Bed Orientation</th>
                         <th style="text-align:center">Frame Colour</th>
                         <th style="text-align:center">Wood Panel Colours</th>
-                        <th style="width: 120px; text-align:center">Cost in cents</th>
-                        <th style="text-align:center">Image</th>
-                    </tr>
+                        <th style="width: 120px; text-align:center">Cost in dollars</th>
+                        <th style="width: 300px; text-align:center">Image</th>
+                        <th></th>
+                    </tr >
 
                 </thead>
                 <tbody>
                     {{#each products}}
-                    <tr>
+                    <tr >
                         <td style="width: 50px; text-align:center">
                             {{this.id}}
                         </td>
@@ -89,7 +91,7 @@
                             {{this.frameColour.name}}
                         </td>
 
-                        <td>
+                        <td style="text-align:center">
                             {{#each this.woodColour}}
                             <span class="badge bg-success">{{this.name}}</span>
                             {{/each}}
@@ -98,7 +100,7 @@
                             {{this.cost}}
                         </td>
                         <td>
-                            <img class="img-fluid" src="{{this.image_url}}" />
+                            <img class="img-fluid p-2" src="{{this.image_url}}" />
                         </td>
 
                         <td>

@@ -4,6 +4,7 @@ const { ProductTable, BedSize, BedOrientation, MattressType, FrameColour, WoodCo
 const { bootstrapField, createProductForm, createSearchForm } = require('../forms');
 // import in the CheckIfAuthenticated middleware
 const { checkIfAuthenticated } = require('../middleware');
+var formatDate = require("date-fns/intlFormat");
 const dataLayer = require('../dal/products')
 
 
@@ -33,12 +34,23 @@ router.get('/', async (req, res) => {
     searchForm.handle(req, {
         'empty': async (form) => {
             // the model represents the entire table
-            let products = await ProductTable.collection().fetch({
-                'withRelated': ['bedSize', 'bedOrientation', 'mattressType', 'frameColour', 'woodColour']
-            });
+            let products = await dataLayer.getAllProducts();
+
+            var productArr = products.toJSON().map((wallBed) => {
+                return {
+                  ...wallBed,
+                  date: formatDate(wallBed.date, {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }),
+                  cost: wallBed.cost/100
+                };
+              });
                 
             res.render('products/search', {
-                'products': products.toJSON(), // convert the results to JSON
+                'products': productArr,
                 'searchForm': form.toHTML(bootstrapField),
                 'allBedSize': allBedSize,
                 'allBedOrientation': allBedOrientation,
@@ -127,11 +139,24 @@ router.get('/allproducts', async (req, res) => {
 
 
 
-    let productsvar = await dataLayer.getAllProducts();
+    let products = await dataLayer.getAllProducts();
+
+    var productArr = products.toJSON().map((wallBed) => {
+        return {
+          ...wallBed,
+          date: formatDate(wallBed.date, {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+          cost: wallBed.cost/100,
+        };
+      });
 
 
     res.render('products/index', {
-        products4: productsvar.toJSON(), // #3 - convert collection to JSON
+        products: productArr
 
     })
 })
@@ -179,24 +204,24 @@ router.post('/create', checkIfAuthenticated, async (req, res) => {
         success: async (form) => {
             let { woodColour, ...productData } = form.data;
 
-            const poster = new ProductTable(productData);
+            const wallBed = new ProductTable(productData);
 
 
-            poster.set('name', form.data.name);
-            poster.set('weight', form.data.weight);
-            poster.set('description', form.data.description);
-            poster.set('stock', form.data.stock);
-            poster.set('date', form.data.date);
-            poster.set('bed_size_id', form.data.bed_size_id);
-            poster.set('mattress_type_id', form.data.mattress_type_id);
-            poster.set('bed_orientation_id', form.data.bed_orientation_id);
-            poster.set('frame_colour_id', form.data.frame_colour_id);
-            await poster.save();
+            wallBed.set('name', form.data.name);
+            wallBed.set('weight', form.data.weight);
+            wallBed.set('description', form.data.description);
+            wallBed.set('stock', form.data.stock);
+            wallBed.set('date', form.data.date);
+            wallBed.set('bed_size_id', form.data.bed_size_id);
+            wallBed.set('mattress_type_id', form.data.mattress_type_id);
+            wallBed.set('bed_orientation_id', form.data.bed_orientation_id);
+            wallBed.set('frame_colour_id', form.data.frame_colour_id);
+            await wallBed.save();
 
             if (woodColour) {
-                await poster.woodColour().attach(woodColour.split(","));
+                await wallBed.woodColour().attach(woodColour.split(","));
             }
-            req.flash('success_messages', `New Wall Bed ${poster.get("name")} has been created`)
+            req.flash('success_messages', `New Wall Bed ${wallBed.get("name")} has been created`)
             res.redirect('/allproducts');
 
         },
@@ -233,11 +258,12 @@ router.get('/update/:product_id', async (req, res) => {
     productForm.fields.weight.value = wallBed.get('weight');
     productForm.fields.description.value = wallBed.get('description');
     productForm.fields.stock.value = wallBed.get('stock');
+    productForm.fields.date.value = wallBed.get('date');
     productForm.fields.bed_size_id.value = wallBed.get('bed_size_id');
     productForm.fields.mattress_type_id.value = wallBed.get('mattress_type_id');
     productForm.fields.bed_orientation_id.value = wallBed.get('bed_orientation_id');
     productForm.fields.frame_colour_id.value = wallBed.get('frame_colour_id');
-    // productForm.fields.cost.value = wallBed.get('cost');
+    productForm.fields.cost.value = wallBed.get('cost');
     // 1 - set the image url in the product form
     productForm.fields.image_url.value = wallBed.get('image_url');
 
@@ -266,33 +292,33 @@ router.post('/update/:id', async (req, res) => {
     const allWoodColours = await dataLayer.getAllWoodColours();
 
     let productId = req.params.id;
-    const poster = await dataLayer.getProductById(productId);
+    const wallBed = await dataLayer.getProductById(productId);
 
     const productForm = createProductForm(allBedSize, allMattressType, allBedOrientation, allFrameColour, allWoodColours);
     productForm.handle(req, {
         'success': async (form) => {
             let { woodColour, ...Posterdata } = (form.data);
-            poster.set(Posterdata);
-            poster.save();
+            wallBed.set(Posterdata);
+            wallBed.save();
             // update the tags
 
-            let tagIds = woodColour.split(',');
-            let existingTagIds = await poster.related('woodColour').pluck('id');
+            let woodColourId = woodColour.split(',');
+            let exisitingWoodColourId = await wallBed.related('woodColour').pluck('id');
 
             // remove all the tags that aren't selected anymore
-            let toRemove = existingTagIds.filter(id => tagIds.includes(id) === false);
-            await poster.woodColour().detach(toRemove);
+            let toRemove = exisitingWoodColourId.filter(id => woodColourId.includes(id) === false);
+            await wallBed.woodColour().detach(toRemove);
 
             // add in all the tags selected in the form
-            await poster.woodColour().attach(tagIds);
-            req.flash('success_messages', `Poster ${poster.get("name")} has been updated`)
+            await wallBed.woodColour().attach(woodColourId);
+            req.flash('success_messages', `Poster ${wallBed.get("name")} has been updated`)
             res.redirect('/allproducts');
         },
 
         error: async (form) => {
             res.render('products/update', {
                 form: form.toHTML(bootstrapField),
-                poster: poster.toJSON()
+                wallBed: wallBed.toJSON()
             })
         }
     })
@@ -319,12 +345,13 @@ router.post('/delete/:id', async (req, res) => {
     }).fetch({
         require: true
     });
-    const allMedia = await MediaProperty.fetchAll().map((media_properties) => {
-        return [media_properties.get('id'), media_properties.get('name')];
-    })
+    const allBedSize = await dataLayer.getAllBedSize();
+    const allBedOrientation = await dataLayer.getAllBedOrientation();
+    const allMattressType = await dataLayer.getAllMattressType();
+    const allFrameColours = await dataLayer.getAllFrameColours();
 
-    await product.destroy(allMedia);
-    req.flash('success_messages', `Poster ${product.get("title")} has been deleted`)
+    await product.destroy(allBedSize,allBedOrientation,allMattressType,allFrameColours);
+    req.flash('success_messages', `Wall Bed ${product.get("name")} has been deleted`)
     res.redirect('/allproducts');
 })
 
