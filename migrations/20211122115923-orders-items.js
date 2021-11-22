@@ -15,14 +15,14 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable('beds_admin', {
+  return db.createTable('orders_items', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
     wall_bed_id: {
       type: 'int',
       notNull: true,
       unsigned: true,
       foreignKey: {
-        name: 'beds_admin_fk',
+        name: 'bed_orders_fk',
         table: 'wall_beds',
         rules: {
           onDelete: 'CASCADE',
@@ -31,20 +31,46 @@ exports.up = function(db) {
         mapping: 'id'
       }
     },
-    admin_id: {
+    quantity: {
+      type: 'int',
+      notNull: true,
+      unsigned:true,
+    },
+    cost: {
+      type: 'int',
+      notNull: true,
+      unsigned:true,
+    },
+
+    order_id: {
       type: 'int',
       notNull: true,
       unsigned:true,
       foreignKey: {
-          name: 'admin_beds_fk',
-          table: 'admin',
+          name: 'orders_beds_fk',
+          table: 'orders',
           rules: {
               onDelete: 'CASCADE',
               onUpdate: 'RESTRICT'
           },
           mapping: 'id'
         }
-      }
+      },
+      wood_colour_id: {
+        type: 'int',
+        notNull: true,
+        unsigned:true,
+        foreignKey: {
+            name: 'woodcolours_orders_beds_fk',
+            table: 'wood_colours',
+            rules: {
+                onDelete: 'CASCADE',
+                onUpdate: 'RESTRICT'
+            },
+            mapping: 'id'
+          }
+        }
+
   })
 }
 

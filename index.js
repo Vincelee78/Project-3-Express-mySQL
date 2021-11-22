@@ -11,13 +11,36 @@ const path = require('path');
 
 let app = express();
 
+app.set("view engine", "hbs");
+
+app.use(express.static("/public"));
+
+app.use(cors());
+
+app.use(session({
+  store: new FileStore(),
+  secret: process.env.SESSION_SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+})
+)
+
+wax.on(hbs.handlebars);
+wax.setLayoutPath("./views/layouts");
+
+app.use(
+  express.urlencoded({
+    extended: true
+  })
+);
+
 // use the csurf middleware
 // app.use(csrf());
 const csrfInstance = csrf();
 app.use(function(req,res,next){
 
   if (req.url == "/checkout/process_payment" ||
-     req.url.slice(0,5) == '/api/' ) {
+     req.url.includes('/api/')) {
     // don't perform csrf checks
     next();
   } else {
@@ -26,20 +49,32 @@ app.use(function(req,res,next){
   }
 })
 
-app.set("view engine", "hbs");
+// Share CSRF with hbs files
+app.use(function (req, res, next) {
+  if (req.csrfToken) {
+    res.locals.csrfToken = req.csrfToken();
+  }
+  next();
+})
 
-app.use(express.static(__dirname + "/public"));
 
-app.use(cors());
 
-wax.on(hbs.handlebars);
-wax.setLayoutPath("./views/layouts");
+app.use(flash());
 
-app.use(
-  express.urlencoded({
-    extended: false
-  })
-);
+// Register Flash middleware
+app.use(function (req, res, next) {
+  res.locals.success_messages = req.flash("success_messages");
+  res.locals.error_messages = req.flash("error_messages");
+  next();
+});
+
+
+app.use(function (req, res, next) {
+  res.locals.user = req.session.user;
+  // be sure to call the next() function in your middleware
+  next();
+})
+
 
 
 app.use(function (err, req, res, next) {
@@ -55,37 +90,12 @@ app.use(function (err, req, res, next) {
 // Share CSRF with hbs files
 app.use(function (req, res, next) {
   if (req.csrfToken) {
-  res.locals.csrfToken = req.csrfToken;
-  
+    res.locals.csrfToken = req.csrfToken();
   }
   next();
 })
 
 
-
-app.use(session({
-  store: new FileStore(),
-  secret: process.env.SESSION_SECRET_KEY,
-  resave: false,
-  saveUninitialized: true,
-  
-})
-)
-
-app.use(flash());
-
-// Register Flash middleware
-app.use(function (req, res, next) {
-  res.locals.success_messages = req.flash("success_messages");
-  res.locals.error_messages = req.flash("error_messages");
-  next();
-});
-
-app.use(function (req, res, next) {
-  res.locals.user = req.session.user;
-  // be sure to call the next() function in your middleware
-  next();
-})
 
 // landing and products are on the same route
 const landingRoutes = require('./routes/landing')
@@ -104,7 +114,7 @@ async function main() {
   app.use('/', landingRoutes)
   app.use('/', userRegistration)
   app.use('/cloudinary', cloudinaryRoutes);
-  app.use('/cart', cartRoutes)
+  app.use('/cart', express.json(), cartRoutes)
   app.use('/checkout', checkoutRoutes)
   app.use('/api/posters', express.json(), api.posters)
   app.use('/api/users', express.json(), api.loginToken)
@@ -115,6 +125,6 @@ async function main() {
 
 main();
 
-app.listen(5000, () => {
+app.listen(6000, () => {
   console.log("Server has started");
 });

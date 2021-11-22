@@ -146,6 +146,7 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
         }),
 
         'cost': fields.string({
+            label: 'Cost in cents',
             required: true,
             widget: widgets.text({ classes: [width] }),
             validators: [validators.integer(), validators.min(0)],

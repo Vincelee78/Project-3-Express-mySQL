@@ -31,10 +31,13 @@ async function createCartItem(userId, productId, quantity) {
 const getCartItemByUserAndPoster = async (userId, productId) => {
     return await CartItem.where({
         'user_id': userId,
-        'product_id': productId
+        'product_id': productId,
+    
     }).fetch({
         require: false
+        
     });
+    
 }
 
 
@@ -49,10 +52,11 @@ async function removeFromCart(userId, productId) {
 
 async function updateQuantity(userId, productId, newQuantity) {
     let cartItem = await getCartItemByUserAndPoster(userId, productId);
+    
     if (cartItem) {
-        cartItem.set('quantity', newQuantity);
-        cartItem.save();
-        return true;
+        cartItem.set('quantity', newQuantity).save();
+        
+        return cartItem;
     }
     return false;
 }
