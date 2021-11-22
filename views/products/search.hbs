@@ -42,7 +42,7 @@
                         <th style="text-align:center">ID</th>
                         <th style="width: 150px; text-align:center">Name</th>
                         <th style="text-align:center">Weight</th>
-                        <th style="width: 120px; text-align:center">Description</th>
+                        <th style="width: 120px; text-align:center" class="ps-4">Description</th>
                         <th style="width: 100px; text-align:center">Stock</th>
                         <th style="text-align:center">Date</th>
                         <th style="width: 100px ; text-align:center">Bed Size</th>
@@ -66,9 +66,9 @@
                             {{this.name}}
                         </td>
                         <td style="text-align:center">
-                            {{this.weight}}
+                            {{this.weight}}kg
                         </td>
-                        <td>
+                        <td class="ps-4">
                             {{this.description}}
                         </td>
                         <td style="text-align:center">
@@ -97,7 +97,7 @@
                             {{/each}}
                         </td>
                         <td style="text-align:center">
-                            {{this.cost}}
+                            ${{this.cost}}
                         </td>
                         <td>
                             <img class="img-fluid p-2" src="{{this.image_url}}" />
