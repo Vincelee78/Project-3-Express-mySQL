@@ -5,10 +5,20 @@ const { createProductForm } = require('../../forms');
 const { ProductTable } = require('../../models');
 
 
-router.get('/', async (req, res) => {
-    res.json(await productDataLayer.getAllProducts());
+router.get('/', async(req,res)=>{
+    try{
 
+    res.status(200);   
+    res.json(await productDataLayer.getAllProductsApi())
+
+  } catch (e) {
+      res.status(500);
+      res.send({
+          'error': "We have encountered an internal server error"
+      })
+  }
 })
+
 
 router.post('/create', async (req, res) => {
 

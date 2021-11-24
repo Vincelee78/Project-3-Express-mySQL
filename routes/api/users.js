@@ -2,17 +2,17 @@ const express = require('express')
 const router = express.Router();
 const crypto = require('crypto');
 const {checkIfAuthenticatedJWT} = require('../../middleware');
-const { User } = require('../../models/index');
 const jwt = require('jsonwebtoken');
-// const {createRegistrationForm, bootstrapField, createLoginForm}=require('../forms/index');
+const { User, BlacklistedToken } = require('../../models/index');
 
-const generateAccessToken = (user) => {
+
+const generateAccessToken = (user, secretKey, expiry) => {
     return jwt.sign({
-        'username': user.get('username'),
-        'id': user.get('id'),
-        'email': user.get('email')
-    }, process.env.TOKEN_SECRET, {
-        expiresIn: "1h"
+        'username': user.username,
+        'id': user.id,
+        'email': user.email,
+    }, secretKey, {
+        expiresIn: expiry
     });
 }
 
@@ -50,53 +50,53 @@ router.post('/register', (req, res) => {
     })
 })
 
-router.get('/users/login', (req,res)=>{
-    const loginForm=createLoginForm();
-    res.send({
-        form: loginForm.toHTML(bootstrapField)
-    })
-})
+// router.get('/users/login', (req,res)=>{
+//     const loginForm=createLoginForm();
+//     res.send({
+//         form: loginForm.toHTML(bootstrapField)
+//     })
+// })
 
-router.post('/users/login', async (req, res) => {
-    const loginForm = createLoginForm();
-    loginForm.handle(req, {
-        'success': async (form) => {
-            // process the login
+// router.post('/users/login', async (req, res) => {
+//     const loginForm = createLoginForm();
+//     loginForm.handle(req, {
+//         'success': async (form) => {
+//             // process the login
 
-            // ...find the user by email
-            let user = await User.where({
-                'email': form.data.email
-            }).fetch({
-               require:false}
-            );
-            if (!user) {
-                req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
-                res.redirect('/users/login')
-            } else {
-                    // check if the password matches
-                    if (user.get('password') == getHashedPassword(form.data.password)) {
-                        // add to the session that login succeed
-                        // store the user details
-                    req.session.user = {
-                        id: user.get('id'),
-                        username: user.get('username'),
-                        email: user.get('email')
-                    }
-                    req.flash("success_messages", "Welcome back, " + user.get('username'));
-                    res.redirect('/users/profile');
-                } else {
-                    req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
-                    res.redirect('/users/login')
-                }
-            }
-        }, 'error': (form) => {
-            req.flash("error_messages", "There are some problems logging you in. Please fill in the form again")
-            res.send({
-                'form': form.toHTML(bootstrapField)
-            })
-        }
-    })
-})
+//             // ...find the user by email
+//             let user = await User.where({
+//                 'email': form.data.email
+//             }).fetch({
+//                require:false}
+//             );
+//             if (!user) {
+//                 req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
+//                 res.redirect('/users/login')
+//             } else {
+//                     // check if the password matches
+//                     if (user.get('password') == getHashedPassword(form.data.password)) {
+//                         // add to the session that login succeed
+//                         // store the user details
+//                     req.session.user = {
+//                         id: user.get('id'),
+//                         username: user.get('username'),
+//                         email: user.get('email')
+//                     }
+//                     req.flash("success_messages", "Welcome back, " + user.get('username'));
+//                     res.redirect('/users/profile');
+//                 } else {
+//                     req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
+//                     res.redirect('/users/login')
+//                 }
+//             }
+//         }, 'error': (form) => {
+//             req.flash("error_messages", "There are some problems logging you in. Please fill in the form again")
+//             res.send({
+//                 'form': form.toHTML(bootstrapField)
+//             })
+//         }
+//     })
+// })
 
 router.post("/login", async (req, res) => {
     
@@ -108,10 +108,13 @@ router.post("/login", async (req, res) => {
     });
     
     if (user && user.get('password') == getHashedPassword(req.body.password)) {
-        let accessToken = generateAccessToken(user);
+        
+        let accessToken = generateAccessToken(user.toJSON() , process.env.TOKEN_SECRET, '15m');
+        let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, '2w');
         res.send({
-            accessToken
+            accessToken, refreshToken
         })
+
     } else {
         res.send({
             'error':'Wrong email or password'
@@ -119,23 +122,22 @@ router.post("/login", async (req, res) => {
     }
 })
 
-router.get('/users/profile', (req, res) => {
-    const user = req.session.user;
-    if (user==null) {
-        req.flash('error_messages', 'You do not have permission to view this page');
-        res.redirect('/users/login');
-    } else {
-        res.render({
-            'user': req.user
-        })
-    }
+// router.get('/users/profile', (req, res) => {
+//     const user = req.session.user;
+//     if (user==null) {
+//         req.flash('error_messages', 'You do not have permission to view this page');
+//         res.redirect('/users/login');
+//     } else {
+//         res.render({
+//             'user': req.user
+//         })
+//     }
 
-})
+// })
 
 router.get('/profile', checkIfAuthenticatedJWT, async(req,res)=>{
-    res.json({
-        'user': req.user
-    })
+    const user = req.user;
+    res.json(user);
 })
 
     //   const refreshToken = generateAccessToken(
@@ -155,11 +157,63 @@ router.get('/profile', checkIfAuthenticatedJWT, async(req,res)=>{
 //     }
 //   });
 
-router.get('/users/logout', (req, res) => {
-    req.session.user = null;
-    req.flash('success_messages', "Goodbye");
-    res.redirect('/users/login');
+router.post('/refresh', async function(req,res){
+    let refreshToken = req.body.refreshToken;
+    if (!refreshToken) {
+        res.sendStatus(401);
+    }
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err,user)=>{
+        if (err) {
+            res.sendStatus(403);
+        } else {
+
+            // check if the token has been blacklisted
+            let blacklistedToken = await BlacklistedToken.where({
+                'token': refreshToken
+            }).fetch({
+                'require': false
+            })
+
+            if (blacklistedToken) {
+                res.status(401);
+                res.send({
+                    'error':'This token has been expired'
+                })
+            } else {
+                let accessToken = generateAccessToken(user, process.env.TOKEN_SECRET, '15m');
+                res.json({
+                    accessToken
+                })
+            }
+        }
+    })
 })
+
+router.post('/logout', async function(req,res){
+    let refreshToken = req.body.refreshToken;
+    console.log(refreshToken);
+    if (!refreshToken) {
+        res.sendStatus(401);
+    } else {
+        console.log("Got refresh token");
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async(err,user)=>{
+            console.log(err);
+            if (err) {
+                res.sendStatus(403)
+            } else {
+                console.log("valid refresh token");
+                const token = new BlacklistedToken();
+                token.set('token', refreshToken);
+                token.set('date_created', new Date());
+                await token.save();
+                res.json({
+                    'message':"Logged out"
+                })
+            }
+        })
+    }
+});
+
 
 
 module.exports = router;

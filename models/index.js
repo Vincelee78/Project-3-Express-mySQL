@@ -14,11 +14,19 @@ const ProductTable=bookshelf.model('Wallbed',{
     frameColour() {
         return this.belongsTo( 'FrameColour', 'frame_colour_id')
     },
+    // user(){
+    //     return this.belongsTo( 'User', 'user_id')
+    // },
 
      woodColour() {
         return this.belongsToMany('WoodColour');
      },
-        
+
+     order() {
+        return this.belongsToMany('Order');
+     },
+    
+
     
 });
 
@@ -49,6 +57,16 @@ const FrameColour = bookshelf.model('FrameColour',{
     }
 })
 
+const User = bookshelf.model('User',{
+    tableName: 'users',
+    wallBed() {
+        return this.hasMany('Wallbed')
+    },
+    order(){
+        return this.hasMany('Order')
+    }
+})
+
 const WoodColour = bookshelf.model('WoodColour',{
     tableName: 'wood_colours',
     wallBed() {
@@ -56,8 +74,15 @@ const WoodColour = bookshelf.model('WoodColour',{
     }
 })
 
-const User = bookshelf.model('User',{
-    tableName: 'users'
+
+const Order = bookshelf.model('Order',{
+    tableName: 'orders',
+    wallBed() {
+        return this.belongsToMany('Wallbed')
+    },
+    wallBedUser() {
+        return this.belongsTo('User', 'user_id' )
+    }
 })
 
 const CartItem = bookshelf.model('CartItem', {
@@ -68,6 +93,14 @@ const CartItem = bookshelf.model('CartItem', {
 
 })
 
+// const Order = bookshelf.model('Order', {
+//     tableName: 'orders',
+//     wallBed() {
+//         return this.belongsTo('User', 'user_id' )
+//     }
+
+// })
+
 const Admin = bookshelf.model('Admin',{
     tableName: 'admin'
 })
@@ -77,6 +110,10 @@ const AdminLogin = bookshelf.model('AdminLogin', {
     wallBed() {
         return this.belongsTo('Wallbed', 'wall_bed_id' )
     }
-
 })
-module.exports={ ProductTable, BedSize, BedOrientation, MattressType,FrameColour, WoodColour, User, CartItem, Admin, AdminLogin};
+
+const BlacklistedToken = bookshelf.model('BlacklistedToken',{
+    tableName: 'blacklisted_tokens'
+})
+
+module.exports={ ProductTable, BedSize, BedOrientation, MattressType,FrameColour, WoodColour, User, CartItem, Order, Admin, AdminLogin, BlacklistedToken};

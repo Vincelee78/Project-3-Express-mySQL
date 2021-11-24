@@ -5,9 +5,9 @@ const {
     MattressType,
     FrameColour,
     WoodColour,
+    Order
 } = require('../models')
 
-const {createProductForm}=require('../forms');
 
 async function getAllProducts() {
     let products= await ProductTable.fetchAll({
@@ -97,6 +97,13 @@ async function getAllWoodColours() {
     const allWoodColours = await WoodColour.fetchAll().map(w => [w.get('id'), w.get('name')]);
     return allWoodColours;
 }
+async function getAllOrders(){
+    const allOrders = await Order.fetchAll()
+    return allWoodColours;
+}
+const getAllProductsApi = async () => {
+    return await ProductTable.fetchAll();
+}
 
 module.exports = {
     getProductById,
@@ -106,5 +113,6 @@ module.exports = {
     getAllFrameColours,
     getAllWoodColours,
     getAllProducts,
+    getAllProductsApi,
 
 }
