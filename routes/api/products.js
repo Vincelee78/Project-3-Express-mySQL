@@ -19,6 +19,19 @@ router.get('/', async(req,res)=>{
   }
 })
 
+router.get('/:id', async(req,res)=>{
+    try{
+    res.status(200);   
+    res.json(await productDataLayer.getProductById(req.params.id))
+
+  } catch (e) {
+      res.status(500);
+      res.send({
+          'error': "We have encountered an internal server error"
+      })
+  }
+})
+
 
 router.post('/create', async (req, res) => {
 

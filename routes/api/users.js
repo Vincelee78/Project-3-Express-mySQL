@@ -29,26 +29,33 @@ router.get('/register',(req,res)=>{
     })
 }),
 
-router.post('/register', (req, res) => {
-    const registerForm = createRegistrationForm();
-    registerForm.handle(req, {
-        success: async (form) => {
-            const user = new User({
-                'username': form.data.username,
-                'password': getHashedPassword(form.data.password),
-                'email': form.data.email
+router.post('/register', async (req, res) => {
+    // console.log(req.data)
+    try{
+    let {username, password, email, billing_address, shipping_address, phone}=req.body
+                console.log(req.body)
+                const user = new User({
+                username: username,
+                password: getHashedPassword(password),
+                email: email,
+                billing_address:billing_address,
+                shipping_address:shipping_address,
+                phone:phone,
+                
             });
+            
             await user.save();
-            req.flash("success_messages", "User signed up successfully!");
-            res.redirect('/users/login')
-        },
-        'error': (form) => {
-            res.send({
-                'form': form.toHTML(bootstrapField)
-            })
-        }
+            res.json(user.toJSON())
+       
+    } catch (error) {
+        console.log(error)
+        return({
+          
+          error: "We have encountered an internal server error",
+        });
+      }
     })
-})
+
 
 // router.get('/users/login', (req,res)=>{
 //     const loginForm=createLoginForm();

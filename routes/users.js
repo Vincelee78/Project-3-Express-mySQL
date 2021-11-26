@@ -23,6 +23,7 @@ router.post('/register', (req, res) => {
     const registerForm = createRegistrationForm();
     registerForm.handle(req, {
         success: async (form) => {
+            
             const user = new User({
                 'username': form.data.username,
                 'password': getHashedPassword(form.data.password),
@@ -33,6 +34,7 @@ router.post('/register', (req, res) => {
             res.redirect('/users/login')
         },
         'error': (form) => {
+            req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
             res.render('users/register', {
                 'form': form.toHTML(bootstrapField)
             })

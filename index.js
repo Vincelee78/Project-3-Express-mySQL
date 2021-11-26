@@ -8,6 +8,7 @@ const FileStore = require("session-file-store")(session);
 const csrf = require("csurf");
 const cors = require("cors");
 const path = require("path");
+const morgan = require('morgan')
 
 let app = express();
 
@@ -35,11 +36,12 @@ app.use(
   })
 );
 
+app.use(morgan('dev'))
 // use the csurf middleware
 // app.use(csrf());
 const csrfInstance = csrf();
 app.use(function (req, res, next) {
-  console.log("checking for csrf exclusion");
+  // console.log("checking for csrf exclusion");
   // exclude whatever url we want from CSRF protection
   if (
     req.url == "/checkout/process_payment" ||
@@ -102,7 +104,9 @@ const checkoutRoutes = require("./routes/checkout");
 
 const api = {
   wallBeds: require("./routes/api/products"),
-  loginToken: require("./routes/api/users"),
+  users: require("./routes/api/users"),
+  cart: require("./routes/api/cart"),
+  checkout: require("./routes/api/checkout"),
 };
 
 async function main() {
@@ -112,7 +116,9 @@ async function main() {
   app.use("/cart", express.json(), cartRoutes);
   app.use("/checkout", checkoutRoutes);
   app.use("/api/allproducts", express.json(), api.wallBeds);
-  app.use("/api/users", express.json(), api.loginToken);
+  app.use("/api/users", express.json(), api.users);
+  app.use("/api/cart", express.json(), api.cart);
+  app.use("/api/checkout", express.json(), api.checkout);
 }
 
 main();

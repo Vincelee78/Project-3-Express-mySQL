@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { checkIfAuthenticated } = require('../middleware');
-
-
 const cartServices = require('../services/cart')
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 module.exports = router;
+
 
 router.get('/', async (req, res) => {
     // 1. create line items from the user's shopping cart
@@ -109,53 +108,3 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), funct
 
 })
 
-
-router.post('/orders', checkIfAuthenticated, async (req, res) => {
-
-    
-    const allBedSize = await dataLayer.getAllBedSize();
-
-    const allBedOrientation = await dataLayer.getAllBedOrientation();
-
-    const allMattressType = await dataLayer.getAllMattressType();
-
-    const allFrameColour = await dataLayer.getAllFrameColours();
-
-    const allWoodColours = await dataLayer.getAllWoodColours();
-
-    const productForm = createProductForm(allBedSize, allMattressType, allBedOrientation, allFrameColour, allWoodColours);
-    productForm.handle(req, {
-        success: async (form) => {
-            let { woodColour, ...productData } = form.data;
-
-            const orders = new ProductTable(productData);
-
-
-            wallBed.set('name', form.data.name);
-            wallBed.set('weight', form.data.weight);
-            wallBed.set('description', form.data.description);
-            wallBed.set('stock', form.data.stock);
-            wallBed.set('date', form.data.date);
-            wallBed.set('bed_size_id', form.data.bed_size_id);
-            wallBed.set('mattress_type_id', form.data.mattress_type_id);
-            wallBed.set('bed_orientation_id', form.data.bed_orientation_id);
-            wallBed.set('frame_colour_id', form.data.frame_colour_id);
-            await wallBed.save();
-
-            if (woodColour) {
-                await wallBed.woodColour().attach(woodColour.split(","));
-            }
-            req.flash('success_messages', `New Wall Bed ${wallBed.get("name")} has been created`)
-            res.redirect('/allproducts');
-
-        },
-        'error': async (form) => {
-            res.render('products/create', {
-                form: form.toHTML(bootstrapField),
-                cloudinaryName: process.env.CLOUDINARY_NAME,
-                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
-            })
-        }
-    })
-})

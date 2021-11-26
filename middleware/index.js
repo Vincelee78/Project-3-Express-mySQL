@@ -13,6 +13,7 @@ const checkIfAuthenticated = (req, res, next) => {
 
 const checkIfAuthenticatedJWT = (req,res,next) => {
     // try to get authorization headers
+    // console.log('user')
     const authHeader = req.headers.authorization;
     if (authHeader) {
         // the authHeader will be a string that is like
@@ -23,6 +24,7 @@ const checkIfAuthenticatedJWT = (req,res,next) => {
                 res.sendStatus(403);
             } else {
                 // store the current logged in user inside req.user
+                
                 req.user = user;
                 next();
             }

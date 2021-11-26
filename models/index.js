@@ -26,7 +26,9 @@ const ProductTable=bookshelf.model('Wallbed',{
         return this.belongsToMany('Order');
      },
     
-
+     orderItem(){
+         return this.belongsToMany('OrderItem')
+     }
     
 });
 
@@ -74,6 +76,13 @@ const WoodColour = bookshelf.model('WoodColour',{
     }
 })
 
+const OrderItem =bookshelf.model('OrderItem',{
+    tableName:'orders_items',
+    wallBed() {
+        return this.belongsToMany('Wallbed')
+    }
+})
+
 
 const Order = bookshelf.model('Order',{
     tableName: 'orders',
@@ -88,7 +97,7 @@ const Order = bookshelf.model('Order',{
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
     wallBed() {
-        return this.belongsTo('Wallbed', 'product_id' )
+        return this.belongsTo('Wallbed', 'wall_bed_id' )
     }
 
 })
@@ -116,4 +125,14 @@ const BlacklistedToken = bookshelf.model('BlacklistedToken',{
     tableName: 'blacklisted_tokens'
 })
 
-module.exports={ ProductTable, BedSize, BedOrientation, MattressType,FrameColour, WoodColour, User, CartItem, Order, Admin, AdminLogin, BlacklistedToken};
+const WoodColourWallBed = bookshelf.model('WoodColourWallBed',{
+    tableName:'wall_beds_wood_colours',
+    wallBed() {
+        return this.belongsTo('Wallbed')
+    },
+    woodColour () {
+        return this.belongsTo('WoodColour')
+    }
+})
+
+module.exports={WoodColourWallBed,  ProductTable, BedSize, BedOrientation, MattressType,FrameColour, WoodColour, User, CartItem, Order, OrderItem ,Admin, AdminLogin, BlacklistedToken};
