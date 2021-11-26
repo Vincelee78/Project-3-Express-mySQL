@@ -1,82 +1,170 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<table class=" sm:bg-white rounded-lg overflow-hidden sm:shadow-lg " >
+
+<div class="index1 px-2">
+
+    {{!-- <table class=" sm:bg-white rounded-lg my-5">
+        <thead>
+            <tr class="bg-blue-200 font-serif text-gray-800 rounded-lg mb-2 ">
+                <th class="p-3 text-left">ID</th>
+                <th class="p-3 text-left">Name</th>
+                <th class="p-3 text-left">Weight</th>
+                <th class="p-3 text-left w-600"> Description</th>
+                <th class="p-3 text-left">Stock</th>
+                <th class="p-3 text-left">Date Created</th>
+                <th class="p-3 text-left">Bed Size</th>
+                <th class="p-3 text-left">Wood Panel Colours</th>
+                <th class="p-3 text-left">Mattress Type</th>
+                <th class="p-3 text-left">Bed Orientation</th>
+                <th class="p-3 text-left">Frame Colour</th>
+                <th class="p-3 text-left">Cost in dollars</th>
+                <th class="p-3 text-left">Image</th>
+
+                <th class="p-3 text-left">Update</th>
+                <th class="p-3 text-left">Delete</th>
+                <th class="p-3 text-left whitespace-nowrap">Add to Cart</th>
+            </tr>
+        </thead>
+        <tbody class="font-extralight">
+            {{#each products}}
+            <tr class=" mb-2 sm:mb-0" style="height: 50px !important">
+                <td class="border hover:bg-gray-100 p-3">{{this.id}}</td>
+                <td class="border hover:bg-gray-100 p-3">{{this.name}}</td>
+                <td class="border hover:bg-gray-100 p-3">{{this.weight}}kg</td>
+                <td class="border hover:bg-gray-100 p-3 ">{{this.description}}</td>
+                <td class="border hover:bg-gray-100 p-3">{{this.stock}}</td>
+                <td class="border hover:bg-gray-100 p-3">{{this.date}}</td>
+
+                <td class="border hover:bg-gray-100 p-3">{{this.bedSize.name}}</td>
+                <td class="border hover:bg-gray-100 p-3">
+                    <ul>
+                        {{#each this.woodColour}}
+                        <span
+                            class="inline-flex items-center justify-center px-2 py-1 my-1 text-xs font-bold leading-none text-indigo-100 bg-indigo-700 rounded-full">
+                            <li>
+                                {{this.name}}
+                            </li>
+                        </span>
+                        {{/each}}
+                    </ul>
+                </td>
+
+                <td class="border hover:bg-gray-100 p-3">{{this.mattressType.name}}</td>
+                <td class="border hover:bg-gray-100 p-3">{{this.bedOrientation.name}}</td>
+                <td class="border hover:bg-gray-100 p-3">{{this.frameColour.name}}</td>
+                <td class="border hover:bg-gray-100 p-3">${{this.cost}}</td>
+                <td class="border hover:bg-gray-100 ">
+                    {{#if this.image_url}}
+                    <img src="{{this.image_url}}" alt="poster" class="w-full" />
+                    {{else}}
+                    No Image
+                    {{/if}}
+                </td>
+                <td class="border bg-yellow-200 hover:bg-green-400 hover:font-normal p-3">
+                    <a href="/posters/{{this.id}}">
+                        View
+                    </a>
+                </td>
+                <td class="border bg-yellow-200 hover:bg-blue-400 hover:font-normal p-3">
+                    <a href="/posters/{{this.id}}/edit">
+                        Edit
+                    </a>
+                </td>
+                <td class="border bg-yellow-200 hover:bg-red-400 hover:font-normal p-3">
+                    <a href="/posters/{{this.id}}/delete">
+                        Delete
+                    </a>
+                </td>
+                <td class="border bg-green-100 hover:bg-green-400 hover:font-normal p-3 whitespace-nowrap">
+                    <a href="/cart/{{this.id}}/add">
+                        Add to Cart
+                    </a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div> --}}
+
+
+<table class=" sm:bg-white rounded-lg overflow-hidden sm:shadow-lg p-2">
     <thead>
-        <tr class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-            <th style="text-align:center" >ID</th>
-            <th style="width: 150px; text-align:center">Name</th>
-            <th style="width: 120px; text-align:center">Weight</th>
-            <th style="width: 600px; text-align:center">Description</th>
-            <th style="width: 100px; text-align:center">Stock</th>
-            <th style="text-align:center">Date Created</th>
-            <th style="width: 120px ; text-align:center">Bed Size</th>
-            <th style="width: 120px ; text-align:center">Mattress Type</th>
-            <th style="width: 150px; text-align:center">Bed Orientation</th>
-            <th style="text-align:center">Frame Colour</th>
-            <th style="width: 100px; text-align:center">Wood Panel Colours</th>
-            <th style="width: 120px; text-align:center">Cost in dollars</th>
-            <th style="width: 800px; text-align:center">Image</th>
+        <tr
+            class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+            <th class="border" style="text-align:center">ID</th>
+            <th class="border" style="width: 150px; text-align:center">Name</th>
+            <th class="border" style="width: 120px; text-align:center">Weight</th>
+            <th class="border" style="width: 600px; text-align:center">Description</th>
+            <th class="border" style="width: 100px; text-align:center">Stock</th>
+            <th class="border" style="text-align:center">Date Created</th>
+            <th class="border" style="width: 120px ; text-align:center">Bed Size</th>
+            <th class="border" style="width: 120px ; text-align:center">Mattress Type</th>
+            <th class="border" style="width: 150px; text-align:center">Bed Orientation</th>
+            <th class="border" style="text-align:center">Frame Colour</th>
+            <th class="border" style="width: 100px; text-align:center">Wood Panel Colours</th>
+            <th class="border" style="width: 120px; text-align:center">Cost in dollars</th>
+            <th class="border" style="width: 800px; text-align:center">Image</th>
             <th></th>
-            
+
         </tr>
 
     </thead>
-    <tbody>
+    <tbody class="productindex">
         {{#each products}}
-        <tr >
-            <td style="width: 50px; text-align:center">
+        <tr>
+            <td class="border hover:bg-gray-100" style="width: 50px; text-align:center">
                 {{this.id}}
             </td>
-            <td>
+            <td class="border hover:bg-gray-100">
                 {{this.name}}
             </td>
-            <td style="text-align:center">
+            <td class="border hover:bg-gray-100" style="text-align:center">
                 {{this.weight}}kg
             </td>
-            <td style="text-align:center" class="pb-4 pt-3">
+            <td style="text-align:center" class="border hover:bg-gray-100 pb-4 pt-3 px-2">
                 {{this.description}}
             </td>
-            <td style="text-align:center">
+            <td class="border hover:bg-gray-100" style="text-align:center">
                 {{this.stock}}
             </td>
-            <td>
+            <td class="border hover:bg-gray-100" >
                 {{this.date}}
             </td>
-            <td style="text-align:center">
+            <td class="border hover:bg-gray-100" style="text-align:center">
                 {{this.bedSize.name}}
             </td>
-            <td style="text-align:center">
+            <td class="border hover:bg-gray-100" style="text-align:center">
                 {{this.mattressType.name}}
             </td>
-            <td style="text-align:center">
+            <td class="border hover:bg-gray-100" style="text-align:center">
                 {{this.bedOrientation.name}}
             </td>
-            
-            <td style="text-align:center">
+
+            <td class="border hover:bg-gray-100" style="text-align:center">
                 {{this.frameColour.name}}
             </td>
-            
-            <td style="text-align:center"> 
-                {{#each this.woodColour}} 
-                    <span class="badge bg-primary">{{this.name}}</span> 
+
+            <td class="border hover:bg-gray-100" style="text-align:center">
+                {{#each this.woodColour}}
+                <span class="badge bg-primary">{{this.name}}</span>
                 {{/each}}
             </td>
-            <td style="text-align:center">
+            <td class="border hover:bg-gray-100" style="text-align:center">
                 ${{this.cost}}
             </td>
             <td>
-            <img class="img p-3" style="width:100%"; src="{{this.image_url}}"/>
+                <img class="img px-2" style="width:100%" ; src="{{this.image_url}}" />
             </td>
 
-            <td class="img px-2">
+            <td class="img px-2 border bg-yellow-200 hover:bg-blue-400 hover:font-normal p-3">
                 <a href="/cart/{{this.id}}/add" class="btn btn-success btn-sm" style="width: 90px">Add to cart</a>
                 <br /><br />
-                <a href="/update/{{this.id}}" class="btn btn-primary btn-sm" >Update</a>
+                <a href="/update/{{this.id}}" class="btn btn-primary btn-sm">Update</a>
                 <br /><br />
-                <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm" >Delete</a>
+                <a href="/delete/{{this.id}}" class="btn btn-danger btn-sm">Delete</a>
             </td>
-        </tr>
+        </tr> 
 
         {{/each}}
 
