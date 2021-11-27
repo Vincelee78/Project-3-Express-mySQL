@@ -1,6 +1,6 @@
 const { CartItem } = require('../models');
 
-const getShoppingCartForUser = async (userId) => {
+async function getShoppingCartForUser(userId) {
     return await CartItem.collection()
         .where({
             'user_id': userId

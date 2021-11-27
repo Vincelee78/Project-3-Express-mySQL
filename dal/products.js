@@ -5,7 +5,6 @@ const {
     MattressType,
     FrameColour,
     WoodColour,
-    Order
 } = require('../models')
 
 
@@ -97,10 +96,8 @@ async function getAllWoodColours() {
     const allWoodColours = await WoodColour.fetchAll().map(w => [w.get('id'), w.get('name')]);
     return allWoodColours;
 }
-async function getAallOrders() {
-    const allOrders = await Order.fetchAll()
-    return allWoodColours;
-}
+
+
 const getAllProductsApi = async () => {
     return await ProductTable.fetchAll();
 }

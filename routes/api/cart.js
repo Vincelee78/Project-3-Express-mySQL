@@ -10,6 +10,7 @@ router.get("/", async (req, res) => {
     res.status(200);
     res.json(cartItems.toJSON());
   } catch (error) {
+    console.log(error)
     res.status(500);
     res.send({
       error: "We have encountered an internal server error",

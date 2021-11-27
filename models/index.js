@@ -29,6 +29,7 @@ const ProductTable=bookshelf.model('Wallbed',{
      orderItem(){
          return this.belongsToMany('OrderItem')
      }
+
     
 });
 
@@ -97,7 +98,7 @@ const Order = bookshelf.model('Order',{
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
     wallBed() {
-        return this.belongsTo('Wallbed', 'wall_bed_id' )
+        return this.belongsTo('Wallbed', 'product_id' )
     }
 
 })

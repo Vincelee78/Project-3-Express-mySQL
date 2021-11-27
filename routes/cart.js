@@ -7,7 +7,6 @@ router.get("/", async (req, res) => {
     let userId = req.session.user.id;
     let cartItems = await cartServices.getShoppingCart(userId);
 
-
     res.render("cart/index", {
         cartItems: cartItems.toJSON().map((item) => {
             return {
