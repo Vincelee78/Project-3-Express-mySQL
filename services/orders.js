@@ -69,7 +69,11 @@ async function createOrderItem (orderItem)  {
       wall_bed_id: orderItem.wall_bed_id,
       quantity: orderItem.quantity,
       cost: orderItem.cost,
-      wood_colour_id: orderItem.wood_colour_id
+      wood_colour_id: orderItem.wood_colour_id,
+      bed_size_id:orderItem.bed_size_id,
+      mattress_type_id: orderItem.mattress_type_id,
+      frame_colour_id: orderItem.frame_colour_id,
+      bed_orientation_id: orderItem.bed_orientation_id,
     });
     
     await item.save();

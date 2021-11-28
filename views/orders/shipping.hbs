@@ -1,0 +1,64 @@
+{{#extends 'base'}}
+
+{{#block 'content'}}
+
+<div class="index2 px-2">
+
+    <table class=" sm:bg-white rounded-lg overflow-hidden sm:shadow-lg p-2">
+        <thead>
+            <tr
+                class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                <th class="border" style="text-align:center">Order ID</th>
+                <th class="border" style=" text-align:center">Payment Reference</th>
+                <th class="border" style="width: 180px; text-align:center">Date Ordered</th>
+                <th class="border" style="width: 180px; text-align:center">Customer Name</th>
+                <th class="border" style="width: 180px; text-align:center">Email</th>
+                <th class="border" style="width: 180px; text-align:center">Billing Address</th>
+                <th class="border" style="width: 180px; text-align:center">Shipping Address</th>
+                <th class="border" style=" text-align:center">Phone Number</th>
+                
+
+            </tr>
+
+        </thead>
+        <tbody class="productindex">
+            {{#each orders}}
+            <tr>
+                <td class="border hover:bg-gray-100" style="width: 50px; text-align:center">
+                    {{this.id}}
+                </td>
+                <td class="border hover:bg-gray-100" style="text-align:center">
+                    {{this.payment_reference}}
+                </td>
+                <td class="border hover:bg-gray-100" style="text-align:center">
+                    {{this.date_ordered}}
+                </td>
+                <td class="border hover:bg-gray-100" style="text-align:center">
+                    {{this.wallBedUser.username}}
+                </td>
+                <td class="border hover:bg-gray-100" style="text-align:center">
+                    {{this.wallBedUser.email}}
+                </td>
+                <td class="border hover:bg-gray-100" style="text-align:center">
+                    {{this.wallBedUser.billing_address}}
+                </td>
+                </td>
+                <td style="text-align:center" class="border hover:bg-gray-100 pb-4 pt-3 px-2">
+                    {{this.wallBedUser.shipping_address}}
+                </td>
+                <td class="border hover:bg-gray-100" style="text-align:center">
+                    {{this.wallBedUser.phone}}
+                </td>
+                
+
+            </tr>
+
+            {{/each}}
+
+        </tbody>
+    </table>
+    <a href="/" class="btn btn-success btn-sm mb-4 mt-3">Back to Home</a>
+
+    {{/block}}
+
+    {{/extends}}

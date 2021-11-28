@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { checkIfAuthenticated } = require('../middleware');
+const {
+    checkIfAuthenticated
+} = require('../middleware');
 const cartServices = require('../services/cart')
-const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const orderDataBaseLayer = require("../dal/api/orders");
+const {
+    Order,
+    OrderItem
+} = require("../models");
 
 module.exports = router;
 
@@ -24,15 +31,25 @@ router.get('/', async (req, res) => {
             lineItem['images'] = [item.related('wallBed').get('image_url')]
         }
         allLineItems.push(lineItem);
-
+        // console.log(req.session.user, 'users!')
+        // console.log(item.toJSON(), 'items')
         // add to the metadata an object that remembers for a given product id
         // how many was ordered
         metadata.push({
             'product_id': item.related('wallBed').get('id'),
             'name': item.related('wallBed').get('name'),
             'quantity': item.get('quantity'),
-            'amount':item.related('wallBed').get('cost')/100,
-            'userEmail': req.session.user.email
+            // 'Size':item.related('wallBed').related('bedSize').get('name'),
+            // 'Orientn':item.related('wallBed').related('bedOrientation').get('name'),
+            // 'frameC':item.related('wallBed').related('frameColour').get('name'),
+            // 'mattress': item.related('wallBed').related('mattressType').get('name'),
+            // 'woodC': item.related('wallBed').related('woodColour').pluck('name'),
+            'amount': item.related('wallBed').get('cost') / 100,
+            'userName': req.session.user.username,
+            'email': req.session.user.email,
+            // 'billingAddress':req.session.user.billing_address,
+            // 'shippingAddress':req.session.user.shipping_address,
+            'phone': req.session.user.phone
         })
 
     }
@@ -59,23 +76,36 @@ router.get('/', async (req, res) => {
         'publishableKey': process.env.STRIPE_PUBLISHABLE_KEY
     })
 
-    
-
 
 })
 
-router.get('/success', function(req,res){
+//create order and update cart after payment
+router.get('/createOrder', async (req, res) => {
+            let orders = await OrderItem.collection().fetch({
+                'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
+            });
+            
+            res.render('orders/create', {
+                orders: orders.toJSON()
+            })
+        })
+    
+
+
+router.get('/success', function (req, res) {
     res.render("checkout/success");
     // res.redirect('/allproducts')
 })
 
- router.get('/cancel', function(req,res){
+router.get('/cancel', function (req, res) {
     res.send("Your order has failed or has been cancelled");
     res.redirect('/allproducts')
 })
 
 // NOTE! This is called by Stripe not internally by us.
-router.post('/process_payment', express.raw({ type: 'application/json' }), function (req, res) {
+router.post('/process_payment', express.raw({
+    type: 'application/json'
+}), function (req, res) {
     // payload is what Stripe is sending us
     let payload = req.body;
 
@@ -90,10 +120,10 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), funct
         event = Stripe.webhooks.constructEvent(payload, sigHeader, endpointSecret);
         if (event.type == "checkout.session.completed") {
             let stripeSession = event.data.object;
-            console.log(stripeSession);
+            console.log(stripeSession, 'stripesession data');
             let metadata = JSON.parse(stripeSession.metadata.orders);
-            console.log(metadata);
-            
+            console.log(metadata, 'from checkout routes');
+
 
             res.send({
                 'received': 'Payment has been received through stripe'
@@ -107,4 +137,3 @@ router.post('/process_payment', express.raw({ type: 'application/json' }), funct
     }
 
 })
-

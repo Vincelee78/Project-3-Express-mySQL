@@ -50,24 +50,39 @@
 
         {{! menu }}
         <div
-          class="menu w-full flex-grow sm:flex sm:items-center sm:w-auto px-8 sm:px-3  pb-3"
+          class="menu w-full flex-grow sm:flex sm:items-center sm:w-auto sm:px-3 px-3 pb-3"
         >
-          <div class="text-md font-bold text-gray-100 lg:flex-grow">
+          <div class="text-md font-bold text-gray-100 lg:flex-grow py-0">
             <a
               href="/allproducts"
-              class="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 mr-2 transition transform hober:fixed hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
+              class="block mt-4 lg:inline-block lg:mt-0 px-2 py-2 mr-2 transition transform hober:fixed hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
             >
-              Wall Beds Catalogue
+            Catalogue
             </a>
             <a
               href="/create"
-              class="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 mr-2 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
+              class="block mt-4 lg:inline-block lg:mt-0 px-2 py-2 mr-2 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
             >
               Add Wall Bed
             </a>
+
+			<a
+              href="/checkout/createOrder"
+              class="block mt-4 lg:inline-block lg:mt-0 px-2 py-2 mr-2 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
+            >
+              Product Orders
+            </a>
+
+			<a
+              href="/orders/shipping"
+              class="block mt-4 lg:inline-block lg:mt-0 px-2 py-2 mr-2 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
+            >
+              Shipping Details
+            </a>
+
             <a
               href="/users/profile"
-              class="block mt-4 lg:inline-block lg:mt-0 px-4 py-2 mr-2 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
+              class="block mt-4 lg:inline-block lg:mt-0 px-2 py-2 mr-2 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
             >
               Admin Profile
             </a>
@@ -106,7 +121,7 @@
                 class="block text-md px-4 rounded text-gray-100 ml-2 font-bold mt-4 lg:mt-0 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"
               >Logout</a>
             {{else}}
-            <div class="block text-md px-4 py-2 rounded text-gray-100 ml-2 font-bold mt-4 lg:mt-0 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none">Welcome, Administrator.</div>
+            <div class="block text-md px-4 py-2 rounded text-gray-100 ml-2 font-bold mt-4 lg:mt-0 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none">Welcome, Admin.</div>
             <a
                 href="/users/login"
                 class="block text-md px-4 py-2 rounded text-gray-100 ml-2 font-bold mt-4 lg:mt-0 transition transform hover:-translate-y-1 hover:bg-gray-600 hover:border hover:rounded-xl motion-reduce:transition-none motion-reduce:transform-none"

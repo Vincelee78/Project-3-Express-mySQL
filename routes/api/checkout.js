@@ -61,6 +61,7 @@ router.get('/', async (req, res) => {
       paymentInvoice: payment,
     });
   } catch (err) {
+    console.log(err)
     res.send({
         error: "We have encountered an internal server error",
       });
@@ -75,6 +76,8 @@ router.post('/createOrder', checkIfAuthenticatedJWT, async (req, res) => {
     // console.log(req.user)
     const order = await orderDataBaseLayer.checkOut(req.user.id);
     res.status(200).json(order);
+    console.log(order.toJSON())
+    
   } catch (err) {
     console.log(err)
     res.send({
