@@ -109,6 +109,7 @@ const api = {
   users: require("./routes/api/users"),
   cart: require("./routes/api/cart"),
   checkout: require("./routes/api/checkout"),
+  search: require("./routes/api/search")
 };
 
 async function main() {
@@ -120,6 +121,7 @@ async function main() {
   app.use("/orders", ordersRoutes);
   app.use("/api/allproducts", express.json(), api.wallBeds);
   app.use("/api/users", express.json(), api.users);
+  app.use("/api/search", express.json(), api.search)
   app.use("/api/cart", checkIfAuthenticatedJWT,  express.json(), api.cart);
   app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
 }

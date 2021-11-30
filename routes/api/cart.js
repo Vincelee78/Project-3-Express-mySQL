@@ -5,6 +5,7 @@ const cartServices = require("../../services/cart");
 
 router.get("/", async (req, res) => {
   try {
+    
     let cartItems = await cartServices.getShoppingCart(req.user.id);
 
     res.status(200);

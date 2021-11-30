@@ -10,7 +10,7 @@ const {
 
 
 
-router.get('/shipping', async (req, res) => {
+router.get('/shipping',checkIfAuthenticated, async (req, res) => {
     let orders = await Order.collection().fetch({
         'withRelated': ['wallBedUser']
     });

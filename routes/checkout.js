@@ -80,7 +80,7 @@ router.get('/', async (req, res) => {
 })
 
 //create order and update cart after payment
-router.get('/createOrder', async (req, res) => {
+router.get('/createOrder', checkIfAuthenticated, async (req, res) => {
             let orders = await OrderItem.collection().fetch({
                 'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
             });
