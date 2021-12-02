@@ -29,10 +29,11 @@ async function createCartItem(userId, productId, quantity) {
 
 
 const getCartItemByUserAndPoster = async (userId, productId) => {
+    console.log(productId)
     return await CartItem.where({
         'user_id': userId,
         'product_id': productId,
-    
+        
     }).fetch({
         require: false
         

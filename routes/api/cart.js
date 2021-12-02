@@ -3,7 +3,7 @@ const router = express.Router();
 
 const cartServices = require("../../services/cart");
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     
     let cartItems = await cartServices.getShoppingCart(req.user.id);
@@ -22,11 +22,15 @@ router.get("/", async (req, res) => {
 //add to cart
 router.post("/addToCart", async (req, res) => {
   try {
-    const cartItems = await cartServices.addItemToCart(req.user.id, req.body);
+    console.log(req.user.id)
+    console.log(req.body)
+    
+    const cartItems=await cartServices.addItemToCart(req.user.id, req.body.productId);
     res.status(200);
-    res.json(cartItems.toJSON());
+    res.json(cartItems);
   } catch (error) {
     res.status(500);
+    console.log(error)
     res.send({
       error: "We have encountered an internal server error",
     });
