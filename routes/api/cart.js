@@ -37,10 +37,12 @@ router.post("/addToCart", async (req, res) => {
   }
 });
 
-router.post("/:product_id/quantity/update", async function (req, res) {
+router.post("/quantity/update", async function (req, res) {
+  console.log(req.user.id)
+  console.log(req.body)
   try {
     let userId = req.user.id;
-    let productId = req.params.product_id;
+    let productId = req.body.productId;
     let newQuantity = req.body.newQuantity;
 
     let cartItems = await cartServices.updateQuantityInCart(
@@ -49,23 +51,25 @@ router.post("/:product_id/quantity/update", async function (req, res) {
       newQuantity
     );
     res.status(200);
-    res.json(cartItems.toJSON());
+    res.json(cartItems);
   } catch (error) {
     res.status(500);
+    console.log(error)
     res.send({
       error: "We have encountered an internal server error",
     });
   }
 });
 
-router.post("/:product_id/delete", async function (req, res) {
+router.post("/delete", async function (req, res) {
+  console.log(req.body)
   try{
   let cartItems = await cartServices.removeFromCart(
     req.user.id,
-    req.params.product_id
+    req.body.productId
   );
   res.status(200);
-    res.json(cartItems.toJSON());
+    res.json(cartItems);
   } catch (error) {
     res.status(500);
     res.send({

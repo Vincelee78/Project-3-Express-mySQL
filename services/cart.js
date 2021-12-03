@@ -7,18 +7,18 @@ async function getShoppingCart(userId)  {
 async function addItemToCart(userId,productId) {
     try {
         
-        console.log('aaaaaaaaaaaaaaaaaaaaaaaaa')
+        
         // check if the user has already added the product to the cart
         let cartItem = await cartDataLayer.getCartItemByUserAndPoster(userId, productId);
         console.log(cartItem)
         if (cartItem) {
-            console.log('a')
+            
             // increase quantity by 1
             await cartDataLayer.updateQuantity(userId, productId, cartItem.get('quantity')+1);
             return true;
             
         } else if (!cartItem){
-            console.log('b')
+            
             await cartDataLayer.createCartItem(userId, productId, 1);       
             return true;   
         } 
@@ -43,6 +43,7 @@ async function updateQuantityInCart(userId, productId, newQuantity) {
         await cartDataLayer.updateQuantity(userId, productId, newQuantity);
         return true;
     } else {
+        console.log('b')
         return false;
     }
 }
