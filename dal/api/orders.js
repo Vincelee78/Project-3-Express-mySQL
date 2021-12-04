@@ -28,12 +28,12 @@ const {
           mattress_type_id: product.get('mattress_type_id'),
           wood_colour_id: await product.related('woodColour').pluck('id')[0]
             }).then(() => {
-          console.log('this ran too')
+          // console.log('this ran too')
           cartServices.removeFromCart(
             userId,
             cartItem.get("product_id")          
           );
-        }).catch(e =>consol.log(e));
+        }).catch(e =>console.log(e));
       });
     return order;
   }

@@ -118,6 +118,9 @@ const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
     wallBed() {
         return this.belongsTo('Wallbed', 'product_id')
+    },
+    wallBedUser(){
+        return this.belongsTo('User', 'user_id')
     }
 
 })

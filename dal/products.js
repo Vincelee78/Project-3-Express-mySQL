@@ -25,17 +25,6 @@ async function getProductById(productId) {
     return beds;
 }
 
-// async function changeCentsToDollars(wallBedId) {
-//     let wallBed = await ProductTable.where({
-//         'id': wallBedId,
-//         'cost': ParseInt(cost/100)
-//     }).fetch({
-//         'require': true,
-//         withRelated:['bedSize', 'bedOrientation','mattressType','frameColour', 'woodColour']
-//     });
-//     return wallBed;
-
-// }
 
 // async function addPoster(){
 //     const allMedia=getAllMedia();

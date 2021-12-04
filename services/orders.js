@@ -63,7 +63,7 @@ async function createOrderItem (orderItem)  {
   try {
     //validate params
     // await orderItemSchema.validate(orderItem);
-    console.log(orderItem,'test')
+    // console.log(orderItem,'test')
     const item = new OrderItem({
       order_id: orderItem.order_id,
       wall_bed_id: orderItem.wall_bed_id,

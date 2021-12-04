@@ -1,5 +1,15 @@
 const { CartItem } = require('../models');
 
+
+async function getAllItemsFromCart(){
+    return await CartItem.collection().fetch({
+        require: false,
+        withRelated:['wallBed', 'wallBed.woodColour','wallBed.bedSize','wallBed.bedOrientation','wallBed.frameColour','wallBed.mattressType','wallBedUser']
+    })
+}
+
+
+
 async function getShoppingCartForUser(userId) {
     return await CartItem.collection()
         .where({
@@ -28,7 +38,7 @@ async function createCartItem(userId, productId, quantity) {
 
 
 
-const getCartItemByUserAndPoster = async (userId, productId) => {
+const getCartItemByUserAndWallBed = async (userId, productId) => {
     console.log(productId)
     return await CartItem.where({
         'user_id': userId,
@@ -43,7 +53,7 @@ const getCartItemByUserAndPoster = async (userId, productId) => {
 
 
 async function removeFromCart(userId, productId) {
-    let cartItem = await getCartItemByUserAndPoster(userId, productId);
+    let cartItem = await getCartItemByUserAndWallBed(userId, productId);
     if (cartItem) {
         await cartItem.destroy();
         return true;
@@ -52,7 +62,7 @@ async function removeFromCart(userId, productId) {
 }
 
 async function updateQuantity(userId, productId, newQuantity) {
-    let cartItem = await getCartItemByUserAndPoster(userId, productId);
+    let cartItem = await getCartItemByUserAndWallBed(userId, productId);
     
     if (cartItem) {
         cartItem.set('quantity', newQuantity).save();
@@ -63,4 +73,4 @@ async function updateQuantity(userId, productId, newQuantity) {
 }
 
 
-module.exports = { getShoppingCartForUser,getCartItemByUserAndPoster,removeFromCart,updateQuantity, createCartItem }
+module.exports = { getAllItemsFromCart, getShoppingCartForUser,getCartItemByUserAndWallBed,removeFromCart,updateQuantity, createCartItem }

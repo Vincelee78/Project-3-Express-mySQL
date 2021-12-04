@@ -135,7 +135,7 @@ router.get('/', async (req, res) => {
 
 
 
-router.get('/allproducts', async (req, res) => {
+router.get('/allproducts', checkIfAuthenticated, async (req, res) => {
 
 
 

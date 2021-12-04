@@ -1,5 +1,10 @@
 const cartDataLayer = require('../dal/cart')
 
+
+async function getCartItemsFromAllUsers(){
+    return await cartDataLayer.getAllItemsFromCart();
+}
+
 async function getShoppingCart(userId)  {
     return await cartDataLayer.getShoppingCartForUser(userId);
 }
@@ -9,8 +14,8 @@ async function addItemToCart(userId,productId) {
         
         
         // check if the user has already added the product to the cart
-        let cartItem = await cartDataLayer.getCartItemByUserAndPoster(userId, productId);
-        console.log(cartItem)
+        let cartItem = await cartDataLayer.getCartItemByUserAndWallBed(userId, productId);
+        
         if (cartItem) {
             
             // increase quantity by 1
@@ -43,9 +48,9 @@ async function updateQuantityInCart(userId, productId, newQuantity) {
         await cartDataLayer.updateQuantity(userId, productId, newQuantity);
         return true;
     } else {
-        console.log('b')
+        
         return false;
     }
 }
 
-module.exports = {getShoppingCart, addItemToCart, removeFromCart, updateQuantityInCart };
+module.exports = {getCartItemsFromAllUsers ,getShoppingCart, addItemToCart, removeFromCart, updateQuantityInCart };
