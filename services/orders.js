@@ -26,12 +26,57 @@ async function createOrder(userId) {
       user_id: userId,
       payment_reference: uuidv1(),
       date_ordered: new Date(),
+      status_id: 3,
     });
     await order.save();
 
     return order;
+    
   } catch (error) {
-    console.log(error)
+    // console.log(error)
+    return({
+      
+      error: "We have encountered an internal server error",
+    });
+  }
+  
+}
+
+async function createStatus(orderId) {
+  try {
+    
+    let order=await Order.where('id', orderId).fetch({
+      'withRelated': ['wallBedUser', 'status'], 
+      require: false
+  });
+  console.log(order.toJSON())
+  order.set("status_id", 1);
+    await order.save();
+
+    return order;
+  } catch (error) {
+    // console.log(error)
+    return({
+      
+      error: "We have encountered an internal server error",
+    });
+  }
+}
+
+async function completeStatus(orderId) {
+  try {
+    
+    let order=await Order.where('id', orderId).fetch({
+      'withRelated': ['wallBedUser', 'status'], 
+      require: false
+  });
+  // console.log(order.toJSON())
+  order.set("status_id", 4);
+    await order.save();
+
+    return order;
+  } catch (error) {
+    // console.log(error)
     return({
       
       error: "We have encountered an internal server error",
@@ -80,11 +125,11 @@ async function createOrderItem (orderItem)  {
 
     return item;
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     return({
       error: "We have encountered an internal server error",
     });
   }
 };
 
-module.exports = {createOrder, createOrderItem}
+module.exports = {completeStatus ,createOrder, createOrderItem, createStatus}

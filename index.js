@@ -41,7 +41,7 @@ app.use(morgan('dev'))
 // app.use(csrf());
 const csrfInstance = csrf();
 app.use(function (req, res, next) {
-  // console.log("checking for csrf exclusion");
+  
   // exclude whatever url we want from CSRF protection
   if (
     req.url == "/checkout/process_payment" ||
@@ -103,13 +103,15 @@ const cartRoutes = require("./routes/cart");
 const checkoutRoutes = require("./routes/checkout");
 const ordersRoutes=require('./routes/orders')
 const { checkIfAuthenticatedJWT } = require("./middleware");
+const { syncBuiltinESMExports } = require("module");
 
 const api = {
   wallBeds: require("./routes/api/products"),
   users: require("./routes/api/users"),
   cart: require("./routes/api/cart"),
   checkout: require("./routes/api/checkout"),
-  search: require("./routes/api/search")
+  search: require("./routes/api/search"),
+  stripe: require('./routes/api/stripe')
 };
 
 async function main() {
@@ -123,7 +125,8 @@ async function main() {
   app.use("/api/users", express.json(), api.users);
   app.use("/api/search", express.json(), api.search)
   app.use("/api/cart", checkIfAuthenticatedJWT,  express.json(), api.cart);
-  app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
+  app.use("/api/checkout",checkIfAuthenticatedJWT, express.json(), api.checkout);
+  app.use("/api/stripe", api.stripe);
 }
 
 main();

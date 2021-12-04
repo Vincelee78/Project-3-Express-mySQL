@@ -1,9 +1,22 @@
 const express = require("express");
 const router = express.Router();
-const { ProductTable, BedSize, BedOrientation, MattressType, FrameColour, WoodColour, } = require('../models');
-const { bootstrapField, createProductForm, createSearchForm } = require('../forms');
+const {
+    ProductTable,
+    BedSize,
+    BedOrientation,
+    MattressType,
+    FrameColour,
+    WoodColour,
+} = require('../models');
+const {
+    bootstrapField,
+    createProductForm,
+    createSearchForm
+} = require('../forms');
 // import in the CheckIfAuthenticated middleware
-const { checkIfAuthenticated } = require('../middleware');
+const {
+    checkIfAuthenticated
+} = require('../middleware');
 var formatDate = require("date-fns/intlFormat");
 const dataLayer = require('../dal/products')
 
@@ -38,17 +51,17 @@ router.get('/', async (req, res) => {
 
             var productArr = products.toJSON().map((wallBed) => {
                 return {
-                  ...wallBed,
-                  date: formatDate(wallBed.date, {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  }),
-                  cost: wallBed.cost/100
+                    ...wallBed,
+                    date: formatDate(wallBed.date, {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    }),
+                    cost: wallBed.cost / 100
                 };
-              });
-                
+            });
+
             res.render('products/search', {
                 'products': productArr,
                 'searchForm': form.toHTML(bootstrapField),
@@ -59,8 +72,7 @@ router.get('/', async (req, res) => {
                 'allWoodColours': allWoodColours
             })
         },
-        'error': async (form) => {
-        },
+        'error': async (form) => {},
         'success': async (form) => {
             let name = form.data.name;
             let cost_min = form.data.cost_min;
@@ -112,12 +124,12 @@ router.get('/', async (req, res) => {
                     .where('wood_colour_id', 'in', selectedTags);
 
             }
-                
+
             // execute the query
             let products = await q.fetch({
                 'withRelated': ['bedSize', 'bedOrientation', 'mattressType', 'frameColour', 'woodColour']
             });
-            
+
             res.render('products/search', {
                 'products': products.toJSON(), // convert the results to JSON
                 'searchForm': form.toHTML(bootstrapField),
@@ -143,16 +155,16 @@ router.get('/allproducts', checkIfAuthenticated, async (req, res) => {
 
     var productArr = products.toJSON().map((wallBed) => {
         return {
-          ...wallBed,
-          date: formatDate(wallBed.date, {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }),
-          cost: wallBed.cost/100,
+            ...wallBed,
+            date: formatDate(wallBed.date, {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+            }),
+            cost: wallBed.cost / 100,
         };
-      });
+    });
 
 
     res.render('products/index', {
@@ -202,7 +214,10 @@ router.post('/create', checkIfAuthenticated, async (req, res) => {
     const productForm = createProductForm(allBedSize, allMattressType, allBedOrientation, allFrameColour, allWoodColours);
     productForm.handle(req, {
         success: async (form) => {
-            let { woodColour, ...productData } = form.data;
+            let {
+                woodColour,
+                ...productData
+            } = form.data;
 
             const wallBed = new ProductTable(productData);
 
@@ -297,7 +312,10 @@ router.post('/update/:id', async (req, res) => {
     const productForm = createProductForm(allBedSize, allMattressType, allBedOrientation, allFrameColour, allWoodColours);
     productForm.handle(req, {
         'success': async (form) => {
-            let { woodColour, ...Posterdata } = (form.data);
+            let {
+                woodColour,
+                ...Posterdata
+            } = (form.data);
             wallBed.set(Posterdata);
             wallBed.save();
             // update the tags
@@ -338,21 +356,26 @@ router.get('/delete/:id', async (req, res) => {
 })
 
 router.post('/delete/:id', async (req, res) => {
+    try {
+        let product = await ProductTable.where({
+            id: req.params.id
 
-    let product = await ProductTable.where({
-        id: req.params.id
+        }).fetch({
+            require: true
+        });
+        // const allBedSize = await dataLayer.getAllBedSize();
+        // const allBedOrientation = await dataLayer.getAllBedOrientation();
+        // const allMattressType = await dataLayer.getAllMattressType();
+        // const allFrameColours = await dataLayer.getAllFrameColours();
 
-    }).fetch({
-        require: true
-    });
-    const allBedSize = await dataLayer.getAllBedSize();
-    const allBedOrientation = await dataLayer.getAllBedOrientation();
-    const allMattressType = await dataLayer.getAllMattressType();
-    const allFrameColours = await dataLayer.getAllFrameColours();
+        await product.destroy();
+        req.flash('success_messages', `Wall Bed ${product.get("name")} has been deleted`)
+        res.redirect('/allproducts');
+    } catch (error) {
+        req.flash('error_messages', 'unable to delete')
 
-    await product.destroy(allBedSize,allBedOrientation,allMattressType,allFrameColours);
-    req.flash('success_messages', `Wall Bed ${product.get("name")} has been deleted`)
-    res.redirect('/allproducts');
+    }
+
 })
 
 

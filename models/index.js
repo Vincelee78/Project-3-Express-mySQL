@@ -100,6 +100,9 @@ const OrderItem = bookshelf.model('OrderItem', {
     mattressType() {
         return this.belongsTo('MattressType', 'mattress_type_id')
     },
+    status(){
+        return this.belongsTo('Status','status_id')
+    }
 
 })
 
@@ -111,8 +114,22 @@ const Order = bookshelf.model('Order', {
     },
     wallBedUser() {
         return this.belongsTo('User', 'user_id')
+    },
+    status(){
+        return this.belongsTo('Status', 'status_id')
     }
 })
+
+const Status=bookshelf.model('Status',{
+    tableName: 'statuses',
+    order(){
+        return this.hasMany('Order')
+},
+    orderItem(){
+        return this.hasMany('OrderItem')
+    }
+})
+
 
 const CartItem = bookshelf.model('CartItem', {
     tableName: 'cart_items',
@@ -133,16 +150,7 @@ const CartItem = bookshelf.model('CartItem', {
 
 // })
 
-const Admin = bookshelf.model('Admin', {
-    tableName: 'admin'
-})
 
-const AdminLogin = bookshelf.model('AdminLogin', {
-    tableName: 'beds_admin',
-    wallBed() {
-        return this.belongsTo('Wallbed', 'wall_bed_id')
-    }
-})
 
 const BlacklistedToken = bookshelf.model('BlacklistedToken', {
     tableName: 'blacklisted_tokens'
@@ -170,7 +178,6 @@ module.exports = {
     CartItem,
     Order,
     OrderItem,
-    Admin,
-    AdminLogin,
+    Status,
     BlacklistedToken
 };

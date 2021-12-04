@@ -16,7 +16,7 @@
                 <th class="border" style="width: 180px; text-align:center">Billing Address</th>
                 <th class="border" style="width: 180px; text-align:center">Shipping Address</th>
                 <th class="border" style=" text-align:center">Phone Number</th>
-                
+                <th class="border" style="text-align:center">Payment Status</th>
 
             </tr>
 
@@ -49,7 +49,23 @@
                 <td class="border hover:bg-gray-100" style="text-align:center">
                     {{this.wallBedUser.phone}}
                 </td>
-                
+                <td class="border hover:bg-gray-100" style="text-align:center">
+                    {{!-- {{this.status.name}} --}}
+                    <form method="POST" action="/orders/{{this.id}}/statusComplete">
+                        <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
+                        <label style='color:brown'> Status: </label>
+                        <input type="text" name='status' value="{{this.status.name}}"
+                            style="width:60px; text-align:center" />
+                        <input type="submit" class="btn btn-success btn-sm" value="Complete Order" />
+                    </form>
+
+                    {{!-- <form method="POST" action="/orders/statusComplete">
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                        <a href='/orders/statusComplete' type='submit' class='btn btn-success btn-sm my-1'>Complete
+                            Order</a>
+                    </form> --}}
+                </td>
+
 
             </tr>
 

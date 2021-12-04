@@ -51,7 +51,7 @@ exports.setup = function(options, seedLink) {
           'table':'wall_beds',
           'mapping':'id',
           'rules': {
-            'onDelete':'CASCADE',
+            'onDelete':'RESTRICT',
             'onUpdate':'RESTRICT'
           }
         }

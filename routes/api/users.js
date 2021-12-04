@@ -30,7 +30,7 @@ router.get('/register',(req,res)=>{
 }),
 
 router.post('/register', async (req, res) => {
-    // console.log(req.data)
+    
     try{
     let {username, password, email, billing_address, shipping_address, phone}=req.body
                 console.log(req.body)
@@ -48,7 +48,7 @@ router.post('/register', async (req, res) => {
             res.json(user.toJSON())
        
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return({
           
           error: "We have encountered an internal server error",
@@ -116,7 +116,7 @@ router.post("/login", async (req, res) => {
     
     if (user && user.get('password') == getHashedPassword(req.body.password)) {
         
-        let accessToken = generateAccessToken(user.toJSON() , process.env.TOKEN_SECRET, '15m');
+        let accessToken = generateAccessToken(user.toJSON() , process.env.TOKEN_SECRET, '45m');
         let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, '2w');
         res.send({
             accessToken, refreshToken
@@ -198,13 +198,13 @@ router.post('/refresh', async function(req,res){
 
 router.post('/logout', async function(req,res){
     let refreshToken = req.body.refreshToken;
-    console.log(refreshToken);
+    
     if (!refreshToken) {
         res.sendStatus(401);
     } else {
-        console.log("Got refresh token");
+        
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async(err,user)=>{
-            console.log(err);
+            
             if (err) {
                 res.sendStatus(403)
             } else {

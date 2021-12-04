@@ -31,8 +31,7 @@ router.get('/', async (req, res) => {
             lineItem['images'] = [item.related('wallBed').get('image_url')]
         }
         allLineItems.push(lineItem);
-        // console.log(req.session.user, 'users!')
-        // console.log(item.toJSON(), 'items')
+        
         // add to the metadata an object that remembers for a given product id
         // how many was ordered
         metadata.push({

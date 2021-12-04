@@ -13,7 +13,7 @@ const checkIfAuthenticated = (req, res, next) => {
 
 const checkIfAuthenticatedJWT = (req,res,next) => {
     // try to get authorization headers
-    // console.log('user')
+    
     const authHeader = req.headers.authorization;
     if (authHeader) {
         // the authHeader will be a string that is like

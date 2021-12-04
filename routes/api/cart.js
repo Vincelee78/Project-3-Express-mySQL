@@ -11,7 +11,7 @@ router.get("/", async (req, res, next) => {
     res.status(200);
     res.json(cartItems.toJSON());
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     res.status(500);
     res.send({
       error: "We have encountered an internal server error",
@@ -22,15 +22,14 @@ router.get("/", async (req, res, next) => {
 //add to cart
 router.post("/addToCart", async (req, res) => {
   try {
-    console.log(req.user.id)
-    console.log(req.body)
+    
     
     const cartItems=await cartServices.addItemToCart(req.user.id, req.body.productId);
     res.status(200);
     res.json(cartItems);
   } catch (error) {
     res.status(500);
-    console.log(error)
+    // console.log(error)
     res.send({
       error: "We have encountered an internal server error",
     });
@@ -38,8 +37,7 @@ router.post("/addToCart", async (req, res) => {
 });
 
 router.post("/quantity/update", async function (req, res) {
-  console.log(req.user.id)
-  console.log(req.body)
+  
   try {
     let userId = req.user.id;
     let productId = req.body.productId;
@@ -54,7 +52,7 @@ router.post("/quantity/update", async function (req, res) {
     res.json(cartItems);
   } catch (error) {
     res.status(500);
-    console.log(error)
+    // console.log(error)
     res.send({
       error: "We have encountered an internal server error",
     });
@@ -62,7 +60,7 @@ router.post("/quantity/update", async function (req, res) {
 });
 
 router.post("/delete", async function (req, res) {
-  console.log(req.body)
+  
   try{
   let cartItems = await cartServices.removeFromCart(
     req.user.id,

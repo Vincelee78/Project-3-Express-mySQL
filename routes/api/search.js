@@ -55,9 +55,9 @@ router.get("/", async (req, res) => {
 
     res.status(200);
     res.json(products);
-    console.log(products.toJSON(), "this runs!");
+    
   } catch (e) {
-    console.log(e);
+    // console.log(e);
     res.status(500);
     res.send({
       error: "Error on search in server",

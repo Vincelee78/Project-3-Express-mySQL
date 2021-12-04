@@ -39,7 +39,7 @@ async function createCartItem(userId, productId, quantity) {
 
 
 const getCartItemByUserAndWallBed = async (userId, productId) => {
-    console.log(productId)
+    
     return await CartItem.where({
         'user_id': userId,
         'product_id': productId,

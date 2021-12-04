@@ -1,4 +1,4 @@
-const { CartItem } = require("../../models");
+const { Order} = require("../../models");
 const cartServices = require("../../services/cart");
 const {getProductById}=require("../../dal/products")
 const {
@@ -7,15 +7,16 @@ const {
 } = require("../../services/orders");
 
 
+
   async function checkOut(userId) {
     const cartItems = await cartServices.getShoppingCart(userId) ;
-    const order = await createOrder(userId);
+    const order = await createOrder(userId)
     
 
       cartItems.map(async (cartItem)=> {
         const product=await getProductById(
           await cartItem.get("product_id"))
-          console.log(product.toJSON())
+          
           
         createOrderItem({
           order_id: order.get("id"),
@@ -26,9 +27,10 @@ const {
           bed_orientation_id: product.get('bed_orientation_id'),
           frame_colour_id:product.get('frame_colour_id'),
           mattress_type_id: product.get('mattress_type_id'),
-          wood_colour_id: await product.related('woodColour').pluck('id')[0]
+          wood_colour_id: await product.related('woodColour').pluck('id')[0],
+          // status_id: order.get('status_id')
             }).then(() => {
-          // console.log('this ran too')
+          
           cartServices.removeFromCart(
             userId,
             cartItem.get("product_id")          
@@ -38,6 +40,25 @@ const {
     return order;
   }
 
+  const getOrder= async (orderId) => {
+    
+    return await Order.where({
+        'id': orderId,
+        
+        
+    }).fetch({
+        require: false
+        
+    });
+    
+}
+
+async function updateStatus(orderId) {
+  let OrderItem = await getOrder(orderId);
+  
+      OrderItem.set('status_id', 4).save();
+      return OrderItem;
+}   
 
 //export class
-module.exports = {checkOut};
+module.exports = {updateStatus ,getOrder, checkOut};

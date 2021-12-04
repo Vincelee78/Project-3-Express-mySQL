@@ -6,16 +6,19 @@ const orderDataBaseLayer = require("../../dal/api/orders");
 const {
   checkIfAuthenticatedJWT
 } = require('../../middleware');
+const OrderServices = require("../../services/orders");
+
 
 router.get('/', async (req, res) => {
   try {
     // Get cart
     let cartItems = await cartServices.getShoppingCart(req.user.id);
+
     // await cart.updateCartPrice();
     //TODO: check if product is available before allowing checkout
 
     // let cartItems = await cart.getCart();
-    // console.log(cartItems.toJSON());
+
 
     // create line items
     let allLineItems = [];
@@ -27,7 +30,8 @@ router.get('/', async (req, res) => {
         // amount is in cents
         'amount': item.related('wallBed').get('cost'),
         'quantity': item.get('quantity'),
-        'currency': 'SGD'
+        'currency': 'SGD',
+
       }
       if (item.related('wallBed').get('image')) {
         lineItem['images'] = [item.related('wallBed').get('image_url')]
@@ -41,13 +45,18 @@ router.get('/', async (req, res) => {
         'name': item.related('wallBed').get('name'),
         'quantity': item.get('quantity'),
         'amount': item.related('wallBed').get('cost') / 100,
-        'userEmail': req.user.email
+        'userEmail': req.user.email,
+        'userId': req.user.id
+        // 'status_id': item.related('')
       })
 
     }
-
+    
     // create stripe payment object
     let metadataJSON = JSON.stringify(metadata);
+    
+    //create order and update and remove cart user items after payment
+    const order = await orderDataBaseLayer.checkOut(req.user.id);
 
     let payment = {
       'payment_method_types': ['card'],
@@ -55,28 +64,29 @@ router.get('/', async (req, res) => {
       'success_url': process.env.STRIPE_SUCCESS_URL,
       'cancel_url': process.env.STRIPE_CANCEL_URL,
       'metadata': {
-        'orders': metadataJSON
+        'orders': metadataJSON,
+        'orderId': order.get('id')
       }
     }
 
-    // create order_items
-    const order = await orderDataBaseLayer.checkOut(req.user.id);
-    // step 3: register the session
+
+
+    // register the session
     let stripeSession = await Stripe.checkout.sessions.create(payment)
 
-    
+
     res.status(200).json({
       paymentReference: payment,
-      orders:order,
-      sessionId : stripeSession.id, // 4. Get the ID of the session
-      publishableKey : process.env.STRIPE_PUBLISHABLE_KEY
+      orders: order,
+      sessionId: stripeSession.id, // 4. Get the ID of the session
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
     });
-    
 
-  
+
+
 
   } catch (err) {
-    console.log(err)
+    // console.log(err)
     res.send({
       error: "We have encountered an internal server error",
     });
@@ -84,48 +94,45 @@ router.get('/', async (req, res) => {
 });
 
 
-//create order and update cart after payment
-router.post('/createOrder', checkIfAuthenticatedJWT, async (req, res) => {
-  try {
-
-    // const { addressId } = req.body;
-    // console.log(req.user)
-    const order = await orderDataBaseLayer.checkOut(req.user.id);
-    res.status(200).json(order);
-    console.log(order.toJSON())
-
-  } catch (err) {
-    console.log(err)
-    res.send({
-      error: "We have encountered an internal server error",
-    });
-  }
-});
 
 /********************** Stripe Webhooks  **********************/
 //process payment
 router.post('/process_payment', express.raw({
   type: 'application/json'
-}), function (req, res) {
+}), async function (req, res) {
   const payload = req.body;
   const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
   let signHeader = req.headers["stripe-signature"];
+  // console.log(signHeader)
   let event;
   try {
     event = Stripe.webhooks.constructEvent(payload, signHeader, endpointSecret);
+    if (event.type === "checkout.session.completed") {
+      const data = event.data.object.metadata;
+      let stripeSession = event.data.object;
+      console.log(data)
+      // console.log(stripeSession, 'stripesession data');
+      let metadata = stripeSession.metadata.orders;
+      // console.log(metadata, 'from checkout routes');
+
+      //TODO: update order status to paid
+      console.log(data)
+
+      await OrderServices.createStatus(data.orderId);
+
+      console.log('it runs')
+
+      // console.log(event)
+    }
+
+    res.status(200).send({
+      received: true
+    });
+    
   } catch (err) {
     console.log(err);
-    return res.sendStatus(400);
+    return res.sendStatus(300);
   }
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const sessionId = session.id;
-    console.log(sessionId), console.log(session);
-    //TODO: update order status to paid
-  }
-  res.status(200).send({
-    received: true
-  });
 });
 
 module.exports = router;
