@@ -5,6 +5,7 @@ const {
     MattressType,
     FrameColour,
     WoodColour,
+    OrderItem,
 } = require('../models')
 
 
@@ -65,6 +66,11 @@ async function getProductById(productId) {
 // })
 // }
 
+async function getAllBedName() {
+    const allBedName = await ProductTable.fetchAll().map(b => [b.get('id'), b.get('name')]);
+    return allBedName;
+}
+
 async function getAllBedSize() {
     const allBedSize = await BedSize.fetchAll().map(b => [b.get('id'), b.get('name')]);
     return allBedSize;
@@ -93,6 +99,7 @@ const getAllProductsApi = async () => {
 
 module.exports = {
     getProductById,
+    getAllBedName,
     getAllBedSize,
     getAllBedOrientation,
     getAllMattressType,

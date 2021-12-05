@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const {
-    checkIfAuthenticated
-} = require('../middleware');
+const {checkIfAuthenticated } = require('../middleware');
 const cartServices = require('../services/cart')
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const orderDataBaseLayer = require("../dal/api/orders");
-const {
-    Order,
-    OrderItem
-} = require("../models");
+const {OrderItem } = require("../models");
+const dataLayer = require('../dal/products')
+const {bootstrapField, createSearchOrderForm} = require('../forms');
+
 
 module.exports = router;
 
@@ -79,15 +76,130 @@ router.get('/', async (req, res) => {
 })
 
 //create order and update cart after payment
-router.get('/createOrder', checkIfAuthenticated, async (req, res) => {
-            let orders = await OrderItem.collection().fetch({
+
+router.get('/createOrder',checkIfAuthenticated, async (req, res) => {
+
+    const allBedName = await dataLayer.getAllBedName();
+    allBedName.unshift([0, 'All Bed Names']);
+    // 1. get all the bed sizes
+    const allBedSize = await dataLayer.getAllBedSize();
+    allBedSize.unshift([0, 'All Bed Sizes']);
+
+    const allBedOrientation = await dataLayer.getAllBedOrientation();
+    allBedOrientation.unshift([0, 'All Bed Orientations']);
+
+    const allMattressType = await dataLayer.getAllMattressType();
+    allMattressType.unshift([0, 'All Mattress Types']);
+
+    const allFrameColour = await dataLayer.getAllFrameColours();
+    allFrameColour.unshift([0, 'All Frame Colours']);
+
+    
+    // 2. Get all the wood colours
+    const allWoodColour = await dataLayer.getAllWoodColours();
+    allWoodColour.unshift([0, 'All Wood Colours']);
+
+
+    // 3. Create search form 
+    let searchForm = createSearchOrderForm(allBedName, allBedSize, allBedOrientation, allMattressType, allFrameColour, allWoodColour);
+
+    searchForm.handle(req, {
+        'empty': async (form) => {
+            // the model represents the entire table
+            let orderItems = await OrderItem.collection().fetch({
                 'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
             });
-            
+
+            let orders = orderItems.toJSON().map((wallBed) => {
+                return {
+                    ...wallBed,
+                    cost: wallBed.cost / 100
+                };
+            });
+
             res.render('orders/create', {
-                orders: orders.toJSON()
+                'orders': orders,
+                'searchForm': form.toHTML(bootstrapField),
+                'allBedName': allBedName,
+                'allBedSize': allBedSize,
+                'allBedOrientation': allBedOrientation,
+                'allMattressType': allMattressType,
+                'allFrameColour': allFrameColour,
+                'allWoodColours': allWoodColour
             })
-        })
+        },
+        'error': async (form) => {},
+        'success': async (form) => {
+            let name = parseInt(form.data.wall_bed_id);
+            let bedSize = parseInt(form.data.bed_size_id);
+            let bedOrientation = parseInt(form.data.bed_orientation_id);
+            let mattressType = parseInt(form.data.mattress_type_id);
+            let frameColour = parseInt(form.data.frame_colour_id);
+            let woodColour = parseInt(form.data.wood_colour_id);
+
+            // create a query that is the eqv. of "SELECT * FROM products WHERE 1"
+            // this query is deferred because we never call fetch on it.
+            // we have to execute it by calling fetch onthe query
+            let q = OrderItem.collection();
+
+            // if name is not undefined, not null and not empty string
+            if (name) {
+                // add a where clause to its back
+                q.where('wall_bed_id', '=', name);
+            }
+
+            // check if cateogry is not 0, not undefined, not null, not empty string
+            if (bedSize) {
+                q.where('bed_size_id', '=', bedSize);
+            }
+            if (bedOrientation) {
+                q.where('bed_orientation_id', '=', bedOrientation);
+            }
+            if (mattressType) {
+                q.where('mattress_type_id', '=', mattressType);
+            }
+            if (frameColour) {
+                q.where('frame_colour_id', '=', frameColour);
+            }
+
+            // if tags is not empty
+            if (woodColour) {
+                q.where('wood_colour_id', '=', woodColour);
+            }
+
+            // execute the query
+            let orders = await q.fetch({
+                'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
+            });
+
+            res.render('orders/create', {
+                'orders': orders.toJSON(), // convert the results to JSON
+                'searchForm': form.toHTML(bootstrapField),
+                'allBedName': allBedName,
+                'allWoodColours': allWoodColour,
+                'allBedSize': allBedSize,
+                'allBedOrientation': allBedOrientation,
+                'allMattressType': allMattressType,
+                'allFrameColour': allFrameColour,
+
+            })
+
+        }
+    })
+})
+
+
+
+
+// router.get('/createOrder', checkIfAuthenticated, async (req, res) => {
+//             let orders = await OrderItem.collection().fetch({
+//                 'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
+//             });
+            
+//             res.render('orders/create', {
+//                 orders: orders.toJSON()
+//             })
+//         })
     
 
 

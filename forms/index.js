@@ -313,4 +313,113 @@ const createSearchForm = (bed_sizes, bed_orientations, mattress_types, frame_col
 
     })
 }
-module.exports = { createProductForm, bootstrapField, createRegistrationForm, createLoginForm, createSearchForm };
+
+const createSearchOrderForm = (wall_beds, bed_sizes, bed_orientations, mattress_types, frame_colours, wood_colours,width = "w-full") => {
+    return forms.create({
+        'wall_bed_id': fields.string({
+            label: 'Name of Wall Bed',
+            required: false,
+            widget: widgets.text({ classes: [width] }),
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: wall_beds
+        }),
+
+
+        'bed_size_id': fields.string({
+            label: 'Bed Sizes',
+            required: false,
+            widget: widgets.text({ classes: [width] }),
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: bed_sizes
+            
+
+        }),
+
+        'bed_orientation_id': fields.string({
+            label: 'Bed Orientation',
+            required: false,
+            widget: widgets.text({ classes: [width] }),
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: bed_orientations
+        }),
+
+        'mattress_type_id': fields.string({
+            label: 'Mattress Type',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: mattress_types
+        }),
+
+
+        'frame_colour_id': fields.string({
+            label: 'Bed Frame Colour',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: frame_colours
+        }),
+
+
+        'wood_colour_id': fields.string({
+            label: 'Wood panel colours',
+            required: false,
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: wood_colours
+        }),
+
+
+    })
+}
+
+createSearchShipDetailsForm = (statuses ,width = "w-full") => {
+    return forms.create({
+        'payment_reference': fields.string({
+            label: 'Payment Reference',
+            required: false,
+            widget: widgets.text({ classes: [width] }),
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            
+        }),
+
+        'status_id': fields.string({
+            label: 'Payment Status',
+            required: false,
+            widget: widgets.text({ classes: [width] }),
+            errorAfterField: true,
+            cssClasses: {
+                label: ["text-gray-600 ms-2 mt-3 text-lg"],
+            },
+            widget: widgets.select(),
+            choices: statuses
+        }),
+
+
+    })
+}
+module.exports = { createSearchShipDetailsForm, createSearchOrderForm, createProductForm, bootstrapField, createRegistrationForm, createLoginForm, createSearchForm };

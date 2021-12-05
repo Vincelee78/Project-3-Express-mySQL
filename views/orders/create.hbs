@@ -2,73 +2,102 @@
 
 {{#block 'content'}}
 
-<div class="index2 px-2">
+<div class="index2 ms-3">
+    <div class="row">
 
-    <table class=" sm:bg-white rounded-lg overflow-hidden sm:shadow-lg p-2">
-        <thead>
-            <tr
-                class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                <th class="border" style="text-align:center">Product ID</th>
-                <th class="border" style=" text-align:center">Order ID</th>
-                <th class="border" style="width: 180px; text-align:center">Name of Bed</th>
-                <th class="border" style="width: 180px; text-align:center">Bed Size</th>
-                <th class="border" style="width: 180px; text-align:center">Frame Colour</th>
-                <th class="border" style="width: 180px; text-align:center">Bed Orientation</th>
-                <th class="border" style="width: 180px; text-align:center">Mattress Type</th>
-                <th class="border" style=" text-align:center">Quantity</th>
-                <th class="border" style="width: 150px; text-align:center">Cost</th>
-                <th class="border" style="text-align:center">Wood Colours</th>
-                <th class="border" style="text-align:center">Payment Status</th>
+        <div class="col">
+            <b>
+                <p style="font-size: 20px;">Search Orders</p>
+            </b>
 
-            </tr>
+            <form method="GET" class="">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                <h3 class="m-1 mt-3 pl-3 font-serif font-bold">Advanced Filter: </h3>
+                <div class="m-1 pl-3 pr-2 flex">
+                    <button type="submit" class="text-white bg-green-400 active:bg-green-700 px-2 rounded-3">Filter
+                        Orders</button>
+                    <a href="/checkout/createOrder" class="btn btn-primary bg-yellow-400 active:bg-blue-700 px-2 ml-2 rounded-3">Reset</a>
+                </div>
+                <div class="m-1 pl-3 pr-2 font-light text-sm">Enter filter and click
+                    <b>Filter Orders</b>
+                    to filter. Click
+                    <b>Reset</b>
+                    to reset filters.
+                </div>
 
-        </thead>
-        <tbody class="productindex">
-            {{#each orders}}
-            <tr>
-                <td class="border hover:bg-gray-100" style="width: 50px; text-align:center">
-                    {{this.id}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.order_id}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.wallBed.name}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.bedSize.name}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.frameColour.name}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.bedOrientation.name}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.mattressType.name}}
-                </td>
-                </td>
-                <td style="text-align:center" class="border hover:bg-gray-100 pb-4 pt-3 px-2">
-                    {{this.quantity}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    ${{this.cost}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.woodColour.name}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.status.name}}
-                </td>
+                {{{searchForm}}}
 
-            </tr>
+                <input type="submit" class="btn btn-primary btn-sm my-3" value="Search" />
+            </form>
 
-            {{/each}}
+        </div>
 
-        </tbody>
-    </table>
-    <a href="/" class="btn btn-success btn-sm mb-4 mt-3">Back to Home</a>
+        <div class="col-sm-10">
 
-    {{/block}}
+            <table class=" sm:bg-white rounded-lg overflow-hidden sm:shadow-lg m-4">
+                <thead>
+                    <tr
+                        class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                        
+                        <th class="border" style=" text-align:center">Order Reference ID</th>
+                        <th class="border" style="width: 180px; text-align:center">Name of Bed</th>
+                        <th class="border" style="width: 180px; text-align:center">Bed Size</th>
+                        <th class="border" style="width: 180px; text-align:center">Frame Colour</th>
+                        <th class="border" style="width: 180px; text-align:center">Bed Orientation</th>
+                        <th class="border" style="width: 180px; text-align:center">Mattress Type</th>
+                        <th class="border" style=" text-align:center">Quantity</th>
+                        <th class="border" style="width: 150px; text-align:center">Cost</th>
+                        <th class="border" style="width: 150px; text-align:center">Wood Colours</th>
 
-    {{/extends}}
+
+                    </tr>
+
+                </thead>
+                <tbody class="productindex">
+                    {{#each orders}}
+                    <tr>
+                    
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.order_id}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.wallBed.name}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.bedSize.name}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.frameColour.name}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.bedOrientation.name}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.mattressType.name}}
+                        </td>
+                        </td>
+                        <td style="text-align:center" class="border hover:bg-gray-100 pb-4 pt-3 px-2">
+                            {{this.quantity}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            ${{this.cost}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.woodColour.name}}
+                        </td>
+
+
+                    </tr>
+
+                    {{/each}}
+
+                </tbody>
+            </table>
+            <a href="/allproducts" class="btn btn-success btn-sm mb-4 ms-4 mt-3">Back to Catalogue</a>
+        </div>
+    </div>
+</div>
+
+{{/block}}
+
+{{/extends}}

@@ -100,9 +100,6 @@ const OrderItem = bookshelf.model('OrderItem', {
     mattressType() {
         return this.belongsTo('MattressType', 'mattress_type_id')
     },
-    status(){
-        return this.belongsTo('Status','status_id')
-    }
 
 })
 
@@ -120,7 +117,7 @@ const Order = bookshelf.model('Order', {
     }
 })
 
-const Status=bookshelf.model('Status',{
+const Status = bookshelf.model('Status',{
     tableName: 'statuses',
     order(){
         return this.hasMany('Order')

@@ -3,78 +3,112 @@
 {{#block 'content'}}
 
 <div class="index2 px-2">
+    <div class="row">
 
-    <table class=" sm:bg-white rounded-lg overflow-hidden sm:shadow-lg p-2">
-        <thead>
-            <tr
-                class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                <th class="border" style="text-align:center">Order ID</th>
-                <th class="border" style=" text-align:center">Payment Reference</th>
-                <th class="border" style="width: 180px; text-align:center">Date Ordered</th>
-                <th class="border" style="width: 180px; text-align:center">Customer Name</th>
-                <th class="border" style="width: 180px; text-align:center">Email</th>
-                <th class="border" style="width: 180px; text-align:center">Billing Address</th>
-                <th class="border" style="width: 180px; text-align:center">Shipping Address</th>
-                <th class="border" style=" text-align:center">Phone Number</th>
-                <th class="border" style="text-align:center">Payment Status</th>
+        <div class="col">
+            <b>
+                <p style="font-size: 20px;">Search Shipping Details</p>
+            </b>
 
-            </tr>
+            <form method="GET" class="">
+                <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                <h3 class="m-1 mt-3 pl-3 font-serif font-bold">Advanced Filter: </h3>
+                <div class="m-1 pl-3 pr-2 flex">
+                    <button type="submit" class="text-white bg-green-400 active:bg-green-700 px-2 rounded-3">Filter
+                        Details</button>
+                    <a href="/orders/shipping" class="btn btn-primary bg-yellow-400 active:bg-blue-700 px-2 ml-2 rounded-3">Reset</a>
+                </div>
+                <div class="m-1 pl-3 pr-2 font-light text-sm">Enter filter and click
+                    <b>Filter Details</b>
+                    to filter. Click
+                    <b>Reset</b>
+                    to reset filters.
+                </div>
 
-        </thead>
-        <tbody class="productindex">
-            {{#each orders}}
-            <tr>
-                <td class="border hover:bg-gray-100" style="width: 50px; text-align:center">
-                    {{this.id}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.payment_reference}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.date_ordered}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.wallBedUser.username}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.wallBedUser.email}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.wallBedUser.billing_address}}
-                </td>
-                </td>
-                <td style="text-align:center" class="border hover:bg-gray-100 pb-4 pt-3 px-2">
-                    {{this.wallBedUser.shipping_address}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{this.wallBedUser.phone}}
-                </td>
-                <td class="border hover:bg-gray-100" style="text-align:center">
-                    {{!-- {{this.status.name}} --}}
-                    <form method="POST" action="/orders/{{this.id}}/statusComplete">
-                        <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
-                        <label style='color:brown'> Status: </label>
-                        <input type="text" name='status' value="{{this.status.name}}"
-                            style="width:60px; text-align:center" />
-                        <input type="submit" class="btn btn-success btn-sm" value="Complete Order" />
-                    </form>
+                {{{searchForm}}}
 
-                    {{!-- <form method="POST" action="/orders/statusComplete">
-                        <input type="hidden" name="_csrf" value="{{csrfToken}}" />
-                        <a href='/orders/statusComplete' type='submit' class='btn btn-success btn-sm my-1'>Complete
-                            Order</a>
-                    </form> --}}
-                </td>
+                <input type="submit" class="btn btn-primary btn-sm my-3" value="Search" />
+            </form>
+
+        </div>
+
+        <div class="col-sm-10">
+
+            <table class=" sm:bg-white rounded-lg overflow-hidden sm:shadow-lg p-2">
+                <thead>
+                    <tr
+                        class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                        <th class="border" style="text-align:center">Order Reference ID</th>
+                        <th class="border" style=" text-align:center">Payment Reference</th>
+                        <th class="border" style="width: 180px; text-align:center">Date Ordered</th>
+                        <th class="border" style="width: 180px; text-align:center">Customer Name</th>
+                        <th class="border" style="width: 180px; text-align:center">Email</th>
+                        <th class="border" style="width: 180px; text-align:center">Billing Address</th>
+                        <th class="border" style="width: 180px; text-align:center">Shipping Address</th>
+                        <th class="border" style=" width: 180px; text-align:center">Phone Number</th>
+                        <th class="border" style="width: 180px; text-align:center">Payment Status</th>
+
+                    </tr>
+
+                </thead>
+                <tbody class="productindex">
+                    {{#each orders}}
+                    <tr>
+                        <td class="border hover:bg-gray-100" style="width: 50px; text-align:center">
+                            {{this.id}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.payment_reference}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.date_ordered}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.wallBedUser.username}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.wallBedUser.email}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.wallBedUser.billing_address}}
+                        </td>
+                        </td>
+                        <td style="text-align:center" class="border hover:bg-gray-100 pb-4 pt-3 px-2">
+                            {{this.wallBedUser.shipping_address}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.wallBedUser.phone}}
+                        </td>
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{!-- {{this.status.name}} --}}
+                            <form method="POST" action="/orders/{{this.id}}/statusComplete">
+                                <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
+                                <label style='color:brown'> Status: </label>
+                                <input type="text" name='status' value="{{this.status.name}}"
+                                    style="width:82px; text-align:center" />
+                                <input type="submit" class="btn btn-success btn-sm" value="Complete Order" />
+                            </form>
+
+                            {{!-- <form method="POST" action="/orders/statusComplete">
+                                <input type="hidden" name="_csrf" value="{{csrfToken}}" />
+                                <a href='/orders/statusComplete' type='submit'
+                                    class='btn btn-success btn-sm my-1'>Complete
+                                    Order</a>
+                            </form> --}}
+                        </td>
 
 
-            </tr>
+                    </tr>
 
-            {{/each}}
+                    {{/each}}
 
-        </tbody>
-    </table>
-    <a href="/" class="btn btn-success btn-sm mb-4 mt-3">Back to Home</a>
+                </tbody>
+            </table>
+            <a href="/allproducts" class="btn btn-success btn-sm mb-4 mt-3">Back to Catalogue</a>
+        </div>
+    </div>
+</div>
 
-    {{/block}}
+{{/block}}
 
-    {{/extends}}
+{{/extends}}

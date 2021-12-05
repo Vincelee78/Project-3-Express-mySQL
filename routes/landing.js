@@ -1,22 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const {
-    ProductTable,
-    BedSize,
-    BedOrientation,
-    MattressType,
-    FrameColour,
-    WoodColour,
-} = require('../models');
-const {
-    bootstrapField,
-    createProductForm,
-    createSearchForm
-} = require('../forms');
+const {ProductTable} = require('../models');
+const {bootstrapField, createProductForm, createSearchForm} = require('../forms');
 // import in the CheckIfAuthenticated middleware
-const {
-    checkIfAuthenticated
-} = require('../middleware');
+const { checkIfAuthenticated } = require('../middleware');
 var formatDate = require("date-fns/intlFormat");
 const dataLayer = require('../dal/products')
 
@@ -372,8 +359,8 @@ router.post('/delete/:id', async (req, res) => {
         req.flash('success_messages', `Wall Bed ${product.get("name")} has been deleted`)
         res.redirect('/allproducts');
     } catch (error) {
-        req.flash('error_messages', 'unable to delete')
-
+        req.flash('error_messages', 'Unable to deleted as this product is assoicated with an order!')
+        res.redirect('/allproducts');
     }
 
 })

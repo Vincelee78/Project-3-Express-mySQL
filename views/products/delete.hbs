@@ -2,7 +2,7 @@
 
 {{#block 'content'}}
 
-<h1>Deleting {{product.name}}</h1>
+<h1 class='ms-2'>Deleting {{product.name}}</h1>
 <form method="POST">
     <input type="hidden" name="_csrf" value="{{@root.csrfToken}}"/>
     <div class="alert alert-danger">
