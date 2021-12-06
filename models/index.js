@@ -100,29 +100,29 @@ const OrderItem = bookshelf.model('OrderItem', {
     mattressType() {
         return this.belongsTo('MattressType', 'mattress_type_id')
     },
-
+    
 })
 
 
 const Order = bookshelf.model('Order', {
     tableName: 'orders',
-    wallBed() {
-        return this.belongsToMany('Wallbed')
-    },
     wallBedUser() {
         return this.belongsTo('User', 'user_id')
     },
-    status(){
+    status() {
         return this.belongsTo('Status', 'status_id')
+    },
+    orderItem() {
+        return this.hasMany('OrderItem', 'order_id')
     }
 })
 
-const Status = bookshelf.model('Status',{
+const Status = bookshelf.model('Status', {
     tableName: 'statuses',
-    order(){
+    order() {
         return this.hasMany('Order')
-},
-    orderItem(){
+    },
+    orderItem() {
         return this.hasMany('OrderItem')
     }
 })
@@ -133,7 +133,7 @@ const CartItem = bookshelf.model('CartItem', {
     wallBed() {
         return this.belongsTo('Wallbed', 'product_id')
     },
-    wallBedUser(){
+    wallBedUser() {
         return this.belongsTo('User', 'user_id')
     }
 

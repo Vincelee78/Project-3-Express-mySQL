@@ -38,8 +38,8 @@
                 <thead>
                     <tr
                         class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                        
-                        <th class="border" style=" text-align:center">Order Reference ID</th>
+                        <th class="border" style=" text-align:center">Order ID</th>
+                        <th class="border" style=" text-align:center">Orders Reference ID</th>
                         <th class="border" style="width: 180px; text-align:center">Name of Bed</th>
                         <th class="border" style="width: 180px; text-align:center">Bed Size</th>
                         <th class="border" style="width: 180px; text-align:center">Frame Colour</th>
@@ -56,7 +56,9 @@
                 <tbody class="productindex">
                     {{#each orders}}
                     <tr>
-                    
+                        <td class="border hover:bg-gray-100" style="text-align:center">
+                            {{this.id}}
+                        </td>
                         <td class="border hover:bg-gray-100" style="text-align:center">
                             {{this.order_id}}
                         </td>

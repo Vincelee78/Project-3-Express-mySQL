@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
     
     try{
     let {username, password, email, billing_address, shipping_address, phone}=req.body
-                console.log(req.body)
+                
                 const user = new User({
                 username: username,
                 password: getHashedPassword(password),

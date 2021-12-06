@@ -116,10 +116,10 @@ router.post('/:id/statusComplete' , async (req,res)=>{
     
     if (order) {
         req.flash("success_messages", "Complete order has been updated");
-        console.log('this runs')
+        
     } else {
         req.flash("error_messages", "Failed to update product quantity");
-        console.log('this does not runs')
+        
     }
     
     res.redirect("/orders/shipping");

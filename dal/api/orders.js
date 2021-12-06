@@ -14,11 +14,11 @@ const {
     
 
       cartItems.map(async (cartItem)=> {
-        const product=await getProductById(
-          await cartItem.get("product_id"))
+        const product=await getProductById( await cartItem.get("product_id"))
+          // console.log(product.toJSON())
           
+        await createOrderItem({
           
-        createOrderItem({
           order_id: order.get("id"),
           wall_bed_id: cartItem.get("product_id"),
           quantity: cartItem.get("quantity"),
@@ -28,15 +28,18 @@ const {
           frame_colour_id:product.get('frame_colour_id'),
           mattress_type_id: product.get('mattress_type_id'),
           wood_colour_id: await product.related('woodColour').pluck('id')[0],
-          // status_id: order.get('status_id')
-            }).then(() => {
           
+            }
+            
+            ).then(() => {
+              
           cartServices.removeFromCart(
             userId,
             cartItem.get("product_id")          
           );
         }).catch(e =>console.log(e));
       });
+      
     return order;
   }
 

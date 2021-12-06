@@ -3,6 +3,7 @@ const { Order, OrderItem } = require("../models");
 const { 
   v1: uuidv1,
 } = require('uuid');
+const cartServices = require("../services/cart");
 
 /************************** Order ************************************/
 /*
@@ -17,12 +18,9 @@ const {
  */
 async function createOrder(userId) {
   try {
-    //validate params
-    // await yup.number().required().validate(addressId);
-    // await yup.number().required().validate(userId);
-
+    
     let order = new Order({
-      // statusId: 1,
+  
       user_id: userId,
       payment_reference: uuidv1(),
       date_ordered: new Date(),
@@ -49,7 +47,7 @@ async function createStatus(orderId) {
       'withRelated': ['wallBedUser', 'status'], 
       require: false
   });
-  console.log(order.toJSON())
+  
   order.set("status_id", 1);
     await order.save();
 
@@ -84,30 +82,10 @@ async function completeStatus(orderId) {
   }
 }
 
-/************************** Order Item ************************************/
-//order item schema
-// const orderItemSchema = yup.object().shape({
-//   orderId: yup.number().required(),
-//   productId: yup.number().required(),
-//   quantity: yup.number().required(),
-//   cost: yup.number().required(),
-// });
-/*
- * @desc create a new order item
- *
- * @param {object} orderItem - order item object
- * @param {number} orderItem.orderId - order id
- * @param {number} orderItem.productId - product id
- * @param {number} [orderItem.productVariantId = null] - product variant id
- * @param {number} orderItem.quantity - quantity
- * @param {number} orderItem.cost - cost
- *
- * @returns {object} - bookshelf order item object
- */
+
 async function createOrderItem (orderItem)  {
   try {
-    //validate params
-    // await orderItemSchema.validate(orderItem);
+    
     // console.log(orderItem,'test')
     const item = new OrderItem({
       order_id: orderItem.order_id,
@@ -120,7 +98,7 @@ async function createOrderItem (orderItem)  {
       frame_colour_id: orderItem.frame_colour_id,
       bed_orientation_id: orderItem.bed_orientation_id,
     });
-    
+    console.log(item.toJSON())
     await item.save();
 
     return item;

@@ -231,9 +231,9 @@ router.post('/process_payment', express.raw({
         event = Stripe.webhooks.constructEvent(payload, sigHeader, endpointSecret);
         if (event.type == "checkout.session.completed") {
             let stripeSession = event.data.object;
-            console.log(stripeSession, 'stripesession data');
+            // console.log(stripeSession, 'stripesession data');
             let metadata = JSON.parse(stripeSession.metadata.orders);
-            console.log(metadata, 'from checkout routes');
+            // console.log(metadata, 'from checkout routes');
 
 
             res.send({
