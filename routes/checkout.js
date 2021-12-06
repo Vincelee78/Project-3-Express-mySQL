@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const {checkIfAuthenticated } = require('../middleware');
+const {
+    checkIfAuthenticated
+} = require('../middleware');
 const cartServices = require('../services/cart')
 const Stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const {OrderItem } = require("../models");
+const {
+    OrderItem
+} = require("../models");
 const dataLayer = require('../dal/products')
-const {bootstrapField, createSearchOrderForm} = require('../forms');
+const {
+    bootstrapField,
+    createSearchOrderForm
+} = require('../forms');
 
 
 module.exports = router;
@@ -28,23 +35,16 @@ router.get('/', async (req, res) => {
             lineItem['images'] = [item.related('wallBed').get('image_url')]
         }
         allLineItems.push(lineItem);
-        
+
         // add to the metadata an object that remembers for a given product id
         // how many was ordered
         metadata.push({
             'product_id': item.related('wallBed').get('id'),
             'name': item.related('wallBed').get('name'),
             'quantity': item.get('quantity'),
-            // 'Size':item.related('wallBed').related('bedSize').get('name'),
-            // 'Orientn':item.related('wallBed').related('bedOrientation').get('name'),
-            // 'frameC':item.related('wallBed').related('frameColour').get('name'),
-            // 'mattress': item.related('wallBed').related('mattressType').get('name'),
-            // 'woodC': item.related('wallBed').related('woodColour').pluck('name'),
             'amount': item.related('wallBed').get('cost') / 100,
             'userName': req.session.user.username,
             'email': req.session.user.email,
-            // 'billingAddress':req.session.user.billing_address,
-            // 'shippingAddress':req.session.user.shipping_address,
             'phone': req.session.user.phone
         })
 
@@ -77,7 +77,7 @@ router.get('/', async (req, res) => {
 
 //create order and update cart after payment
 
-router.get('/createOrder',checkIfAuthenticated, async (req, res) => {
+router.get('/createOrder', checkIfAuthenticated, async (req, res) => {
 
     const allBedName = await dataLayer.getAllBedName();
     allBedName.unshift([0, 'All Bed Names']);
@@ -94,7 +94,7 @@ router.get('/createOrder',checkIfAuthenticated, async (req, res) => {
     const allFrameColour = await dataLayer.getAllFrameColours();
     allFrameColour.unshift([0, 'All Frame Colours']);
 
-    
+
     // 2. Get all the wood colours
     const allWoodColour = await dataLayer.getAllWoodColours();
     allWoodColour.unshift([0, 'All Wood Colours']);
@@ -107,7 +107,7 @@ router.get('/createOrder',checkIfAuthenticated, async (req, res) => {
         'empty': async (form) => {
             // the model represents the entire table
             let orderItems = await OrderItem.collection().fetch({
-                'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
+                'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize', 'bedOrientation', 'frameColour', 'mattressType']
             });
 
             let orders = orderItems.toJSON().map((wallBed) => {
@@ -148,7 +148,6 @@ router.get('/createOrder',checkIfAuthenticated, async (req, res) => {
                 q.where('wall_bed_id', '=', name);
             }
 
-            // check if cateogry is not 0, not undefined, not null, not empty string
             if (bedSize) {
                 q.where('bed_size_id', '=', bedSize);
             }
@@ -162,14 +161,13 @@ router.get('/createOrder',checkIfAuthenticated, async (req, res) => {
                 q.where('frame_colour_id', '=', frameColour);
             }
 
-            // if tags is not empty
             if (woodColour) {
                 q.where('wood_colour_id', '=', woodColour);
             }
 
             // execute the query
             let orders = await q.fetch({
-                'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
+                'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize', 'bedOrientation', 'frameColour', 'mattressType']
             });
 
             res.render('orders/create', {
@@ -191,21 +189,9 @@ router.get('/createOrder',checkIfAuthenticated, async (req, res) => {
 
 
 
-// router.get('/createOrder', checkIfAuthenticated, async (req, res) => {
-//             let orders = await OrderItem.collection().fetch({
-//                 'withRelated': ['wallBed', 'order', 'woodColour', 'bedSize','bedOrientation','frameColour', 'mattressType']
-//             });
-            
-//             res.render('orders/create', {
-//                 orders: orders.toJSON()
-//             })
-//         })
-    
-
-
 router.get('/success', function (req, res) {
     res.render("checkout/success");
-    // res.redirect('/allproducts')
+
 })
 
 router.get('/cancel', function (req, res) {
@@ -231,9 +217,6 @@ router.post('/process_payment', express.raw({
         event = Stripe.webhooks.constructEvent(payload, sigHeader, endpointSecret);
         if (event.type == "checkout.session.completed") {
             let stripeSession = event.data.object;
-            // console.log(stripeSession, 'stripesession data');
-            let metadata = JSON.parse(stripeSession.metadata.orders);
-            // console.log(metadata, 'from checkout routes');
 
 
             res.send({

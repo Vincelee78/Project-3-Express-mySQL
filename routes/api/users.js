@@ -1,9 +1,14 @@
 const express = require('express')
 const router = express.Router();
 const crypto = require('crypto');
-const {checkIfAuthenticatedJWT} = require('../../middleware');
+const {
+    checkIfAuthenticatedJWT
+} = require('../../middleware');
 const jwt = require('jsonwebtoken');
-const { User, BlacklistedToken } = require('../../models/index');
+const {
+    User,
+    BlacklistedToken
+} = require('../../models/index');
 
 
 const generateAccessToken = (user, secretKey, expiry) => {
@@ -22,154 +27,86 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-router.get('/register',(req,res)=>{
-    const registerForm=createRegistrationForm();
-    res.send({
-        form: registerForm.toHTML(bootstrapField)
-    })
-}),
+router.get('/register', (req, res) => {
+        const registerForm = createRegistrationForm();
+        res.send({
+            form: registerForm.toHTML(bootstrapField)
+        })
+    }),
 
-router.post('/register', async (req, res) => {
-    
-    try{
-    let {username, password, email, billing_address, shipping_address, phone}=req.body
-                
-                const user = new User({
+    router.post('/register', async (req, res) => {
+
+        try {
+            let {
+                username,
+                password,
+                email,
+                billing_address,
+                shipping_address,
+                phone
+            } = req.body
+
+            const user = new User({
                 username: username,
                 password: getHashedPassword(password),
                 email: email,
-                billing_address:billing_address,
-                shipping_address:shipping_address,
-                phone:phone,
-                
+                billing_address: billing_address,
+                shipping_address: shipping_address,
+                phone: phone,
+
             });
-            
+
             await user.save();
             res.json(user.toJSON())
-       
-    } catch (error) {
-        // console.log(error)
-        return({
-          
-          error: "We have encountered an internal server error",
-        });
-      }
+
+        } catch (error) {
+
+            return ({
+
+                error: "We have encountered an internal server error",
+            });
+        }
     })
 
 
-// router.get('/users/login', (req,res)=>{
-//     const loginForm=createLoginForm();
-//     res.send({
-//         form: loginForm.toHTML(bootstrapField)
-//     })
-// })
-
-// router.post('/users/login', async (req, res) => {
-//     const loginForm = createLoginForm();
-//     loginForm.handle(req, {
-//         'success': async (form) => {
-//             // process the login
-
-//             // ...find the user by email
-//             let user = await User.where({
-//                 'email': form.data.email
-//             }).fetch({
-//                require:false}
-//             );
-//             if (!user) {
-//                 req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
-//                 res.redirect('/users/login')
-//             } else {
-//                     // check if the password matches
-//                     if (user.get('password') == getHashedPassword(form.data.password)) {
-//                         // add to the session that login succeed
-//                         // store the user details
-//                     req.session.user = {
-//                         id: user.get('id'),
-//                         username: user.get('username'),
-//                         email: user.get('email')
-//                     }
-//                     req.flash("success_messages", "Welcome back, " + user.get('username'));
-//                     res.redirect('/users/profile');
-//                 } else {
-//                     req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
-//                     res.redirect('/users/login')
-//                 }
-//             }
-//         }, 'error': (form) => {
-//             req.flash("error_messages", "There are some problems logging you in. Please fill in the form again")
-//             res.send({
-//                 'form': form.toHTML(bootstrapField)
-//             })
-//         }
-//     })
-// })
-
 router.post("/login", async (req, res) => {
-    
+
     let user = await User.where({
-      email: req.body.email,
+        email: req.body.email,
     }).fetch({
-      require: false,
+        require: false,
 
     });
-    
+
     if (user && user.get('password') == getHashedPassword(req.body.password)) {
-        
-        let accessToken = generateAccessToken(user.toJSON() , process.env.TOKEN_SECRET, '45m');
+
+        let accessToken = generateAccessToken(user.toJSON(), process.env.TOKEN_SECRET, '45m');
         let refreshToken = generateAccessToken(user.toJSON(), process.env.REFRESH_TOKEN_SECRET, '2w');
         res.send({
-            accessToken, refreshToken
+            accessToken,
+            refreshToken
         })
 
     } else {
         res.send({
-            'error':'Wrong email or password'
+            'error': 'Wrong email or password'
         })
     }
 })
 
-// router.get('/users/profile', (req, res) => {
-//     const user = req.session.user;
-//     if (user==null) {
-//         req.flash('error_messages', 'You do not have permission to view this page');
-//         res.redirect('/users/login');
-//     } else {
-//         res.render({
-//             'user': req.user
-//         })
-//     }
 
-// })
-
-router.get('/profile', checkIfAuthenticatedJWT, async(req,res)=>{
+router.get('/profile', checkIfAuthenticatedJWT, async (req, res) => {
     const user = req.user;
     res.json(user);
 })
 
-    //   const refreshToken = generateAccessToken(
-    //     user,
-    //     process.env.REFRESH_TOKEN_SECRET,
-    //     "7d"
-    //   );
-//       res.json({
-//         accessToken,
-//         // refreshToken,
-//         user: userObject,
-//       });
-//     } else {
-//       res.send({
-//         error: "Wrong email or password",
-//       });
-//     }
-//   });
 
-router.post('/refresh', async function(req,res){
+router.post('/refresh', async function (req, res) {
     let refreshToken = req.body.refreshToken;
     if (!refreshToken) {
         res.sendStatus(401);
     }
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err,user)=>{
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
         if (err) {
             res.sendStatus(403);
         } else {
@@ -184,7 +121,7 @@ router.post('/refresh', async function(req,res){
             if (blacklistedToken) {
                 res.status(401);
                 res.send({
-                    'error':'This token has been expired'
+                    'error': 'This token has been expired'
                 })
             } else {
                 let accessToken = generateAccessToken(user, process.env.TOKEN_SECRET, '15m');
@@ -196,15 +133,15 @@ router.post('/refresh', async function(req,res){
     })
 })
 
-router.post('/logout', async function(req,res){
+router.post('/logout', async function (req, res) {
     let refreshToken = req.body.refreshToken;
-    
+
     if (!refreshToken) {
         res.sendStatus(401);
     } else {
-        
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async(err,user)=>{
-            
+
+        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+
             if (err) {
                 res.sendStatus(403)
             } else {
@@ -214,7 +151,7 @@ router.post('/logout', async function(req,res){
                 token.set('date_created', new Date());
                 await token.save();
                 res.json({
-                    'message':"Logged out"
+                    'message': "Logged out"
                 })
             }
         })

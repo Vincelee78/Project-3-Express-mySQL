@@ -8,7 +8,7 @@ cloudinary.config({
     'api_secret': process.env.CLOUDINARY_API_SECRET,
 })
 
-router.get('/sign', async (req, res)=>{
+router.get('/sign', async (req, res) => {
     const paramsToSign = JSON.parse(req.query.params_to_sign);
     const apiSecret = process.env.CLOUDINARY_API_SECRET;
     const signature = cloudinary.utils.sign_request(paramsToSign, apiSecret);

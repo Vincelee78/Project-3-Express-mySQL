@@ -15,7 +15,7 @@ const {
 
       cartItems.map(async (cartItem)=> {
         const product=await getProductById( await cartItem.get("product_id"))
-          // console.log(product.toJSON())
+          
           
         await createOrderItem({
           

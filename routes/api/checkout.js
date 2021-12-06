@@ -3,9 +3,6 @@ const Stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
 const cartServices = require("../../services/cart");
 const orderDataBaseLayer = require("../../dal/api/orders");
-const {
-  checkIfAuthenticatedJWT
-} = require('../../middleware');
 const OrderServices = require("../../services/orders");
 
 
@@ -13,12 +10,6 @@ router.get('/', async (req, res) => {
   try {
     // Get cart
     let cartItems = await cartServices.getShoppingCart(req.user.id);
-
-    // await cart.updateCartPrice();
-    //TODO: check if product is available before allowing checkout
-
-    // let cartItems = await cart.getCart();
-
 
     // create line items
     let allLineItems = [];
@@ -47,14 +38,13 @@ router.get('/', async (req, res) => {
         'amount': item.related('wallBed').get('cost') / 100,
         'userEmail': req.user.email,
         'userId': req.user.id
-        // 'status_id': item.related('')
       })
 
     }
-    
+
     // create stripe payment object
     let metadataJSON = JSON.stringify(metadata);
-    
+
     //create order and update and remove cart user items after payment
     const order = await orderDataBaseLayer.checkOut(req.user.id);
 
@@ -86,7 +76,7 @@ router.get('/', async (req, res) => {
 
 
   } catch (err) {
-    // console.log(err)
+
     res.send({
       error: "We have encountered an internal server error",
     });
@@ -103,29 +93,28 @@ router.post('/process_payment', express.raw({
   const payload = req.body;
   const endpointSecret = process.env.STRIPE_ENDPOINT_SECRET;
   let signHeader = req.headers["stripe-signature"];
-  
+
   let event;
   try {
     event = Stripe.webhooks.constructEvent(payload, signHeader, endpointSecret);
     if (event.type === "checkout.session.completed") {
       const data = event.data.object.metadata;
       let stripeSession = event.data.object;
-      // console.log(stripeSession, 'stripesession data');
+
       let metadata = stripeSession.metadata.orders;
-      // console.log(metadata, 'from checkout routes');
 
       //  update order status to paid 
       await OrderServices.createStatus(data.orderId);
 
-    
+
     }
 
     res.status(200).send({
       received: true
     });
-    
+
   } catch (err) {
-    // console.log(err);
+
     return res.sendStatus(300);
   }
 });

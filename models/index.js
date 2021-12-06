@@ -14,9 +14,6 @@ const ProductTable = bookshelf.model('Wallbed', {
     frameColour() {
         return this.belongsTo('FrameColour', 'frame_colour_id')
     },
-    // user(){
-    //     return this.belongsTo( 'User', 'user_id')
-    // },
 
     woodColour() {
         return this.belongsToMany('WoodColour');
@@ -138,15 +135,6 @@ const CartItem = bookshelf.model('CartItem', {
     }
 
 })
-
-// const Order = bookshelf.model('Order', {
-//     tableName: 'orders',
-//     wallBed() {
-//         return this.belongsTo('User', 'user_id' )
-//     }
-
-// })
-
 
 
 const BlacklistedToken = bookshelf.model('BlacklistedToken', {

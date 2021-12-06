@@ -1,2 +1,0 @@
-insert into media_properties(id,name,description,URL) values('1','Paramount Pictures','An American film and television production and distribution company and a subsidiary of Viacom CBS.','https://www.paramount.com/');
-insert into media_properties(id,name,description,URL) values('2','Phoenix Pictures','An American film production company that has produced films since the late 1990s','https://phoenixpictures.com/');

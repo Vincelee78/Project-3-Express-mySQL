@@ -25,12 +25,6 @@ var bootstrapField = function (name, object) {
     return '<div class="form-group">' + label + widget + error + '</div>';
 };
 
-// getDate=()=>{
-//     let date = new Date();
-//     date = String(date);
-//     date = date.slice(4, 15);
-//     return date;
-// }
 
 const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours,width = "w-8/12") => {
     return forms.create({

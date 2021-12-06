@@ -1,11 +1,6 @@
 const express = require('express');
 const Stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
-const cartServices = require("../../services/cart");
-const orderDataBaseLayer = require("../../dal/api/orders");
-const {
-  checkIfAuthenticatedJWT
-} = require('../../middleware');
 const OrderServices = require("../../services/orders");
 
 
@@ -26,10 +21,8 @@ router.post('/process_payment', express.raw({
         const data = event.data.object.metadata;
         let stripeSession = event.data.object;
         
-        // console.log(stripeSession, 'stripesession data');
         let metadata = stripeSession.metadata.orders;
-        // console.log(metadata, 'from checkout routes');
-  
+        
         await OrderServices.createStatus(data.orderId);
         
       }
@@ -39,7 +32,7 @@ router.post('/process_payment', express.raw({
       });
       
     } catch (err) {
-      // console.log(err);
+      
       return res.sendStatus(300);
     }
   });

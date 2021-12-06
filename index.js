@@ -7,7 +7,6 @@ const flash = require("connect-flash");
 const FileStore = require("session-file-store")(session);
 const csrf = require("csurf");
 const cors = require("cors");
-const path = require("path");
 const morgan = require('morgan')
 
 let app = express();
@@ -41,7 +40,7 @@ app.use(morgan('dev'))
 // app.use(csrf());
 const csrfInstance = csrf();
 app.use(function (req, res, next) {
-  
+
   // exclude whatever url we want from CSRF protection
   if (
     req.url == "/checkout/process_payment" ||
@@ -101,9 +100,10 @@ const userRegistration = require("./routes/users");
 const cloudinaryRoutes = require("./routes/cloudinary");
 const cartRoutes = require("./routes/cart");
 const checkoutRoutes = require("./routes/checkout");
-const ordersRoutes=require('./routes/orders')
-const { checkIfAuthenticatedJWT } = require("./middleware");
-const { syncBuiltinESMExports } = require("module");
+const ordersRoutes = require('./routes/orders')
+const {
+  checkIfAuthenticatedJWT
+} = require("./middleware");
 
 const api = {
   wallBeds: require("./routes/api/products"),
@@ -119,20 +119,20 @@ async function main() {
   app.use("/", landingRoutes);
   app.use("/", userRegistration);
   app.use("/cloudinary", cloudinaryRoutes);
-  app.use("/cart",  express.json(), cartRoutes);
+  app.use("/cart", express.json(), cartRoutes);
   app.use("/checkout", checkoutRoutes);
   app.use("/orders", ordersRoutes);
   app.use("/api/allproducts", express.json(), api.wallBeds);
   app.use("/api/users", express.json(), api.users);
   app.use("/api/search", express.json(), api.search)
-  app.use("/api/cart", checkIfAuthenticatedJWT,  express.json(), api.cart);
-  app.use("/api/checkout",checkIfAuthenticatedJWT, express.json(), api.checkout);
+  app.use("/api/cart", checkIfAuthenticatedJWT, express.json(), api.cart);
+  app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
   app.use("/api/stripe", api.stripe);
-  app.use("/api/orders",checkIfAuthenticatedJWT, express.json(), api.orders);
+  app.use("/api/orders", checkIfAuthenticatedJWT, express.json(), api.orders);
 }
 
 main();
 
-app.listen(6000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server has started");
 });

@@ -5,7 +5,6 @@ const {
     MattressType,
     FrameColour,
     WoodColour,
-    OrderItem,
 } = require('../models')
 
 
@@ -27,44 +26,44 @@ async function getProductById(productId) {
 }
 
 
-// async function addPoster(){
-//     const allMedia=getAllMedia();
-//     const allTags=getAllTags();
-//     const productForm = createProductForm(allMedia, allTags);
-//     productForm.handle(req, {
-//         success: async (form) => {
-//             let { tags, ...productData } = form.data;
+async function addPoster(){
+    const allMedia=getAllMedia();
+    const allTags=getAllTags();
+    const productForm = createProductForm(allMedia, allTags);
+    productForm.handle(req, {
+        success: async (form) => {
+            let { tags, ...productData } = form.data;
 
-//             const poster = new ProductTable(productData);
+            const poster = new ProductTable(productData);
 
 
-//             poster.set('title', form.data.title);
-//             poster.set('cost', form.data.cost);
-//             poster.set('description', form.data.description);
-//             poster.set('date', form.data.date);
-//             poster.set('stock', form.data.stock);
-//             poster.set('height', form.data.height);
-//             poster.set('width', form.data.width);
-//             poster.set('mediaProperty_id', form.data.mediaProperty_id)
-//             await poster.save();
+            poster.set('title', form.data.title);
+            poster.set('cost', form.data.cost);
+            poster.set('description', form.data.description);
+            poster.set('date', form.data.date);
+            poster.set('stock', form.data.stock);
+            poster.set('height', form.data.height);
+            poster.set('width', form.data.width);
+            poster.set('mediaProperty_id', form.data.mediaProperty_id)
+            await poster.save();
 
-//             if (tags) {
-//                 await poster.tags().attach(tags.split(","));
-//             }
-//             req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
-//             res.redirect('/allproducts');
+            if (tags) {
+                await poster.tags().attach(tags.split(","));
+            }
+            req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
+            res.redirect('/allproducts');
 
-//         },
-//         'error': async (form) => {
-//             res.render('products/create', {
-//                 form: form.toHTML(bootstrapField),
-//                 cloudinaryName: process.env.CLOUDINARY_NAME,
-//                 cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
-//                 cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
-//             })
-//         }
-// })
-// }
+        },
+        'error': async (form) => {
+            res.render('products/create', {
+                form: form.toHTML(bootstrapField),
+                cloudinaryName: process.env.CLOUDINARY_NAME,
+                cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+                cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
+            })
+        }
+})
+}
 
 async function getAllBedName() {
     const allBedName = await ProductTable.fetchAll().map(b => [b.get('id'), b.get('name')]);
@@ -101,6 +100,7 @@ module.exports = {
     getProductById,
     getAllBedName,
     getAllBedSize,
+    addPoster,
     getAllBedOrientation,
     getAllMattressType,
     getAllFrameColours,

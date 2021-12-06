@@ -1,9 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const {ProductTable} = require('../models');
-const {bootstrapField, createProductForm, createSearchForm} = require('../forms');
+const {
+    ProductTable
+} = require('../models');
+const {
+    bootstrapField,
+    createProductForm,
+    createSearchForm
+} = require('../forms');
 // import in the CheckIfAuthenticated middleware
-const { checkIfAuthenticated } = require('../middleware');
+const {
+    checkIfAuthenticated
+} = require('../middleware');
 var formatDate = require("date-fns/intlFormat");
 const dataLayer = require('../dal/products')
 
@@ -89,8 +97,6 @@ router.get('/', async (req, res) => {
                 q.where('cost', '<=', cost_max);
             }
 
-
-            // check if cateogry is not 0, not undefined, not null, not empty string
             if (bedSize) {
                 q.where('bed_size_id', '=', bedSize);
             }
@@ -104,7 +110,7 @@ router.get('/', async (req, res) => {
                 q.where('frame_colour_id', '=', frameColour);
             }
 
-            // if tags is not empty
+            // if woodColours are not empty
             if (woodColour) {
                 let selectedTags = woodColour.split(',');
                 q.query('join', 'wall_beds_wood_colours', 'wall_beds.id', 'wall_bed_id')
@@ -177,13 +183,6 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
         cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
     })
 })
-
-// getDate=()=>{
-//     let date = new Date();
-//     date = String(date);
-//     date = date.slice(4, 15);
-//     return date;
-// }
 
 router.post('/create', checkIfAuthenticated, async (req, res) => {
 
@@ -301,20 +300,20 @@ router.post('/update/:id', async (req, res) => {
         'success': async (form) => {
             let {
                 woodColour,
-                ...Posterdata
+                ...wallBedData
             } = (form.data);
-            wallBed.set(Posterdata);
+            wallBed.set(wallBedData);
             wallBed.save();
-            // update the tags
+
 
             let woodColourId = woodColour.split(',');
             let exisitingWoodColourId = await wallBed.related('woodColour').pluck('id');
 
-            // remove all the tags that aren't selected anymore
+            // remove all the wood colours that aren't selected anymore
             let toRemove = exisitingWoodColourId.filter(id => woodColourId.includes(id) === false);
             await wallBed.woodColour().detach(toRemove);
 
-            // add in all the tags selected in the form
+            // add in all the wood colours selected in the form
             await wallBed.woodColour().attach(woodColourId);
             req.flash('success_messages', `Poster ${wallBed.get("name")} has been updated`)
             res.redirect('/allproducts');
@@ -350,10 +349,6 @@ router.post('/delete/:id', async (req, res) => {
         }).fetch({
             require: true
         });
-        // const allBedSize = await dataLayer.getAllBedSize();
-        // const allBedOrientation = await dataLayer.getAllBedOrientation();
-        // const allMattressType = await dataLayer.getAllMattressType();
-        // const allFrameColours = await dataLayer.getAllFrameColours();
 
         await product.destroy();
         req.flash('success_messages', `Wall Bed ${product.get("name")} has been deleted`)

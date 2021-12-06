@@ -8,43 +8,49 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-const {User}=require('../models/index');
+const {
+    User
+} = require('../models/index');
 
-const {createRegistrationForm, bootstrapField, createLoginForm}=require('../forms/index');
+const {
+    createRegistrationForm,
+    bootstrapField,
+    createLoginForm
+} = require('../forms/index');
 
-router.get('/register',(req,res)=>{
-    const registerForm=createRegistrationForm();
-    res.render('users/register',{
-        form: registerForm.toHTML(bootstrapField)
+router.get('/register', (req, res) => {
+        const registerForm = createRegistrationForm();
+        res.render('users/register', {
+            form: registerForm.toHTML(bootstrapField)
+        })
+    }),
+
+    router.post('/register', (req, res) => {
+        const registerForm = createRegistrationForm();
+        registerForm.handle(req, {
+            success: async (form) => {
+
+                const user = new User({
+                    'username': form.data.username,
+                    'password': getHashedPassword(form.data.password),
+                    'email': form.data.email
+                });
+                await user.save();
+                req.flash("success_messages", "User signed up successfully!");
+                res.redirect('/users/login')
+            },
+            'error': (form) => {
+                req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
+                res.render('users/register', {
+                    'form': form.toHTML(bootstrapField)
+                })
+            }
+        })
     })
-}),
 
-router.post('/register', (req, res) => {
-    const registerForm = createRegistrationForm();
-    registerForm.handle(req, {
-        success: async (form) => {
-            
-            const user = new User({
-                'username': form.data.username,
-                'password': getHashedPassword(form.data.password),
-                'email': form.data.email
-            });
-            await user.save();
-            req.flash("success_messages", "User signed up successfully!");
-            res.redirect('/users/login')
-        },
-        'error': (form) => {
-            req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
-            res.render('users/register', {
-                'form': form.toHTML(bootstrapField)
-            })
-        }
-    })
-})
-
-router.get('/users/login', (req,res)=>{
-    const loginForm=createLoginForm();
-    res.render('users/login',{
+router.get('/users/login', (req, res) => {
+    const loginForm = createLoginForm();
+    res.render('users/login', {
         form: loginForm.toHTML(bootstrapField)
     })
 })
@@ -59,16 +65,16 @@ router.post('/users/login', async (req, res) => {
             let user = await User.where({
                 'email': form.data.email
             }).fetch({
-               require:false}
-            );
+                require: false
+            });
             if (!user) {
                 req.flash("error_messages", "Sorry, the authentication details you provided does not work.")
                 res.redirect('/users/login')
             } else {
-                    // check if the password matches
-                    if (user.get('password') == getHashedPassword(form.data.password)) {
-                        // add to the session that login succeed
-                        // store the user details
+                // check if the password matches
+                if (user.get('password') == getHashedPassword(form.data.password)) {
+                    // add to the session that login succeed
+                    // store the user details
                     req.session.user = {
                         id: user.get('id'),
                         username: user.get('username'),
@@ -85,7 +91,8 @@ router.post('/users/login', async (req, res) => {
                     res.redirect('/users/login')
                 }
             }
-        }, 'error': (form) => {
+        },
+        'error': (form) => {
             req.flash("error_messages", "There are some problems logging you in. Please fill in the form again")
             res.render('users/login', {
                 'form': form.toHTML(bootstrapField)
@@ -96,11 +103,11 @@ router.post('/users/login', async (req, res) => {
 
 router.get('/users/profile', (req, res) => {
     const user = req.session.user;
-    if (user==null) {
+    if (user == null) {
         req.flash('error_messages', 'You do not have permission to view this page');
         res.redirect('/users/login');
     } else {
-        res.render('users/profile',{
+        res.render('users/profile', {
             'user': user
         })
     }
@@ -113,4 +120,4 @@ router.get('/users/logout', (req, res) => {
     res.redirect('/users/login');
 })
 
-module.exports=router;
+module.exports = router;
