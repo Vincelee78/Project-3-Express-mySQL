@@ -25,7 +25,7 @@ exports.up = function(db) {
         name: 'bed_orders_fk',
         table: 'wall_beds',
         rules: {
-          onDelete: 'CASCADE',
+          onDelete: 'RESTRICT',
           onUpdate: 'RESTRICT'
         },
         mapping: 'id'
