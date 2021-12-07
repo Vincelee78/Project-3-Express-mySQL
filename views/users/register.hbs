@@ -1,9 +1,9 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<b>Register</b>
+<b class='m-3'>Register</b>
 <br/><br/>
-<form method="POST" action="/register">
+<form method="POST" action="/register" class='mx-3'>
 <input type="hidden" name="_csrf" value="{{csrfToken}}" />
     {{{form}}}
     <input type="submit" value="Register" class="btn btn-primary btn-sm my-3"/>

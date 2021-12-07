@@ -2,7 +2,7 @@
 
   {{#block "content"}}
    
-    <form action="/users/login" method="post">
+    <form action="/users/login" method="post" class='mx-4'>
       <input type="hidden" name="_csrf" value="{{csrfToken}}" />
       {{{form}}}
       <div class="grid grid-cols-6 gap-4">
