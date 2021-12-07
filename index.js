@@ -20,7 +20,7 @@ app.use(cors());
 app.use(
   session({
     store: new FileStore(),
-    secret: process.env.SESSION_SECRET_KEY,
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
   })
