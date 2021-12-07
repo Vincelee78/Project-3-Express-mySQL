@@ -39,8 +39,8 @@
                 <thead>
                     <tr
                         class="bg-blue-200 font-serif text-gray-800 flex flex-col flex-nowrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
-                        <th class="border" style="text-align:center">Order Reference ID</th>
-                        <th class="border" style=" text-align:center">Payment Reference</th>
+                        <th class="border" style="width: 180px;text-align:center">Order Reference ID</th>
+                        <th class="border" style=" width: 180px;text-align:center">Payment Reference</th>
                         <th class="border" style="width: 180px; text-align:center">Date Ordered</th>
                         <th class="border" style="width: 180px; text-align:center">Customer Name</th>
                         <th class="border" style="width: 180px; text-align:center">Email</th>
@@ -86,7 +86,7 @@
                                 <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
                                 <label style='color:brown'> Status: </label>
                                 <input type="text" name='status' value="{{this.status.name}}"
-                                    style="width:82px; text-align:center" />
+                                    style="width:84px; text-align:center" />
                                 <input type="submit" class="btn btn-success btn-sm" value="Complete Order" />
                             </form>
 

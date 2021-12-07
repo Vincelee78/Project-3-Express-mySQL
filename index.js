@@ -133,6 +133,6 @@ async function main() {
 
 main();
 
-app.listen(process.env.PORT, () => {
+app.listen(6000, () => {
   console.log("Server has started");
 });
