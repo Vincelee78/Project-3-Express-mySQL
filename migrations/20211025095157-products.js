@@ -33,7 +33,7 @@ exports.up = function(db) {
       id: { type: 'int', primaryKey:true, autoIncrement:true, unsigned: true},
       name: { type: 'string', length:100, notNull:false},
       weight: 'int',
-      description:{ type: 'string', length:300, notNull:false},
+      description:{ type: 'string', length:1500, notNull:false},
       stock:'int',
       date: {type: 'date'},
       cost: 'int',

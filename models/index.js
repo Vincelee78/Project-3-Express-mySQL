@@ -25,7 +25,8 @@ const ProductTable = bookshelf.model('Wallbed', {
 
     orderItem() {
         return this.belongsToMany('OrderItem', )
-    }
+    },
+
 
 
 });

@@ -1,4 +1,5 @@
 // import in caolan forms
+const session = require("express-session");
 const forms = require("forms");
 // create some shortcuts
 const fields = forms.fields;
@@ -26,7 +27,7 @@ var bootstrapField = function (name, object) {
 };
 
 
-const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours,width = "w-8/12") => {
+const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_colours, wood_colours, width = "w-8/12") => {
     return forms.create({
         'name': fields.string({
             required: true,
@@ -152,7 +153,9 @@ const createProductForm = (bed_sizes, mattress_types, bed_orientations, frame_co
 
         'image_url': fields.string({
             widget: widgets.hidden()
-        })
+        }),
+
+            
     })
 };
 
