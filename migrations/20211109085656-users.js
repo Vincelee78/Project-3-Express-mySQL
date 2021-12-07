@@ -19,7 +19,10 @@ exports.up = function(db) {
     id:{type:'int', primaryKey:true, autoIncrement:true, unsigned:true},
     username: { type: 'string', length:100, notNull: true},
     email: {type: 'string', length:320, notNull: true},
-    password: {type: 'string', length:80, notNull: true}
+    password: {type: 'string', length:80, notNull: true},
+    billing_address: {type: 'string', length:100, notNull: false},
+    shipping_address: {type: 'string', length:100, notNull: false},
+    phone: {type: 'string', length:45, notNull: false},
 })
 };
 
