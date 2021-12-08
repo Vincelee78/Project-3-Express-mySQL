@@ -175,7 +175,7 @@ router.get('/create', checkIfAuthenticated, async (req, res) => {
     const allWoodColours = await dataLayer.getAllWoodColours();
 
 
-    const productForm = createProductForm(allBedSize, allBedOrientation, allMattressType, allFrameColours, allWoodColours);
+    const productForm = createProductForm(allBedSize,  allMattressType, allBedOrientation, allFrameColours, allWoodColours);
     res.render('products/create', {
         form: productForm.toHTML(bootstrapField),
         cloudinaryName: process.env.CLOUDINARY_NAME,
