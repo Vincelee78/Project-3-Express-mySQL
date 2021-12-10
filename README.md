@@ -67,7 +67,7 @@ The backend express.js uses tailwindcss, bootstrap and css. The react.js fronten
  <br/>There is an about page where it will provide background information to the user about space-saving furniture and our company.
  
 ### 3.1 Navigation
-The following tree shows a general direction in which one might navigate through the website:
+The following tree shows a general direction in which one might navigate through the website(React side):
  
  ![Image](https://res.cloudinary.com/dtrwtlldr/image/upload/v1639123199/New_save_final_wuye4v.jpg)
  
