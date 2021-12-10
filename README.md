@@ -1,4 +1,4 @@
-## TCG-Project-3-React-Space Saving Furniture Systems
+## TCG-Project-3-Space Saving Furniture Systems (express.js and react.js)
 The name of this project is called React-Space Saving Furniture Systems and is an eCommerce platform for selling space-saving wall beds. The project is aimed at home owners, backbacker hotels, student domoritories, office owners who have a relatively small place or users who want more space in their rooms. This will solve these consumer needs by also freeing up more space in their bedrooms or study rooms so that they have place for more items in their rooms or to allow for better cleaning and maintenance of their rooms.
 
 ## My goal/motivation for creating this project:
