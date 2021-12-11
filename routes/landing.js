@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
                         month: "long",
                         day: "numeric",
                     }),
-                    cost: wallBed.cost / 100
+                    cost: wallBed.cost 
                 };
             });
 
@@ -77,24 +77,23 @@ router.get('/', async (req, res) => {
             let mattressType = parseInt(form.data.mattress_type_id);
             let frameColour = parseInt(form.data.frame_colour_id);
             let woodColour = form.data.woodColour;
-
             // create a query that is the eqv. of "SELECT * FROM products WHERE 1"
             // this query is deferred because we never call fetch on it.
             // we have to execute it by calling fetch onthe query
             let q = ProductTable.collection();
-
+            
             // if name is not undefined, not null and not empty string
             if (name) {
                 // add a where clause to its back
                 q.where('name', 'like', `%${name}%`);
             }
-
+            
             if (cost_min) {
-                q.where('cost', '>=', cost_min);
+                q.where('cost', '>=', cost_min*100);
             }
 
             if (cost_max) {
-                q.where('cost', '<=', cost_max);
+                q.where('cost', '<=', cost_max*100);
             }
 
             if (bedSize) {
@@ -118,13 +117,29 @@ router.get('/', async (req, res) => {
 
             }
 
+            
+
             // execute the query
             let products = await q.fetch({
                 'withRelated': ['bedSize', 'bedOrientation', 'mattressType', 'frameColour', 'woodColour']
             });
 
+            var productArr = products.toJSON().map((wallBed) => {
+                return {
+                    ...wallBed,
+                    date: formatDate(wallBed.date, {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                    }),
+                    cost: wallBed.cost 
+                };
+            });
+
+
             res.render('products/search', {
-                'products': products.toJSON(), // convert the results to JSON
+                'products': productArr, 
                 'searchForm': form.toHTML(bootstrapField),
                 'allWoodColours': allWoodColours,
                 'allBedSize': allBedSize,

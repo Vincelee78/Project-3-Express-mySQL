@@ -11,11 +11,11 @@ router.get("/", async (req, res) => {
     }
 
     if (req.query.minCost) {
-      q.where("cost", ">=", req.query.minCost);
+      q.where("cost", ">=", req.query.minCost*100);
     }
 
     if (req.query.maxCost) {
-      q.where("cost", "<=", req.query.maxCost);
+      q.where("cost", "<=", req.query.maxCost*100);
     }
 
     if (req.query.bedSize) {

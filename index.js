@@ -1,5 +1,6 @@
 const express = require("express");
 const hbs = require("hbs");
+const helpers = require("handlebars-helpers")();
 const wax = require("wax-on");
 require("dotenv").config();
 const session = require("express-session");
@@ -26,6 +27,7 @@ app.use(
   })
 );
 
+hbs.registerHelper(helpers);
 wax.on(hbs.handlebars);
 wax.setLayoutPath("./views/layouts");
 
@@ -133,6 +135,6 @@ async function main() {
 
 main();
 
-app.listen(process.env.PORT, () => {
+app.listen(6000, () => {
   console.log("Server has started");
 });
