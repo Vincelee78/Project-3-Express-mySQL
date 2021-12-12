@@ -34,20 +34,22 @@ The backend express.js uses tailwindcss, bootstrap and css. The react.js fronten
  ## <a name="c">3. Website Features and Navigation</a>
  This backend website is used to manage the products and orders. Besides the main page of the website, only registered users such as the website owner can access the rest of the routes of the website. The features of this website are listed below:
  
- 1. Product management
- <br/> A registered vendor can list products on the website by creating a new product. The listed products' individual fields can be edited by the vendor and can also be removed on the condition that the product is not in a consumer's cart or order. The features of the product management is as follows:
+ 1. Product management: A registered vendor can list products on the website by creating a new product. The listed products' individual fields can be edited by the vendor and 
+ can also be removed on the condition that the product is not in a consumer's cart or order. The features of the product management is as follows:
  * Add a product
  * Update a product fields
  * Delete a product
  
- 2. User management
- <br/>Only registered vendors such as the website owner can access routes in this website for product management. The features of the user management is as follows:
+ 2. User management: Only registered vendors such as the website owner can access routes in this website for product management. The features of the user management is as 
+ follows:
  * Register new vendor
  * Login a registered vendor
  * Logout 
 
- 3 Order management
- <br/>A registered vendor can view the product orders made by the consumer and its individual fields(for easier processing of the purchased product). By referencing the order reference ID, the vendor can look up the shipping details and user details of the consumer who bought the particular product. The registered vendor can click on the complete order button under the shipping details to complete the order once the order has been shipped out. The order status of the consumer will be updated and the consumer can see its status under the account page in the frontend website. The features of the order management is as follows:
+ 3 Order management: A registered vendor can view the product orders made by the consumer and its individual fields(for easier processing of the purchased product). By 
+ referencing the order reference ID, the vendor can look up the shipping details and user details of the consumer who bought the particular product. The registered vendor can 
+ click on the complete order button under the shipping details to complete the order once the order has been shipped out. The order status of the consumer will be updated and 
+ the consumer can see its status under the account page in the frontend website. The features of the order management is as follows:
  * View product orders
  * View the respective consumer shipping details
  * Complete the order under the consumer shipping details
