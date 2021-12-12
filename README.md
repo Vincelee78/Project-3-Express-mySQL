@@ -178,12 +178,12 @@ The UI/UX design for this project was catered for the ease of use for the user. 
 #### Structure:
 The organization of the site content will contain the landing page with the navigation bar in the top and site’s logo on the top left. The headings in the navigation bar are self-explainatory and easy to use.
 
-### Skeleton:
+#### Skeleton:
 #### Layout:
 *	The user login, logout and register is at the top right of the screen for easy reference.
 *	Clicking on the shopping cart icon will show all the items added to the cart by all the users in the front end with the name and email of the user who added the product to the cart on the top left side of the cart item.
 
-### Surface:
+#### Surface:
 #### Colours:
 White background with dark blue header with white fonts in the landing page for better contrast and easy visualization. 
 Usage of [coolors](https://coolors.co/) to select my colour scheme.
