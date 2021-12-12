@@ -1,12 +1,7 @@
 ## TCG-Project-3-Space Saving Furniture Systems (Express.js)
-The name of this project is called React-Space Saving Furniture Systems and is an eCommerce platform for selling space-saving wall beds. The project is aimed at home owners, backbacker hotels, student domoritories, office owners who have a relatively small place or users who want more space in their rooms. This will solve these consumer needs by also freeing up more space in their bedrooms or study rooms so that they have place for more items in their rooms or to allow for better cleaning and maintenance of their rooms.
+This project is called Space Saving Furniture Systems and it is an eCommerce platform for selling space-saving wall beds. The project is aimed at home owners, backbacker hotel owners, student domoritory owners, office owners who have a relatively small place or users who just want more space in their rooms. By providing these target consumers with these wall beds, it will solve their needs by freeing up more space in their rooms.
 
-## My goal/motivation for creating this project:
-I have observed how small and compact flats are here.  Built-to-order (BTO) flats are getting more compact with each project. Thus, the need for effective usage of space is in demand. People are finding ways to minimize space usage when in reality, the solution is to maximize what you have. How? By introducing space saving furniture to users to purchase.
-
-## Context: 
-Space-saving furniture is designed to make full use of limited spaces by incorporating folding mechanisms to keep furniture such as bed in stowed position when not in use. The space saving beds can also be designed to add on other furniture function such as desk or sitting sofa to form a multi-functional furniture system. The site provides users the option to purchase these beds as well as dual and multi-functional wall beds with desk or sofa, bunk beds, and many more. This concept allows users to maximize the space they already have without the worry of purchasing separate bulky furniture, shelves, or tables and taking up a lot of space.
-Current and future homeowners should consider purchasing space-saving furniture as a cost-effective method and an efficient way to maximize their living space.
+This backend website serves as a platform for the company owner or vendor to add their products or to manage the consumer's shipping details and orders.
 
 ![Space-Saving Furniture Systems backend](https://res.cloudinary.com/dtrwtlldr/image/upload/v1639143470/backend_final_tgessp.jpg "Space-Saving Furniture Systems")
 
@@ -21,7 +16,6 @@ Current and future homeowners should consider purchasing space-saving furniture 
  
 ## <a name="a">1. Project Design </a>
 There are two parts to this project. The front-end of this project is done with React.js and the back-end of this project is done with Node.js, mySQL database and Express.js.
-
 The schema diagram for mySQL database can be found [here.](https://res.cloudinary.com/dtrwtlldr/image/upload/v1639099995/mySQL_relationship_final_tq5zw7.jpg)
 
 ## <a name="b">2. Deployment</a>
