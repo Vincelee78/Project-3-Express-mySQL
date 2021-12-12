@@ -46,7 +46,7 @@ The backend express.js uses tailwindcss, bootstrap and css. The react.js fronten
  * Login a registered vendor
  * Logout 
 
- 3 Order management: A registered vendor can view the product orders made by the consumer and its individual fields(for easier processing of the purchased product). By 
+ 3. Order management: A registered vendor can view the product orders made by the consumer and its individual fields(for easier processing of the purchased product). By 
  referencing the order reference ID, the vendor can look up the shipping details and user details of the consumer who bought the particular product. The registered vendor can 
  click on the complete order button under the shipping details to complete the order once the order has been shipped out. The order status of the consumer will be updated and 
  the consumer can see its status under the account page in the frontend website. The features of the order management is as follows:
@@ -54,8 +54,7 @@ The backend express.js uses tailwindcss, bootstrap and css. The react.js fronten
  * View the respective consumer shipping details
  * Complete the order under the consumer shipping details
  
- 4. Product Search
- <br/>There is search feature implemented to allow the vendor to filer for products based on name, minimum and maximum cost, and its respective categories.
+ 4. Product Search: There is search feature implemented to allow the vendor to filer for products based on name, minimum and maximum cost, and its respective categories.
  
 ### 3.1 Navigation
 The following tree shows a general direction in which one might navigate through the website:
