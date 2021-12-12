@@ -36,9 +36,9 @@ The backend express.js uses tailwindcss, bootstrap and css. The react.js fronten
  
  * Product management
  <br/> A registered vendor can list products on the website by creating a new product. The listed products' individual fields can be edited by the vendor and can also be removed on the condition that the product is not in a consumer's cart or order. The features of the product management is as follows:
- * Add a product
- * Update a product fields
- * Delete a product
+ ** Add a product
+ ** Update a product fields
+ ** Delete a product
  
  * User management
  <br/>Only registered vendors such as the website owner can access routes in this website for product management. The features of the user management is as follows:
