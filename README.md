@@ -192,7 +192,7 @@ Usage of traditional fonts such as 'Stencil Std, Fantasy' and 'Times New Roman, 
 Adequate white spaces between characters and lines in description for easy reading.
 
 
-5.2.2 User Experience
+#### 5.2.2 User Experience
 Although the website makes use of tables in the backend and uses tailwindcss to create a responsive design. The default tailwind font family can be found in the documentation [here](https://tailwindcss.com/docs/font-family)
  
  
