@@ -191,7 +191,7 @@ Although the website makes use of tables in the backend and uses tailwindcss to 
  
  
  ## <a name="f">6.Testing</a>
- Based on the user's needs and objectives, these are the guidelines for the features that were implemented.
+ Based on the owner's needs and objectives, these are the testing guidelines for the features that were implemented.
 | User Stories| Features|
 | ------ | ------ |
  | I navigate over the Home option on the navigation bar and click on the directions option | A map will be shown in the box with a message explaining the location of the company's showroom. Clicking on the top marker of the nearest MRT station will cause a popup to show up 'MountBatten MRT' and  the bottom marker will show 'Space-Saving Furniture Systems' where the showroom of the company is located. |
