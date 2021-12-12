@@ -17,7 +17,7 @@ Current and future homeowners should consider purchasing space-saving furniture 
 4. [Technologies Used](#d)
 5. [Design](#e)
 6. [Testing](#f)
-7. [Acknowledgements](#g) sas
+7. [Acknowledgements](#g)
  
 ## <a name="a">1. Project Design </a>
 There are two parts to this project. The front-end of this project is done with React.js and the back-end of this project is done with Node.js, mySQL database and Express.js for which the code can be found [here.](https://github.com/Vincelee78/Project-3-Express-mySQL)
