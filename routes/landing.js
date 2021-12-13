@@ -330,7 +330,7 @@ router.post('/update/:id', async (req, res) => {
 
             // add in all the wood colours selected in the form
             await wallBed.woodColour().attach(woodColourId);
-            req.flash('success_messages', `New ${wallBed.get("name")} has been updated`)
+            req.flash('success_messages', `${wallBed.get("name")} has been updated`)
             res.redirect('/allproducts');
         },
 
