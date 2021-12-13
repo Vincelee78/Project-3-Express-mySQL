@@ -23,13 +23,13 @@ This backend website is deployed on Heroku. This website for the site owner can 
 
 https://wallbeds-project3.herokuapp.com/
 
-The backend express.js uses tailwindcss, bootstrap and css. The react.js frontend uses bootstrap and css. The tailwindcss is complied using the inline css feature under the <style> tag in the base.hbs of the backend express.js.
+The backend express.js uses tailwindcss, bootstrap and css. The react.js frontend uses bootstrap and css. The tailwindcss is complied using the inline css feature under the <style> tag in the base.hbs of the backend framework express.js.
  
  ## <a name="c">3. Website Features and Navigation</a>
  This backend website is used to manage the products and orders. Besides the main page of the website, only registered users such as the website owner can access the rest of the routes of the website. The features of this website are listed below:
  
  1. Product management: A registered vendor can list products on the website by creating a new product. The listed products' individual fields can be edited by the vendor and 
- can also be removed on the condition that the product is not in a consumer's cart or order. The features of the product management is as follows:
+ can also be removed on the condition that the product is not in a consumer's cart or purchased order. The features of the product management is as follows:
  * Add a product
  * Update a product fields
  * Delete a product
