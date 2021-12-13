@@ -54,7 +54,7 @@ The backend express.js uses tailwindcss, bootstrap and css. The react.js fronten
 The following shows a general direction in which one might navigate through the website:
  
 #### 3.2.1 Home
-This is the landing page of the website. All the products are displayed here as default. There is a search feature which allows the vendor the filter through the products based on name, minimum and maximum cost, and its respective categories. 
+This is the landing page of the website. All the products are displayed here as default. There is a search feature which allows the vendor to filter through the products based on name, minimum and maximum cost, and its respective categories. 
 
 #### 3.2.2 Login
 Vendor can use this login page to login to access all the other pages in the website.
