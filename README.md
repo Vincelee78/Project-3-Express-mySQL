@@ -48,7 +48,7 @@ The backend express.js uses tailwindcss, bootstrap and css. The react.js fronten
  * View the respective consumer shipping details
  * Complete the order under the consumer shipping details
  
- 4. Product Search: There is search feature implemented to allow the vendor to filer for products based on name, minimum and maximum cost, and its respective categories.
+ 4. Product Search: There is search feature implemented in the catalogue, product orders and shipping details page to allow the vendor to filer for products and orders based on name, minimum and maximum cost, and its respective categories.
  
 ### 3.1 Navigation
 The following tree shows a general direction in which one might navigate through the website:
