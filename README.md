@@ -199,19 +199,12 @@ cost, 'single bed' for bed sizes, 'horizontal' for bed orientation, 'spring' for
 filter wall beds| The search results will show 'classic wall bed single' as the wall bed being filtered. |
 | I log in with my email and password under the 'Login' link in the navigation bar | I am redirected to the profile page with a successful flash message saying 'Welcome back,'my 
 name' where I can see my username and email. If I enter my email or password wrongly, an error message will show 'Sorry, the authentication details you provided does not work.' |
-| After logging in, I click on the Catalogue link in the navigation bar| I am directed to the catalogue page where the images of nine products and its respective fields are 
-shown. There is an update and delete button on the right side of the end field of each product. |
-| I click on the update button under the 'bunk bed aluminum frame' wall bed at the end of its table| I am directed to the editing page of the product. I change the 'weight in 
-kg' field from '106 to '110' and click on 'update wall bed' at the bottom of the page. A success message showing 'bunk bed aluminum frame has been updated' and the product 
-weight has been changed to 110kg. |
-| I click on the 'Add Wall Bed' link in the navigation bar | I am directed to the add product page with a form. I fill up the form fields and click on 'Add Product'. A success 
-message saying "New Wall Bed 'name' has been created". The new product will appear at the bottom of the product listing in the catalogue page. |
-| I click on the 'product orders' link in the navigation bar | I am directed to the page with all the orders made so far. There are 2 product orders 'bunk bed wood frame' and 
-'classic wall bed double' made so far in the database. |
-| I click on the 'shipping details' link in the navigation bar | I am directed to the page with all the shipping details of users who made purchases. There is one current user 
-'Vincenttest' who made two product purchases. |
-| I click on the 'complete order' button under the payment status in the shipping details link of the navigation bar | A success message saying 'Complete order has been updated' 
-and the status will change from 'paid' to 'completed' |
+| After logging in, I click on the Catalogue link in the navigation bar| I am directed to the catalogue page where the images of nine products and its respective fields are shown. There is an update and delete button on the right side of the end field of each product. |
+| I click on the update button under the 'bunk bed aluminum frame' wall bed at the end of its table| I am directed to the editing page of the product. I change the 'weight in kg' field from '106 to '110' and click on 'update wall bed' at the bottom of the page. A success message showing 'bunk bed aluminum frame has been updated' and the product weight has been changed to 110kg. |
+| I click on the 'Add Wall Bed' link in the navigation bar | I am directed to the add product page with a form. I fill up the form fields and click on 'Add Product'. A success message saying "New Wall Bed 'name' has been created". The new product will appear at the bottom of the product listing in the catalogue page. |
+| I click on the 'product orders' link in the navigation bar | I am directed to the page with all the orders made so far. There are 2 product orders 'bunk bed wood frame' and 'classic wall bed double' made so far in the database. |
+| I click on the 'shipping details' link in the navigation bar | I am directed to the page with all the shipping details of users who made purchases. There is one current user 'Vincenttest' who made two product purchases. |
+| I click on the 'complete order' button under the payment status in the shipping details link of the navigation bar | A success message saying 'Complete order has been updated' and the status will change from 'paid' to 'completed' |
 | I click on logout | A success message saying' Goodbye' will be shown and I am redirected to the login page. | 
  
 
