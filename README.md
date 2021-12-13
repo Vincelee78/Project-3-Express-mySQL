@@ -190,7 +190,7 @@ The organization of the site content will contain the landing page with the navi
 The website makes use of tables in the backend and uses tailwindcss to create a responsive design. The default tailwind font family can be found in the documentation [here](https://tailwindcss.com/docs/font-family)
  
  
- ## <a name="f">6.Testing</a>
+ ## <a name="f">6. Testing</a>
  Based on the owner's needs and objectives, these are the testing guidelines for the features that were implemented.
 | User Stories| Features|
 | ------ | ------ |
@@ -201,7 +201,7 @@ The website makes use of tables in the backend and uses tailwindcss to create a 
 | I click on the 'Add Wall Bed' link in the navigation bar | I am directed to the add product page with a form. I fill up the form fields and click on 'Add Product'. A success message saying "New Wall Bed 'name' has been created". The new product will appear at the bottom of the product listing in the catalogue page. |
 | I click on the 'product orders' link in the navigation bar | I am directed to the page with all the orders made so far. There are 2 product orders 'bunk bed wood frame' and 'classic wall bed double' made so far in the database. |
 | I click on the 'shipping details' link in the navigation bar | I am directed to the page with all the shipping details of users who made purchases. There is one current user 'Vincenttest' who made two product purchases. |
-| I click on the 'complete order' button under the payment status in the shipping details link of the navigation bar | A success message saying 'Complete order has been updated' and the status will change from 'paid' to 'completed' |
+| I click on the 'complete order' button under the payment status in the shipping details link of the navigation bar | A success message saying 'Complete order has been updated' and the status will change from 'paid' to 'completed'. |
 | I click on logout | A success message saying' Goodbye' will be shown and I am redirected to the login page. | 
  
 
