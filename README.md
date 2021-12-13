@@ -187,7 +187,7 @@ The organization of the site content will contain the landing page with the navi
 
 
 #### 5.2.2 User Experience
-Although the website makes use of tables in the backend and uses tailwindcss to create a responsive design. The default tailwind font family can be found in the documentation [here](https://tailwindcss.com/docs/font-family)
+The website makes use of tables in the backend and uses tailwindcss to create a responsive design. The default tailwind font family can be found in the documentation [here](https://tailwindcss.com/docs/font-family)
  
  
  ## <a name="f">6.Testing</a>
