@@ -36,7 +36,7 @@
       <div class="ml-4 flex-1 flex flex-col ">
         <div class='card-title'>
           <div class="flex justify-between text-base font-medium ">
-            <p class="ms-5" style="font-size: 25px">
+            <p class="ms-5" style="font-size: 25px, 'text-transform': 'uppercase' ">
               <b>{{this.wallBed.name}}</b>
             </p>
             <p class="me-4">
@@ -60,7 +60,7 @@
           <form method="POST" action="/cart/{{this.product_id}}/quantity/update">
             <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
             <label style='color:brown'> Quantity: </label>
-            <input name='newQuantity' value="{{this.quantity}}"
+            <input type="text" name='newQuantity' value="{{this.quantity}}"
               style="width:50px; text-align:center"/>
           </form>
           </div>
