@@ -26,31 +26,43 @@ async function getProductById(productId) {
 }
 
 
-async function addPoster(){
-    const allMedia=getAllMedia();
-    const allTags=getAllTags();
-    const productForm = createProductForm(allMedia, allTags);
+async function addWallBed(){
+    const allBedSize = await getAllBedSize();
+
+    const allBedOrientation = await getAllBedOrientation();
+
+    const allMattressType = await getAllMattressType();
+
+    const allFrameColour = await getAllFrameColours();
+
+    const allWoodColours = await getAllWoodColours();
+
+    const productForm = createProductForm(allBedSize, allMattressType, allBedOrientation, allFrameColour, allWoodColours);
     productForm.handle(req, {
         success: async (form) => {
-            let { tags, ...productData } = form.data;
+            let {
+                woodColour,
+                ...productData
+            } = form.data;
 
-            const poster = new ProductTable(productData);
+            const wallBed = new ProductTable(productData);
 
 
-            poster.set('title', form.data.title);
-            poster.set('cost', form.data.cost);
-            poster.set('description', form.data.description);
-            poster.set('date', form.data.date);
-            poster.set('stock', form.data.stock);
-            poster.set('height', form.data.height);
-            poster.set('width', form.data.width);
-            poster.set('mediaProperty_id', form.data.mediaProperty_id)
-            await poster.save();
+            wallBed.set('name', form.data.name);
+            wallBed.set('weight', form.data.weight);
+            wallBed.set('description', form.data.description);
+            wallBed.set('stock', form.data.stock);
+            wallBed.set('date', form.data.date);
+            wallBed.set('bed_size_id', form.data.bed_size_id);
+            wallBed.set('mattress_type_id', form.data.mattress_type_id);
+            wallBed.set('bed_orientation_id', form.data.bed_orientation_id);
+            wallBed.set('frame_colour_id', form.data.frame_colour_id);
+            await wallBed.save();
 
-            if (tags) {
-                await poster.tags().attach(tags.split(","));
+            if (woodColour) {
+                await wallBed.woodColour().attach(woodColour.split(","));
             }
-            req.flash('success_messages', `New Poster ${poster.get("title")} has been created`)
+            req.flash('success_messages', `New Wall Bed ${wallBed.get("name")} has been created`)
             res.redirect('/allproducts');
 
         },
@@ -62,7 +74,65 @@ async function addPoster(){
                 cloudinaryPreset: process.env.CLOUDINARY_UPLOAD_PRESET
             })
         }
-})
+    })
+}
+
+async function updateWallBed(productId){
+
+    const allBedSize = await getAllBedSize();
+
+    const allBedOrientation = await getAllBedOrientation();
+
+    const allMattressType = await getAllMattressType();
+
+    const allFrameColour = await getAllFrameColours();
+
+    const allWoodColours = await getAllWoodColours();
+
+    const wallBed = await getProductById(productId)
+
+    const productForm = createProductForm(allBedSize, allMattressType, allBedOrientation, allFrameColour, allWoodColours);
+    productForm.handle(req, {
+        'success': async (form) => {
+            let {
+                woodColour,
+                ...wallBedData
+            } = (form.data);
+            wallBed.set(wallBedData);
+            wallBed.save();
+
+
+            let woodColourId = woodColour.split(',');
+            let exisitingWoodColourId = await wallBed.related('woodColour').pluck('id');
+
+            // remove all the wood colours that aren't selected anymore
+            let toRemove = exisitingWoodColourId.filter(id => woodColourId.includes(id) === false);
+            await wallBed.woodColour().detach(toRemove);
+
+            // add in all the wood colours selected in the form
+            await wallBed.woodColour().attach(woodColourId);
+            req.flash('success_messages', `${wallBed.get("name")} has been updated`)
+            res.redirect('/allproducts');
+        },
+
+        error: async (form) => {
+            res.render('products/update', {
+                form: form.toHTML(bootstrapField),
+                wallBed: wallBed.toJSON()
+            })
+        }
+    })
+
+}
+
+async function deleteWallBed(productId){
+    let product = await ProductTable.where({
+        id: productId
+
+    }).fetch({
+        require: true
+    });
+    await product.destroy();
 }
 
 async function getAllBedName() {
@@ -100,12 +170,14 @@ module.exports = {
     getProductById,
     getAllBedName,
     getAllBedSize,
-    addPoster,
     getAllBedOrientation,
     getAllMattressType,
     getAllFrameColours,
     getAllWoodColours,
     getAllProducts,
     getAllProductsApi,
-
+    addWallBed,
+    updateWallBed,
+    deleteWallBed,
+    
 }

@@ -1,3 +1,6 @@
+// Routes for adding, updating, deleting and searching products
+// in the backend
+
 const express = require("express");
 const router = express.Router();
 const {
