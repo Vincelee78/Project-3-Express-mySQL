@@ -1,3 +1,6 @@
+// Note: this is the checkout code for the backend
+// but I have disabled the checkout button for the backend
+
 const express = require('express');
 const router = express.Router();
 const {
