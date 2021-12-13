@@ -110,7 +110,7 @@ Under the shipping details, each order reference ID is displayed in a table with
  * Phone number
  * Payment status
  
- The vendor can also search the shgipping details based on the payment status and the payment reference.
+ The vendor can also search the shipping details based on the payment status and the payment reference.
  
  ## <a name="d">4. Technologies Used</a>
 
@@ -194,21 +194,27 @@ Although the website makes use of tables in the backend and uses tailwindcss to 
  Based on the owner's needs and objectives, these are the testing guidelines for the features that were implemented.
 | User Stories| Features|
 | ------ | ------ |
- | I navigate over the Home option on the navigation bar and click on the directions option | A map will be shown in the box with a message explaining the location of the company's showroom. Clicking on the top marker of the nearest MRT station will cause a popup to show up 'MountBatten MRT' and  the bottom marker will show 'Space-Saving Furniture Systems' where the showroom of the company is located. |
- | I click on the catalogue page in the navigation bar| I am directed to the about page where it will explain what is space-saving furniture and the background information of the company.|
- | I click on the About page in the navigation bar| I am directed to the catalogue page where the images of the products and its respective names are shown. A search filter feature is also shown on the left side of the page.|
-| I log in with my email and password| I am directed to the catalogue page where the images of the products are with an confirmation message 'Login sucessful, (myemail)'). If my entered my email or password wrongly, I would get an error message saying 'login failed!'|
-| I enter search fields 'Cozy' name , maximum cost $2000,  | The products  |
-| I click on the Cozy Wall Bed Desk Single | I am directed to the Cozy Wall Bed Desk Single details page, with Walnut colour and its respective features, single bed, foam mattress, Horizontal bed orientation, Aluminium frame colour etc, |
-| I click on the Add to cart-$2000| A success message is shown saying 'Item added to cart'  and I am directed to the shopping cart page with the name, description, its respective fields options, the total unit cost $2000 on the right and the subtotal $2000 on the bottom.|
-| I click Catalogue and click on Revolving Wall Bed and Add to Cart | I will be directed to the shopping cart with the same success message. The Cozy Wall Bed Desk Single and Revolving Wall Bed will be in the cart with their respective images and options. The subtotal will now be $4500. |
-| I update the quantity of the revolving wall bed to 3 and click on Update Quantity | A alert popbox will show' Cart Updated!. The total unit price for revolving wall bed is now $7500 and the subtotal is $9500. |
-| I click on Remove from cart 'Cozy Wall Bed Desk Single' | A success message showing 'Item removed from cart'. The revolving wall bed will have be left in the cart with  quantity of 3 and subtotal of $7500.|
-| I click on Check Out with the remaining 3 revolving wall bed in the cart| I am directed to the stripe checkout website where it will show the total cost, $7500, I am paying on the left side with the name of the product, 'Revolving Wall Bed' and quantity 3. |
-| I fill in the fields in the stripe checkout website and click pay| I am redirected to the successful payment page of my website showing, Payment successful! Thank you for ypur order and your order is being processed. |
-| I click on the 'account' in the navigation bar | The order items: Relvolving Wall Bed, Quantity 3, Total unit cost $7500 will be shown. The date ordered: 10th December 2021, Order Reference: c8da6950-599c-11ec-910b-c35d93746f41, Order Status: Paid, will be shown.|
-| I click on logout | A message showing 'Are you sure you want to log out?' I click on yes and a success message 'Logout successful' is shown, I am redirected to the Login page.|
-
+| I'm at the home page. I see a search feature on the left and the list of all of the products on the right. I enter the search field 'classic' for name, '2050' for maximum 
+cost, 'single bed' for bed sizes, 'horizontal' for bed orientation, 'spring' for mattress type, 'aluminium for bed frame colour, 'walnut' for wood panel colours and click on 
+filter wall beds| the search results will show 'classic wall bed single' as the wall bed being filtered. |
+| I log in with my email and password under the 'Login' link in the navigation bar | I am redirected to the profile page with a successful flash message saying 'Welcome back,'my 
+name' where I can see my username and email. If I enter my email or password wrongly, an error message will show 'Sorry, the authentication details you provided does not work.' 
+|
+| After logging in, I click on the Catalogue link in the navigation bar| I am directed to the catalogue page where the images of nine products and its respective fields are 
+shown. There is an update and delete button on the right side of the end field of each product. |
+| I click on the update button under the 'bunk bed aluminum frame' wall bed at the end of its table| I am directed to the editing page of the product. I change the 'weight in 
+kg' field from '106 to '110' and click on 'update wall bed' at the bottom of the page. A success message showing 'bunk bed aluminum frame has been updated' and the product 
+weight has been changed to 110kg. |
+| I click on the 'Add Wall Bed' link in the navigation bar | I am directed to the add product page with a form. I fill up the form fields and click on 'Add Product'. A success 
+message saying "New Wall Bed 'name' has been created". The new product will appear at the bottom of the product listing in the catalogue page. |
+| I click on the 'product orders' link in the navigation bar | I am directed to the page with all the orders made so far. There are 2 product orders 'bunk bed wood frame' and 
+'classic wall bed double' made so far in the database. |
+| I click on the 'shipping details' link in the navigation bar | I am directed to the page with all the shipping details of users who made purchases. There is one current user 
+'Vincenttest' who made two product purchases. |
+| I click on the 'complete order' button under the payment status in the shipping details link of the navigation bar | A success message saying 'Complete order has been updated' 
+and the status will change from 'paid' to 'completed' |
+| I click on logout | A success message saying' Goodbye' will be shown and I am redirected to the login page. | 
+ 
 
  ### <a name="g">7. Credits and Acknowledgement</a>
 * Credits to https://www.qoo10.sg/shop/spacesaving for the company's vision and wall beds data.
