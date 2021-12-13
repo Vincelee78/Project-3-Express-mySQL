@@ -165,7 +165,7 @@ to retrieve data from mySQL and send them to React or vice versa.
 <br> This project uses CSS to add visual colors, adjust the size of the features and also positioning and animation of the features.
 
  ## <a name="e">5. Design</a>
-5.1 UI/UX
+### 5.1 UI/UX
 The UI/UX design for this project was catered for the ease of use for the user. The design process for the website are as follows:
 
 ### 5.1.1 User Interface
