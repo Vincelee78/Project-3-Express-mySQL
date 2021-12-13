@@ -162,7 +162,7 @@ to retrieve data from mySQL and send them to React or vice versa.
 * [HTML 5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
 <br> This project uses HTML5 to structure the content and to insert buttons and images.
 * [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
-<br> This project uses CSS to add visual colors, adjust the size of the features and also positioning and animation of the features, and ensure it is mobile responsive.
+<br> This project uses CSS to add visual colors, adjust the size of the features and also positioning and animation of the features.
 
  ## <a name="e">5. Design</a>
 5.1 UI/UX
