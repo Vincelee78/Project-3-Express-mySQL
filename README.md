@@ -196,10 +196,9 @@ The website makes use of tables in the backend and uses tailwindcss to create a 
 | ------ | ------ |
 | I'm at the home page. I see a search feature on the left and the list of all of the products on the right. I enter the search field 'classic' for name, '2050' for maximum 
 cost, 'single bed' for bed sizes, 'horizontal' for bed orientation, 'spring' for mattress type, 'aluminium for bed frame colour, 'walnut' for wood panel colours and click on 
-filter wall beds| the search results will show 'classic wall bed single' as the wall bed being filtered. |
+filter wall beds| The search results will show 'classic wall bed single' as the wall bed being filtered. |
 | I log in with my email and password under the 'Login' link in the navigation bar | I am redirected to the profile page with a successful flash message saying 'Welcome back,'my 
-name' where I can see my username and email. If I enter my email or password wrongly, an error message will show 'Sorry, the authentication details you provided does not work.' 
-|
+name' where I can see my username and email. If I enter my email or password wrongly, an error message will show 'Sorry, the authentication details you provided does not work.' |
 | After logging in, I click on the Catalogue link in the navigation bar| I am directed to the catalogue page where the images of nine products and its respective fields are 
 shown. There is an update and delete button on the right side of the end field of each product. |
 | I click on the update button under the 'bunk bed aluminum frame' wall bed at the end of its table| I am directed to the editing page of the product. I change the 'weight in 
