@@ -60,7 +60,7 @@
           <form method="POST" action="/cart/{{this.product_id}}/quantity/update">
             <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
             <label style='color:brown'> Quantity: </label>
-            <input type="text" name='newQuantity' value="{{this.quantity}}"
+            <input name='newQuantity' value="{{this.quantity}}"
               style="width:50px; text-align:center"/>
           </form>
           </div>
