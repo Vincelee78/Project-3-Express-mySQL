@@ -369,7 +369,7 @@ router.post('/delete/:id', async (req, res) => {
         req.flash('success_messages', `Wall Bed ${product.get("name")} has been deleted`)
         res.redirect('/allproducts');
     } catch (error) {
-        req.flash('error_messages', 'Unable to deleted as this product is assoicated with an order!')
+        req.flash('error_messages', 'Unable to delete as this product is assoicated with an order!')
         res.redirect('/allproducts');
     }
 
