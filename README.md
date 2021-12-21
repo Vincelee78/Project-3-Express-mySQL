@@ -23,6 +23,10 @@ This backend website is deployed on Heroku. This website for the site owner can 
 
 https://wallbeds-project3.herokuapp.com/
 
+The admin login details are:
+Login email: test@gmail.com
+Login password: 1234
+
 The backend express.js uses tailwindcss, bootstrap and css. The react.js frontend uses bootstrap and css. The tailwindcss is complied using the inline css feature under the <style> tag in the base.hbs of the backend express.js.
  
  ## <a name="c">3. Website Features and Navigation</a>
