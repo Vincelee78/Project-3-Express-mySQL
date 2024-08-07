@@ -213,3 +213,4 @@ The website makes use of tables in the backend and uses tailwindcss to create a 
 * Credits to https://www.qoo10.sg/shop/spacesaving for the company's vision and wall beds data.
 * Credits to https://shop.smartbeds.it for their wall bed images and their descriptions.
 * All code snippets and templates used in this project are attributed in the source code where applicable.
+// Trigger new build

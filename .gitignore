@@ -9,4 +9,4 @@ node_modules/
 .env
 .vscode/
 sessions
-style.css
+style.css.env
