@@ -66,20 +66,20 @@ exports.setup = function(options, seedLink) {
   seed = seedLink;
 };
 
-exports.up = function(db) {
-  return db.createTable('wall_beds', {
-    id: { type: 'int', primaryKey: true, autoIncrement: true, unsigned: true },
-    name: { type: 'string', length: 100, notNull: false },
-    weight: 'int',
-    description: { type: 'string', length: 1500, notNull: false },
-    stock: 'int',
-    date: { type: 'date' },
-    cost: 'int'
+exports.up = function(knex) {
+  return knex.schema.createTable('wall_beds', function(table) {
+    table.increments('id').primary().unsigned();
+    table.string('name', 100).nullable();
+    table.integer('weight');
+    table.string('description', 1500).nullable();
+    table.integer('stock');
+    table.date('date');
+    table.integer('cost');
   });
 };
 
-exports.down = function(db) {
-  return db.dropTable('wall_beds');
+exports.down = function(knex) {
+  return knex.schema.dropTable('wall_beds');
 };
 
 exports._meta = {
