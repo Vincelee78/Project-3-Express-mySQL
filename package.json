@@ -2,8 +2,8 @@
   "name": "project-3-express-mysql",
   "version": "1.0.0",
   "engines": {
-    "node": "14.x",
-    "npm": "6.x"
+    "node": "22.6",
+    "npm": "10.8.2"
   },
   "scripts": {
     "start": "node index.js",
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/Vincelee78/parallel-lab-framework#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    
     "bookshelf": "^1.2.0",
     "cloudinary": "^1.27.1",
     "connect-flash": "^0.1.1",
@@ -41,7 +41,7 @@
     "handlebars-helpers": "^0.10.0",
     "hbs": "^4.1.2",
     "jsonwebtoken": "^9.0.2",
-    "knex": "^3.1.0",
+    "knex": "^0.21.21",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.14",
