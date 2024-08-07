@@ -1,5 +1,5 @@
 const knex = require('knex')({
-  client: process.env.DB_DRIVER,
+  client: 'pg',
   connection: {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
