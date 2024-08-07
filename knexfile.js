@@ -1,9 +1,8 @@
-// knexfile.js
 require('dotenv').config();
 
 module.exports = {
   development: {
-    client: 'pg',
+    client: process.env.DB_DRIVER,
     connection: {
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
@@ -19,7 +18,7 @@ module.exports = {
     }
   },
   production: {
-    client: 'pg',
+    client: process.env.DB_DRIVER,
     connection: {
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
