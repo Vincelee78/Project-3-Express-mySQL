@@ -1,6 +1,7 @@
 {
   "name": "parallel-lab-framework",
   "version": "1.0.0",
+  "type": "module",
   "description": "![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)",
   "main": "index.js",
   "engines": {
