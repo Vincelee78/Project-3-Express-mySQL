@@ -2,8 +2,11 @@
   "name": "project-3-express-mysql",
   "version": "1.0.0",
   "engines": {
-    "node": "22.6",
-    "npm": "10.8.2"
+    "node": "18.x",
+    "npm": "8.x"git add package.json
+    git commit -m "Update Node.js version to 18.x"
+    git push heroku main
+    
   },
   "scripts": {
     "start": "node index.js",
