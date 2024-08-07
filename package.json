@@ -1,8 +1,10 @@
 {
-  "name": "parallel-lab-framework",
+  "name": "project-3-express-mysql",
   "version": "1.0.0",
-  "description": "![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)",
-  "main": "index.js",
+  "engines": {
+    "node": "14.x",
+    "npm": "6.x"
+  },
   "scripts": {
     "start": "node index.js",
     "build:css": "postcss ./public/styles/tailwind.css -o ./public/styles/index.css && echo '\\033[1;92m>> tailwind css build completed!'",
@@ -31,7 +33,7 @@
     "date-fns": "^2.26.0",
     "db-migrate": "^1.0.0-beta.16",
     "db-migrate-mysql": "^3.0.0",
-    "db-migrate-pg": "^1.2.2",
+    "db-migrate-pg": "^1.5.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",

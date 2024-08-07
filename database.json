@@ -1,12 +1,23 @@
 {
   "dev": {
-    "driver": {"ENV" :"DB_DRIVER"},
-    "user": {"ENV": "DB_USER" },
-    "password": {"ENV":"DB_PASSWORD"},
-    "database": {"ENV":"DB_DATABASE"},
-    "host": {"ENV":"DB_HOST"},
+    "driver": "pg",
+    "user": { "ENV": "DB_USER" },
+    "password": { "ENV": "DB_PASSWORD" },
+    "database": { "ENV": "DB_DATABASE" },
+    "host": { "ENV": "DB_HOST" },
     "ssl": {
-         "rejectUnauthorized": false
+      "rejectUnauthorized": false
+    }
+  },
+  "prod": {
+    "driver": "pg",
+    "user": { "ENV": "DB_USER" },
+    "password": { "ENV": "DB_PASSWORD" },
+    "database": { "ENV": "DB_DATABASE" },
+    "host": { "ENV": "DB_HOST" },
+    "ssl": {
+      "rejectUnauthorized": false
     }
   }
 }
+heroku config:set DB_HOST=your-db-host DB_USER=your-db-user DB_PASSWORD=your-db-password DB_DATABASE=your-db-database -a wallbed
