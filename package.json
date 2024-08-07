@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)",
   "main": "index.js",
+  "engines": {
+    "node": ">=16.x",
+    "npm": ">=8.x"
+  },
   "scripts": {
     "start": "node index.js",
     "build:css": "postcss ./public/styles/tailwind.css -o ./public/styles/index.css && echo '\\033[1;92m>> tailwind css build completed!'",
     "start-dev": "nodemon index.js",
     "watch": "chokidar './views/**/**/**/**/**' './forms/**/**/**/**/**' -c \"npm run build:css\"",
-    "dev": "concurrently \"npm run build:css\" \"npm run watch\" \"npm run start-dev\""
+    "dev": "concurrently \"npm run build:css\" \"npm run watch\" \"npm run start-dev\"",
+    "migrate": "knex migrate:latest"
   },
   "repository": {
     "type": "git",
@@ -28,9 +33,9 @@
     "cors": "^2.8.5",
     "csurf": "^1.11.0",
     "date-fns": "^2.26.0",
-    "db-migrate": "^1.0.0-beta.16",
+    "db-migrate": "^1.0.0-beta.29",
     "db-migrate-mysql": "^2.2.0",
-    "db-migrate-pg": "^1.2.2",
+    "db-migrate-pg": "^1.5.2",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
@@ -38,12 +43,12 @@
     "handlebars-helpers": "^0.10.0",
     "hbs": "^4.1.2",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.95.12",
+    "knex": "^0.95.15",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.14",
     "path": "^0.12.7",
-    "pg": "^8.7.1",
+    "pg": "^8.12.0",
     "session-file-store": "^1.5.0",
     "stripe": "^8.188.0",
     "uuid": "^8.3.2",
