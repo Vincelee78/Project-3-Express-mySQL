@@ -15,11 +15,14 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return null;
+  return db.insert('bed_orientations', ['name'], ['Horizontal'])
+    .then(function() {
+      return db.insert('bed_orientations', ['name'], ['Vertical']);
+    });
 };
 
 exports.down = function(db) {
-  return null;
+  return db.runSql('DELETE FROM bed_orientations WHERE name IN (?, ?)', ['Horizontal', 'Vertical']);
 };
 
 exports._meta = {
