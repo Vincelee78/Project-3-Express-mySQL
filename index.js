@@ -12,6 +12,21 @@ const morgan = require('morgan')
 
 let app = express();
 
+
+
+// Configure CORS
+// const corsOptions = {
+//   origin: [
+//     "https://3000-vincelee78-project3wall-mfn3t52zu7w.ws-us115.gitpod.io",  // Frontend URL
+//     "https://8080-vincelee78-project3expr-u85bcv5u3lt.ws-us115.gitpod.io"   // Backend URL
+//   ],
+//   optionsSuccessStatus: 200,
+//   credentials: true
+// };
+
+// app.use(cors(corsOptions));
+
+
 app.set("view engine", "hbs");
 
 app.use(express.static("/public"));
@@ -36,6 +51,11 @@ app.use(
     extended: true,
   })
 );
+
+// app.use((req, res, next) => {
+//   res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://fonts.googleapis.com https://m.stripe.network; script-src 'self' https://js.stripe.com");
+//   next();
+// });
 
 app.use(morgan('dev'))
 // use the csurf middleware

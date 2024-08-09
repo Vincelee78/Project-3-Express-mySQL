@@ -1,24 +1,26 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<b>
-  <p class="text-white bg-green-400 mx-3 rounded-3 my-2 ">&nbsp;&nbsp;Add New Wall Bed</p>
-</b>
-
-<form method="POST" style='width:800px' class='mx-3 mt-2'>
-  <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
-  {{{form}}}
-  <div>
-    <a href="#" class="btn btn-secondary btn-sm my-3" id="upload_widget">Upload Image</a>
-    <img src="" style="display:none" id="uploaded_image" />
+<div class="d-flex justify-content-start my-4 ">
+  <div class="w-100" style="max-width: 80%;  margin-left: 20px;">
+    <b>
+   <p class="text-white bg-green-400 mx-auto rounded-3 my-2 text-center">&nbsp;&nbsp;Add New Wall Bed</p>
+    </b>
+    <form method="POST" class="mt-2">
+      <input type="hidden" name="_csrf" value="{{@root.csrfToken}}" />
+      {{{form}}}
+      <div class="text-center">
+        <a href="#" class="btn btn-secondary btn-sm my-3" id="upload_widget">Upload Image</a>
+        <img src="" style="display:none" id="uploaded_image" />
+      </div>
+      <input type="submit" value="Add Product" class="btn btn-primary my-3" />
+    </form>
   </div>
-  <input type="submit" value="Add Product" class="btn btn-primary my-3" />
-
-</form>
+</div>
 {{/block}}
 
-{{!-- end block --}}
 {{#block 'js'}}
+
 <!-- cloudinary widget -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
     integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
@@ -61,4 +63,5 @@
 </script>
 
 {{/block}}
+
 {{/extends}}
