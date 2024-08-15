@@ -7,7 +7,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const FileStore = require("session-file-store")(session);
 const csrf = require("csurf");
-// const cors = require("cors");
+const cors = require("cors");
 const morgan = require('morgan')
 const path = require('path');
 
