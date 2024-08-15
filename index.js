@@ -144,7 +144,7 @@ async function main() {
   app.use("/checkout", checkoutRoutes);
   app.use("/orders", ordersRoutes);
   app.use("/api/allproducts", express.json(), api.wallBeds);
-  app.use("/api/users", express.json(), api.users);
+  app.use("/api/users", checkIfAuthenticatedJWT, express.json(), api.users);
   app.use("/api/search", express.json(), api.search)
   app.use("/api/cart", checkIfAuthenticatedJWT, express.json(), api.cart);
   app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
