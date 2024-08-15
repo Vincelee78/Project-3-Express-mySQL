@@ -14,25 +14,23 @@ const path = require('path');
 
 let app = express();
 
-// const corsOptions = {
-//   origin: [
-//     'https://vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Your frontend's URL
-//     'https://wallbed-1d18201faffc.herokuapp.com',   // Your backend's URL (if needed for other cross-origin requests)
-//   ],
-//   optionsSuccessStatus: 200,  // For older browsers that do not support the 204 status code
-//   credentials: true  // Allow cookies and other credentials to be sent
-// };
+const corsOptions = {
+  origin: [
+    'https://3000-vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Your frontend's URL
+    'https://wallbed-1d18201faffc.herokuapp.com',   // Your backend's URL (if needed for other cross-origin requests)
+  ],
+  optionsSuccessStatus: 200,  // For older browsers that do not support the 204 status code
+  credentials: true  // Allow cookies and other credentials to be sent
+};
 
-// app.use(cors(corsOptions));
 
-// Allow everything
 app.use(cors({
-  origin: '*',  // Allow all origins
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  // Allow all methods
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: '*',  // Allow all headers
+  origin: 'https://3000-vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Exact origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,  // Allow credentials
 }));
+
+app.use(cors(corsOptions));
 
 app.set("view engine", "hbs");
 
