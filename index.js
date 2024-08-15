@@ -12,8 +12,6 @@ const morgan = require('morgan')
 
 let app = express();
 
-const cors = require('cors');
-
 const corsOptions = {
   origin: 'https://3000-vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Replace with your frontend's domain
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
