@@ -9,23 +9,27 @@ const FileStore = require("session-file-store")(session);
 const csrf = require("csurf");
 const cors = require("cors");
 const morgan = require('morgan')
+const path = require('path');
+
 
 let app = express();
 
 const corsOptions = {
-  origin: 'https://3000-vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Replace with your frontend's domain
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  optionsSuccessStatus: 204
+  origin: [
+    'https://vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Your frontend's URL
+    'https://wallbed-1d18201faffc.herokuapp.com',   // Your backend's URL (if needed for other cross-origin requests)
+  ],
+  optionsSuccessStatus: 200,  // For older browsers that do not support the 204 status code
+  credentials: true  // Allow cookies and other credentials to be sent
 };
 
 app.use(cors(corsOptions));
-app.use(cors());
 
 
 app.set("view engine", "hbs");
 
 app.use(express.static("/public"));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use(cors());
 
