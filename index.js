@@ -12,7 +12,7 @@ const morgan = require('morgan')
 
 let app = express();
 
-
+app.use(cors());
 
 // Configure CORS
 // const corsOptions = {
@@ -31,7 +31,7 @@ app.set("view engine", "hbs");
 
 app.use(express.static("/public"));
 
-app.use(cors());
+// app.use(cors());
 
 app.use(
   session({
@@ -121,7 +121,7 @@ const landingRoutes = require("./routes/landing");
 const userRegistration = require("./routes/users");
 const cloudinaryRoutes = require("./routes/cloudinary");
 const cartRoutes = require("./routes/cart");
-const checkoutRoutes = require("./routes/checkout");
+const checkoutRoutes = require("./routes/api/checkout");
 const ordersRoutes = require('./routes/orders')
 const {
   checkIfAuthenticatedJWT
@@ -151,6 +151,7 @@ async function main() {
   app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
   app.use("/api/stripe", api.stripe);
   app.use("/api/orders", checkIfAuthenticatedJWT, express.json(), api.orders);
+  app.use('/api/checkout', checkoutRoutes);
 }
 
 main();

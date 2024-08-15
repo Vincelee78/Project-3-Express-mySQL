@@ -26,13 +26,12 @@ async function createOrder(userId) {
 
   } catch (error) {
 
-    return ({
-
-      error: "We have encountered an internal server error",
-    });
+    console.error("Failed to create order:", error);
+    throw new Error("We have encountered an internal server error when creating an order.");
+  }
   }
 
-}
+
 
 async function createStatus(orderId) {
   try {
