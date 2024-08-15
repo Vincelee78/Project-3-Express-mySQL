@@ -120,7 +120,7 @@ router.post('/create-session', async (req, res) => {
         for (let item of cartItems) {
             const lineItem = {
                 name: item.related('wallBed').get('name'),
-                amount: item.related('wallBed').get('cost') * 100, // Amount should be in cents
+                amount: item.related('wallBed').get('cost'), // Amount should be in cents
                 quantity: item.get('quantity'),
                 currency: 'SGD',
                 images: [item.related('wallBed').get('image_url')],
@@ -130,7 +130,7 @@ router.post('/create-session', async (req, res) => {
                 product_id: item.related('wallBed').get('id'),
                 name: item.related('wallBed').get('name'),
                 quantity: item.get('quantity'),
-                amount: item.related('wallBed').get('cost')/100,
+                amount: item.related('wallBed').get('cost'),
                 userEmail: req.user.email,
                 userId: req.user.id
             });
