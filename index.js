@@ -16,7 +16,7 @@ let app = express();
 
 const corsOptions = {
   origin: [
-    'https://spacesavingfurnituresystems-vincent.netlify.app',  // Your frontend's URL
+    'https://3000-vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Your frontend's URL
     'https://wallbed-1d18201faffc.herokuapp.com',   // Your backend's URL (if needed for other cross-origin requests)
   ],
   optionsSuccessStatus: 200,  // For older browsers that do not support the 204 status code
@@ -144,7 +144,7 @@ async function main() {
   app.use("/checkout", checkoutRoutes);
   app.use("/orders", ordersRoutes);
   app.use("/api/allproducts", express.json(), api.wallBeds);
-  app.use("/api/users", checkIfAuthenticatedJWT, express.json(), api.users);
+  app.use("/api/users", express.json(), api.users);
   app.use("/api/search", express.json(), api.search)
   app.use("/api/cart", checkIfAuthenticatedJWT, express.json(), api.cart);
   app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
