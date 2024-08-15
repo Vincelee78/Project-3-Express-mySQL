@@ -130,7 +130,7 @@ router.post('/create-session', async (req, res) => {
                 product_id: item.related('wallBed').get('id'),
                 name: item.related('wallBed').get('name'),
                 quantity: item.get('quantity'),
-                amount: item.related('wallBed').get('cost'),
+                amount: item.related('wallBed').get('cost')/100,
                 userEmail: req.user.email,
                 userId: req.user.id
             });
