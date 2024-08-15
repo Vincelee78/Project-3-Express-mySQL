@@ -143,8 +143,8 @@ async function main() {
   app.use("/api/allproducts", express.json(), api.wallBeds);
   app.use("/api/users", express.json(), api.users);
   app.use("/api/search", express.json(), api.search)
-  app.use("/api/cart", checkIfAuthenticatedJWT, express.json(), api.cart);
-  app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
+  app.use("/api/cart", express.json(), api.cart);
+  app.use("/api/checkout",  express.json(), api.checkout);
   app.use("/api/stripe", checkIfAuthenticatedJWT, express.json(), api.stripe);
   app.use("/api/orders", checkIfAuthenticatedJWT, express.json(), api.orders);
   // app.use('/api/checkout', checkoutRoutes);
