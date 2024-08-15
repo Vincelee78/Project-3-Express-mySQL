@@ -7,31 +7,38 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const FileStore = require("session-file-store")(session);
 const csrf = require("csurf");
-const cors = require("cors");
+// const cors = require("cors");
 const morgan = require('morgan')
 const path = require('path');
 
 
 let app = express();
 
-const corsOptions = {
-  origin: [
-    'https://vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Your frontend's URL
-    'https://wallbed-1d18201faffc.herokuapp.com',   // Your backend's URL (if needed for other cross-origin requests)
-  ],
-  optionsSuccessStatus: 200,  // For older browsers that do not support the 204 status code
-  credentials: true  // Allow cookies and other credentials to be sent
-};
+// const corsOptions = {
+//   origin: [
+//     'https://vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Your frontend's URL
+//     'https://wallbed-1d18201faffc.herokuapp.com',   // Your backend's URL (if needed for other cross-origin requests)
+//   ],
+//   optionsSuccessStatus: 200,  // For older browsers that do not support the 204 status code
+//   credentials: true  // Allow cookies and other credentials to be sent
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
+// Allow everything
+app.use(cors({
+  origin: '*',  // Allow all origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',  // Allow all methods
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: '*',  // Allow all headers
+}));
 
 app.set("view engine", "hbs");
 
 app.use(express.static("/public"));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use(cors());
 
 app.use(
   session({
