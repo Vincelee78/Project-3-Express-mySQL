@@ -12,19 +12,18 @@ const morgan = require('morgan')
 
 let app = express();
 
+const corsOptions = {
+  origin: [
+    "https://3000-vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io", 
+    "https://8080-vincelee78-project3expr-u85bcv5u3lt.ws-us115.gitpod.io"
+    
+  ],// Replace with your frontend's URL
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+
 app.use(cors());
-
-// Configure CORS
-// const corsOptions = {
-//   origin: [
-//     "https://3000-vincelee78-project3wall-mfn3t52zu7w.ws-us115.gitpod.io",  // Frontend URL
-//     "https://8080-vincelee78-project3expr-u85bcv5u3lt.ws-us115.gitpod.io"   // Backend URL
-//   ],
-//   optionsSuccessStatus: 200,
-//   credentials: true
-// };
-
-// app.use(cors(corsOptions));
 
 
 app.set("view engine", "hbs");
@@ -52,10 +51,6 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://fonts.googleapis.com https://m.stripe.network; script-src 'self' https://js.stripe.com");
-//   next();
-// });
 
 app.use(morgan('dev'))
 // use the csurf middleware
@@ -121,7 +116,8 @@ const landingRoutes = require("./routes/landing");
 const userRegistration = require("./routes/users");
 const cloudinaryRoutes = require("./routes/cloudinary");
 const cartRoutes = require("./routes/cart");
-const checkoutRoutes = require("./routes/api/checkout");
+// const checkoutRoutes = require("./routes/api/checkout");
+const checkoutRoutes = require('./routes/checkout');
 const ordersRoutes = require('./routes/orders')
 const {
   checkIfAuthenticatedJWT
@@ -149,9 +145,9 @@ async function main() {
   app.use("/api/search", express.json(), api.search)
   app.use("/api/cart", checkIfAuthenticatedJWT, express.json(), api.cart);
   app.use("/api/checkout", checkIfAuthenticatedJWT, express.json(), api.checkout);
-  app.use("/api/stripe", api.stripe);
+  app.use("/api/stripe", checkIfAuthenticatedJWT, express.json(), api.stripe);
   app.use("/api/orders", checkIfAuthenticatedJWT, express.json(), api.orders);
-  app.use('/api/checkout', checkoutRoutes);
+  // app.use('/api/checkout', checkoutRoutes);
 }
 
 main();

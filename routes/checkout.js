@@ -80,7 +80,7 @@ router.get('/', async (req, res) => {
 
 //create order and update cart after payment
 
-router.get('/createOrder', checkIfAuthenticated, async (req, res) => {
+router.get('/createOrder', async (req, res) => {
 
     const allBedName = await dataLayer.getAllBedName();
     allBedName.unshift([0, 'All Bed Names']);
