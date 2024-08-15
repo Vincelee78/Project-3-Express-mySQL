@@ -16,7 +16,7 @@ let app = express();
 
 const corsOptions = {
   origin: [
-    'https://3000-vincelee78-project3wall-4ai0raicy5f.ws-us115.gitpod.io',  // Your frontend's URL
+    'https://spacesavingfurnituresystems-vincent.netlify.app',  // Your frontend's URL
     'https://wallbed-1d18201faffc.herokuapp.com',   // Your backend's URL (if needed for other cross-origin requests)
   ],
   optionsSuccessStatus: 200,  // For older browsers that do not support the 204 status code
