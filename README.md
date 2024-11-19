@@ -21,7 +21,7 @@ The schema diagram for mySQL database can be found [here.](https://res.cloudinar
 ## <a name="b">2. Deployment</a>
 This backend website is deployed on Heroku. This website for the site owner can be accessed at the following link:
 
-https://wallbeds-project3.herokuapp.com/
+[https://wallbeds-project3.herokuapp.com/](https://wallbed-1d18201faffc.herokuapp.com/)
 
 The admin login details are:
 * Login email: test@gmail.com
